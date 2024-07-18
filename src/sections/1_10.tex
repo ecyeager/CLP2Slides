@@ -1,0 +1,505 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsA{\aj,\atech}
+ \end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\section{1.10 Partial Fractions}
+%----------------------------------------------------------------------------------------
+\begin{frame}{Motivation}
+\StatusBar{1}{4}
+How to integrate $\ds\int\frac{x-2}{(x+1)(2x-1)}~\dee x$? \pause\\\vfill
+Useful fact: $\ds\frac{x-2}{(x+1)(2x-1)}=\frac{1}{x+1}-\frac{1}{2x-1}$\\\vfill\pause
+So: 
+\begin{align*}
+\int\frac{x-2}{(x+1)(2x-1)}~\dee x &= \int\frac{1}{x+1}~\dee x-\int\frac{1}{2x-1}~\dee x\\
+&=\log|x+1|-\frac12\log|2x-1|+C\end{align*}\vfill\pause
+
+Method of Partial Fractions: \alert{Algebraic method} to turn any rational function (i.e. ratio of two polynomials) into the sum of easier-to-integrate rational functions.
+\end{frame}
+%----------------------------------------------------------------------------------------
+%\section{Linear Factors}
+%----------------------------------------------------------------------------------------
+\begin{frame}{Distinct Linear Factors}
+The rational function \[\frac{\text{numerator}}{K(x-a_1)(x-a_2)\cdots(x-a_j)}\]
+can be written as \[\frac{A_1}{x-a_1}+\frac{A_2}{x-a_2}+\cdots+\frac{A_j}{x-a_j}\]
+ for some constants $A_1,A_2,\ldots,A_j$, provided 
+ \vfill
+ (1) the linear roots $a_1,\cdots a_j$ are distinct, and 
+ \vfill
+ (2) the degree of the numerator is strictly less than the degree of the denominator.
+
+\unote{Equation~\eref{text}{eq:PFdecompa}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Distinct Linear Factors}\only<1-2>{\AnswerYes}
+$\displaystyle{\frac{7x+13}{(2x+5)(x-2)}=}\onslide<2-|handout:0>{\color{spoilercolor}\frac{A}{2x+5}+\frac{B}{x-2}}$
+\vfill
+
+\sonslide<3->{To find $A$ and $B$, simplify the right-hand side by finding a common denominator.
+\begin{align*}
+\frac{7x+13}{2x^2+x-10}&=\frac{A}{2x+5}+\frac{B}{x-2}=\frac{A(x-2)}{(2x+5)(x-2)}+\frac{B(2x+5)}{(2x+5)(x-2)}\\
+&=\frac{A(x-2)+B(2x+5)}{2x^2+x-10}
+\intertext{ Cancel denominators}
+ 7x+13& =A(x-2)+B(2x+5)
+\end{align*}
+}
+\QuestionBar{1}{2}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Distinct Linear Factors}
+\NoSpace<1>
+\AnswerYes<1-2>
+We found $\textcolor{C3}{
+ 7x+13=A(x-2)+B(2x+5)}$ for some constants $A$ and $B$. What are $A$ and $B$?\\[1em]
+ \textcolor{W1}{Method 1:} set $x$ to convenient values.\\[1em]
+ \sonslide<2->{When $x=2$ (chosen to eliminate $A$ from the right hand side), we have $14+13=B\cdot9$, so $\textcolor{C3}{B=3}$.\\
+If $x=-\frac{5}{2}$ (chosen to eliminate $B$ from the right hand side), then $-\frac{35}{2}+13=A\left( -\frac52-2\right)$, so $\textcolor{C3}{A=1}$.\\}
+\vfill
+ \textcolor{W1}{Method 2:} match coefficients of powers of $x$.\\[1em]
+ \sonslide<3->{$\textcolor{M5}{7}x+\textcolor{C4}{13}=\textcolor{M5}{(A+2B)}x+\textcolor{C4}{(-2A+5B)}$, so $\textcolor{M5}{7=A+2B}$ and $\textcolor{C4}{13=-2A+5B}$.\\
+ Then $\textcolor{M5}{A=7-2B}$, so $\textcolor{C4}{13=-2(\textcolor{M5}{7-2B})+5B}$.\\
+ Then $\textcolor{C4}{B=3}$ and $\textcolor{M5}{A=1}$.}
+ \AnswerBar{1}{2}
+ \end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Distinct Linear Factors}
+All together:
+\begin{align*}
+\color{black}\frac{7x+13}{2x^2+x-10}&\color{black}=\frac{A}{2x+5}+\frac{B}{x-2}\\
+\color{black}A&\color{black}=1,\qquad B=3\\
+\sonslide<2->{\frac{7x+13}{2x^2+x-10}&=\frac{1}{2x+5}+\frac{3}{x-2}\\
+\int\frac{7x+13}{2x^2+x-10}~\dee x&=\int\left(\frac{1}{2x+5}+\frac{3}{x-2}\right)~\dee x\\
+&=\frac12\log|2x+5|+3\log|x-2|+C}
+\end{align*}
+ \AnswerBar{1}{2}
+ \end{frame}
+%----------------------------------------------------------------------------------------
+\CheckFrame{ \AnswerBar{1}{2}
+We check that $\ds\int\frac{7x+13}{2x^2+x-10}=\onslide<beamer>{\frac12\log|2x+5|+3\log|x-2|+C}$ by differentiating.}{
+\begin{align*}
+\diff{}{x}&\left[ \frac12\log|2x+5|+3\log|x-2|+C \right]=\frac12\cdot\frac{1}{2x+5}\cdot2 +3\cdot\frac{1}{x-2}\\
+&=\frac{1}{2x+5}\left( \frac{x-2}{x-2}\right)+\frac{3}{x-2}\left(\frac{2x+5}{2x+5}\right)\\
+&=\frac{(x-2)+(6x+15)}{(x-2)(2x+5)}=\frac{7x+13}{2x^2+x-10}
+\end{align*}
+So, our work checks out.
+
+}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}{Distinct Linear Factors}
+\StatusBar{1}{3}
+$\dfrac{x^2+5}{2x(3x+1)(x+5)}$ is hard to antidifferentiate, but it can be written as\\\pause
+$\ds\frac{A}{2x}+\frac{B}{3x+1}+\frac{C}{x+5}$ for some constants $A$, $B$, and $C$.\vfill\pause
+
+Once we find $A$, $B$, and $C$, integration is easy:
+\begin{align*}\int&\frac{x^2-24x+5}{2x(3x+1)(x+5)}~\dee x\\
+&=\int\left(\frac{A}{2x}+\frac{B}{3x+1}+\frac{C}{x+5} \right)~\dee x\\
+&=\frac{A}2\log|x|+\frac{B}3\log|3x+1|+C\log|x+5|+D \end{align*}
+\QuestionBar{2}{2}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Distinct Linear Factors}
+ \AnswerBar{2}{2}
+ \sMoreSpace<2>
+\nsMoreSpace<1>
+\color{spoilercolor}\begin{align*}
+&\color{black}\frac{x^2+5}{2x(3x+1)(x+5)}=\frac{A}{2x}+\frac{B}{3x+1}+\frac{C}{x+5}
+\intertext{\color{black}Find constants $A$, $B$, and $C$.\linebreak
+ Start: make a common denominator}
+\sonslide<2->{
+&=\frac{A(3x+1)(x+5)}{2x(3x+1)(x+5)}+
+\frac{B(2x)(x+5)}{2x(3x+1)(x+5)}+
+\frac{C(2x)(3x+1)}{2x(3x+1)(x+5)}\\
+&=\frac{A(3x+1)(x+5)+B(2x)(x+5)+C(2x)(3x+1)}{2x(3x+1)(x+5)}
+\intertext{Cancel off denominator}
+&x^2+5=A(3x+1)(x+5)+B(2x)(x+5)+C(2x)(3x+1)
+}
+\end{align*}
+\end{frame}
+%----------------------------------------------------------------------------------------%----------------------------------------------------------------------------------------
+\begin{frame}<beamer>[t]{Distinct Linear Factors}
+\AnswerSpace\only<1>{\AnswerYes}
+\[
+x^2+5=A(3x+1)(x+5)+B(2x)(x+5)+C(2x)(3x+1)\]
+\sonly<2>{\textcolor{W1}{Method 1: }use convenient values for $x$. (Setting $x=0$ eliminates $B$ and $C$ from the r.h.s. Setting $x=-5$ eliminates $A$ and $B$ from the r.h.s. Setting $x=-1/3$ eliminates $A$ and $C$ from the r.h.s.)  
+
+\begin{align*}x&=0:& 5&=A(1)(5)+0+0 &\implies A&=1\\
+x&=-5:& 30&=0+0+C(-10)(-14)&\implies C&=\frac{3}{14}\\
+x&=-\frac13:& \frac19+5&=0+B\left(-\frac23\right)\left(-\frac13+5\right)+0 &\implies B&=-\frac{23}{14}
+\end{align*}
+So:
+\[
+\frac{x^2+5}{2x(3x+1)(x+5)}=\frac{1}{2x}+\frac{-23/14}{3x+1}+\frac{3/14}{x+5}\]}
+\sonly<3>{\textcolor{W1}{Method 2: }Simplify numerator: gather the $x^2$ terms, the $x^1$ terms and the $x^0$ terms 
+\begin{align*}
+x^2+5&={x^2(3A+2B+6C)+x(16A+10B+2C)+(5A)}
+\intertext{Equate coefficients of matching powers of $x$}
+\text{Constant term: } 5&=5A \implies A=1\\
+\text{Linear term: } 0&=16A+10B+2C=16+10B+2C\\
+\implies C&=-8-5B\\
+\text{Squared term: } 1&=3A+2B+6C=3+2B+6(-8-5B)\\
+\implies B&=-23/14\\
+\implies C&=-8-5B=3/14
+\end{align*}}
+ \AnswerBar{2}{2}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\CheckFrame{ \AnswerBar{2}{2}
+Let's check that \[\ds\frac{x^2+5}{2x(3x+1)(x+5)}=\onslide<beamer>{\frac{1}{2x}-\frac{23/14}{3x+1}+\frac{3/14}{x+5}.}\]
+}{
+\begin{align*}&\textcolor{C4}{\frac{1}{2x}}-\textcolor{C3}{\frac{23/14}{3x+1}}+\textcolor{C2}{\frac{3/14}{x+5}}\\&=
+\textcolor{C4}{\frac{1(3x+1)(x+5)}{2x(3x+1)(x+5)}} -\textcolor{C3}{\frac{23/14(2x)(x+5)}{(2x)(3x+1)(x+5)}}+\textcolor{C2}{\frac{3/14(2x)(3x+1)}{(2x)(3x+1)(x+5)}}\\
+&=\frac{\textcolor{C4}{(3x^2+16x+5)}-\textcolor{C3}{(\frac{23}7x^2+\frac{115}{7}x)}+\textcolor{C2}{(\frac{9}{7}x^2+\frac{3}{7}x)}}{2x(3x+1)(x+3)}\\
+&=\frac{x^2+5}{2x(3x+1)(x+3)}
+\end{align*}
+
+So, our algebra is good.
+}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Distinct Linear Factors}
+ \AnswerBar{2}{2}
+\AnswerYes<1>
+All together:
+\begin{align*}
+\frac{x^2+5}{2x(3x+1)(x+5)}&=\frac{1}{2x}-\frac{23/14}{3x+1}+\frac{3/14}{x+5}\\
+\sonslide<2->{
+\int\frac{x^2-24x+5}{2x(3x+1)(x+5)}~\dee x&\color{spoilercolor}=\int\left(\frac{1}{2x}-\frac{23/14}{3x+1}+\frac{3/14}{x+5} \right)~\dee x\\
+&\color{spoilercolor}=\frac{1}2\log|x|-\frac{23}{42}\log|3x+1|+\frac{3}{14}\log|x+5|+C
+}
+\end{align*}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%\section{Repeated Linear Factors}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\QuestionBar<2>{1}{3}
+\AnswerBar<3>{1}{3}
+
+\begin{block}{Repeated Linear Factors}
+A rational function $\displaystyle\frac{P(x)}{(x-1)^4}$, where $P(x)$ is a polynomial of degree strictly less than 4, can be written as
+\[\frac{A}{x-1}+\frac{B}{(x-1)^2}+\frac{C}{(x-1)^3}+\frac{D}{(x-1)^4} \]
+for some constants $A$, $B$, $C$, and $D$.
+\end{block}\pause
+\[\frac{5x-11}{(x-1)^2} =\sonslide<3->{ \frac{A}{x-1}+\frac{B}{(x-1)^2} }\]
+\unote{Equation~\eref{text}{eq:PFdecompb}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]Set up the form of the partial fractions decomposition. (You do not have to solve for the parameters.)
+\[\frac{3x+16}{(x+5)^3}=\sonslide<2->{\frac{A}{x+5}+\frac{B}{(x+5)^2}+\frac{C}{(x+5)^3}}\]
+\QuestionBar<1>{2}{3}\QuestionBar<1>{3}{3}\AnswerYes<1>
+\AnswerBar<2>{2}{3}
+\AnswerBar<2>{3}{3}
+\vfill
+\[\frac{-2x-10}{(x+1)^2(x-1)}=\sonslide<2->{\frac{A}{x+1}+\frac{B}{(x+1)^2}+\frac{C}{x-1}}\]
+\vfill
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Irreducible Quadratic Factors}
+Sometimes it's not possible to factor our denominator into linear factors with real terms.\vfill
+
+\begin{multicols}{2}
+\begin{tikzpicture}
+\myaxis{x}{1.5}{1.5}{y}{1}{1}
+
+\onslide<1|handout:0>{\draw[C2,thick]plot[domain=-1:1.5](\x,{(\x+.5)*(\x-1.25))});}
+\onslide<2->{\draw[C2,thick]plot[domain=-1:1.5](\x,{(\x+.5)*(\x-1.25))})node[above,xshift=1cm]{$c(x-a)(x-b)$};
+\xcoord{-.5}{a} \xcoord{1.25}{b}}
+\end{tikzpicture}\\
+\onslide<2->{If a quadratic function has real roots $a$ and $b$ (possibly $a=b$, possibly $a \neq b$), then we can write it as $c(x-a)(x-b)$ for some constant $c$.}
+\columnbreak
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{1.5}{1.5}{y}{1}{1}
+\draw[C2,thick]plot[domain=-1:1](\x,{\x*\x+.25});
+\end{tikzpicture}\end{center}
+
+\onslide<2->{ If a quadratic function has no real roots, then it can't be factored into (real) linear factors. It is \alert{irreducible}.}
+\end{multicols}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Irreducible Quadratic Factors}
+\QuestionBar<1>{1}{2}
+\AnswerYes<1,3>
+\sNoSpace<1,3>
+\nsNoSpace<1-2>
+\AnswerBar<2>{1}{2}
+\sQuestionBar<3>{2}{2}
+\nsQuestionBar<2>{2}{2}
+\AnswerBar<4>{2}{2}
+When the denominator has an irreducible quadratic factor $x^2+bx+c$, we add a term $\dfrac{Ax+B}{x^2+bx+c}$ to our composition. (The degree of the numerator must still be smaller than the degree of the denominator.)
+
+Write out the form of the partial fraction decomposition (but do not solve for the parameters):
+\vfill
+\begin{itemize}[<+->]
+\item
+$\ds\frac{1}{(x+1)(x^2+1)}=\sonslide<+->{\frac{A}{x+1}+\frac{Bx+C}{x^2+1}}$\vfill
+\item
+$\ds\frac{3x^2-x+5}{(x^2+1)(x^2+2)}=\sonslide<+>{\frac{Ax+B}{x^2+1}+\frac{Cx+D}{x^2+2}}$\vfill
+\end{itemize}
+\unote{Equation~\eref{text}{eq:PFdecompc}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\sStatusBar{1}{4}
+\AnswerSpace
+\AnswerYes<3>
+\QuestionBar<3>{1}{3}
+\AnswerBar<4>{1}{3}
+
+The purpose of the partial fraction decomposition is to end up with functions \alert{that we can integrate}. 
+
+\pause
+\begin{itemize}[<+->]
+\item Recall: $\ds\int\frac{1}{x^2+1}\dee x = \arctan x+C$. \vfill
+\item Evaluate: $\ds\int\frac{1}{(x+1)^2+1}\dee x$
+\vfill
+\sonslide<+->{
+$u=x+1$, $\dee u = \dee x$:\\ $\ds\int\frac{1}{u^2+1}\dee u = \arctan u + C = \arctan(x+1)+C$
+}\vfill\vfill
+
+\end{itemize}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\QuestionBar<1>{2}{3}
+\AnswerYes<1>
+\AnswerBar<2>{2}{3}
+Evaluate $\ds\int\frac{4}{(3x+8)^2+9}\dee x$
+
+\sonslide<2->{
+\begin{align*}
+&=\int\frac{4}{9\left(\frac{(3x+8)^2}{9}+1\right)}\dee x\\
+&=\frac49\int\frac{1}{\left(\frac{3x+8}{3}\right)^2+1}\ \dee x\\
+&=\frac49\int\frac{1}{\left(x+\frac83\right)^2+1}\ \dee x\\
+\text{$u=x+\frac83$, \quad $\dee u = \dee x$}\hspace{1cm}
+&=\frac49\int\frac{1}{u^2+1}\ \dee u\\
+&=\frac49\arctan u + C\\
+&=\frac49\arctan\left(x+\frac83\right)+C
+\end{align*}}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\CheckFrame{
+\AnswerBar{2}{3}
+We found $\ds\int\frac{4}{(3x+8)^2+9}\dee x =\onslide<beamer>{ \frac49\arctan\left(x+\frac83\right)+C
+.}$
+}{
+\begin{align*}
+\diff{}{x}&\left\{ \frac49\arctan\left(x+\frac83\right)+C\right\}=\frac49\cdot\frac{1}{\left(x+\frac83\right)^2+1}\\
+&=\frac{4}{9\left(\left(x+\frac83\right)^2+1\right)}\\
+&=\frac{4}{3^2\left(x+\frac83\right)^2+9} \\
+&=\frac{4}{\left(3x+8\right)^2+9}
+\end{align*}
+So, our answer works.}
+%%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\QuestionBar<1>{3}{3}\AnswerYes<1>
+\AnswerBar<2>{3}{3}
+Evaluate $\ds\int\frac{x+1}{x^2+2x+2}\dee x$. \\[1em] (Hint: start by completing the square.)
+
+\sonslide<2->{
+\begin{align*}
+&&&=
+\int\frac{x+1}{(x+1)^2+1}\dee x\\
+&\text{Let $y=x+1$, $\dee y = \dee x$:}&
+&=\int\frac{y}{y^2+1}\dee y\\
+&\text{Let $u=y^2+1$, $\dee u=2y\ \dee y$:}&
+&=\frac12\int\frac{1}{u}\ \dee u\\
+&&&=\frac12\log\left| u\right| +C\\
+&&&=\frac12\log\left| y^2+1\right| +C\\
+&&&=\frac12\log\left| (x+1)^2+1\right| +C
+\end{align*}}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\CheckFrame{\AnswerBar{3}{3}
+We found $\ds\int\frac{x+1}{x^2+2x+2}\dee x =\onslide<beamer>{\frac12\log\left| (x+1)^2+1\right| +C.}
+$
+}{
+\begin{align*}
+\diff{}{x}\left\{  \frac12\log\left| (x+1)^2+1\right| +C\right\}&=\frac12\cdot\frac{2(x+1)}{(x+1)^2+1}\\
+&=\frac{x+1}{(x+1)^2+1}\\
+&=\frac{x+1}{x^2+2x+2}
+\end{align*}
+So, our answer works.}
+%%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section{Long Division}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\StatusBar{1}{5}
+
+These rules work \alert{only} when the degree of the numerator is \alert{less than} the degree of the denominator.\pause\vfill
+
+$\ds\int\frac{x^3}{(x-2)^2(x-3)(x-4)^2}~\dee x \quad\onslide<3-|handout:0>{\textcolor{M3}{\checkmark}}$\hfill $\ds\int\frac{x^5}{(x-2)^2(x-3)(x-4)^2} ~\dee x\quad\onslide<4-|handout:0>{\color{M4}\text{X}}$
+\vfill
+\onslide<5->{If the degree of the numerator is too large, we use polynomial long division.}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\QuestionBar<1>{1}{3}\AnswerYes<1>
+\AnswerBar<2>{1}{3}
+
+Evaluate $\ds\int\frac{8x^2+22x+23}{2x+3} \ \dee x$.
+\sonslide<2->{\[\polylongdiv{8x^2+22x+23}{2x+3}\]
+\vfill So,
+\begin{align*}
+\frac{8x^2+22x+23}{2x+3}&=4x+5+\frac{8}{2x+3}\\[10pt]
+\int \frac{8x^2+22x+23}{2x+3} ~\dee x&=
+2x^2+5x+4\log|2x+3|+C
+\end{align*}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\CheckFrame{\AnswerBar{1}{3}
+We computed \[\int \frac{8x^2+22x+23}{2x+3} ~\dee x=
+\onslide<beamer>{2x^2+5x+4\log|2x+3|+C.}\]
+}{
+\begin{align*}
+\diff{}{x}&\left\{2x^2+5x+4\log|2x+3|+C\right\}\\
+&=4x+5+\frac{8}{2x+3}\\
+&=\frac{4x(2x+3)+5(2x+3)+8}{2x+3}\\
+&=\frac{8x^2+12x+10x+15+8}{2x+3}\\
+&=\frac{8x^2+22x+23}{2x+3}
+\end{align*}
+So, our solution works.
+}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>\QuestionBar<1>{2}{3}
+\AnswerBar<2>{2}{3}
+Evaluate $\ds\int\frac{3x^3+x+3}{x-2} \ \dee x$.
+\sonslide<2->{\[\polylongdiv{3x^3+x+3}{x-2}\]
+\vfill
+So,
+\begin{align*}
+\int\frac{3x^3+x+3}{x-2}~\dee x&=
+\int
+\left(3x^2+6x+13+\frac{29}{x-2}
+\right)~\dee x\\
+&=x^3+3x^2+13x+29\log|x-2|+C
+\end{align*}
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\CheckFrame{\AnswerBar{2}{3}
+We found 
+\[
+\int\frac{3x^3+x+3}{x-2}~\dee x=\onslide<beamer>{x^3+3x^2+13x+29\log|x-2|+C.}
+\]
+}{
+\begin{align*}
+\diff{}{x}&\left\{x^3+3x^2+13x+29\log|x-2|+C
+\right\}\\&=3x^2+6x+13+\frac{29}{x-2}\\
+&=\frac{3x^2(x-2)+6x(x-2)+13(x-2)+29}{x-2}\\
+&=\frac{3x^3-6x^2+6x^2-12x+13x-26+29}{x-2}
+\\&=\frac{3x^3+x+3}{x-2}
+\end{align*}
+}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]
+\QuestionBar<1>{3}{3}\AnswerYes<1>
+\AnswerBar<2>{3}{3}
+
+Evaluate $\ds\int\frac{3x^2+1}{x^2+5x}\ \dee x$.
+
+\sonslide<2->{
+\parbox{4cm}{\polylongdiv{3x^2+1}{x^2+5x}}\hfill
+\parbox{5cm}{So, $\ds\frac{3x^2+1}{x^2+5x}=3+\frac{-15x+1}{x^2+5x}$}
+\vfill
+Now, we can use partial fraction decomposition.
+\begin{align*}
+\frac{-15x+1}{x(x+5)}&=\frac{A}{x}+\frac{B}{x+5}=\frac{(A+B)x+5A}{x(x+5)}\\
+A=\frac15,\quad B&=-15-\frac15=-\frac{76}{5}\\
+\int \frac{3x^2+1}{x^2+5x}~\dee x&=\int\left(
+3+\frac{1/5}{x}-\frac{76/5}{x+5}
+\right)~\dee x\\
+&=3x+\frac15\log|x|-\frac{76}5\log|x+5|+C
+\end{align*}
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\CheckFrame{\AnswerBar{3}{3}
+We found $\ds\int\frac{3x^2+1}{x^2+5x}\ \dee x =\onslide<beamer>{ 3x+\frac15\log|x|-\frac{76}5\log|x+5|+C.}$
+}{
+\begin{align*}
+&\diff{}{x}\left\{3x+\frac15\log|x|-\frac{76}5\log|x+5|+C\right\}\\
+&=3+\frac{1}{5x}-\frac{76}{5(x+5)}
+\\&=3\left(\frac{5x(x+5)}{5x(x+5)}\right)+\frac{1}{5x}\left(\frac{x+5}{x+5}\right)-\frac{76}{5(x+5)}\left(\frac{x}{x}\right)
+\\&=\frac{(15x^2+75x)+(x+5)-(76x)}{5x(x+5)}\\
+&=\frac{15x^2+5}{5x(x+5)}=\frac{3x^2+1}{x^2+5x}
+\end{align*}
+So, our solution works.
+}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Factoring}
+\[P(x)=x^3+2x^2-5x-6\]
+
+\sonslide<2->{\begin{itemize}\color{spoilercolor}
+\item To start, let's guess a root.
+\begin{itemize}\color{spoilercolor}
+\item Since $P(x)$ has integer coefficients, any integer root must divide 6 exactly.
+\item So the only possible integer roots are $\pm 1$, $\pm 2$, $\pm 3$, and $\pm 6$. We'll try each until one works.
+\begin{itemize}\color{spoilercolor}
+\item $P(1) = -8 \neq 0 \implies$ 1 is not a root
+\item $P(-1) = 0 \implies$ \alert{-1 is a root}. Therefore, $(x+1)$ is a factor.
+\end{itemize}
+\end{itemize}
+\item Long division gives the rest:\\
+
+\parbox{.35\textwidth}{
+\tiny
+	\polylongdiv{x^3+2x^2-5x-6}{x+1}}
+\parbox{.55\textwidth}{\raggedright	$P(x)={(x+1)(x^2+x-6)}={(x+1)(x-2)(x+3)}$}
+
+
+\end{itemize}}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Factoring}
+\[P(x)=2x^3-3x^2+4x-6\]
+
+\sonslide<2->{
+Notice that the first two terms and the last two terms have the same ratios: $\frac{2x^3}{-3x^2}=\alert{\frac{2x}{-3}}=\frac{4x}{-6}$.  So,
+we can factor $2x-3$ out of both pairs.
+\begin{alignat*}{3}
+P(x)&=2x^3-3x^2&+&4x-6\\
+&=\alert{(2x-3)}(x^2)&+&\alert{(2x-3)}(2)\\
+&=\alert{(2x-3)}(x^2+2)
+\end{alignat*}}
+\end{frame}
+
+%----------------------------------------------------------------------------------------%----------------------------------------------------------------------------------------

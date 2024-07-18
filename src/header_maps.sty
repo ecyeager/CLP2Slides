@@ -1,0 +1,157 @@
+
+\graphicspath{{./fig/}}%header101 uses different folders, eg for clipart
+
+%Table of Contents. The usual package for using mindmaps in a ToC is incompatible with Beamer, so we use the following kludge. You need to label each section twice: put them in the slides as you usually would, then copy them here.
+\usetikzlibrary{mindmap, backgrounds, calc}
+\definecolor{contentscolor}{HTML}{ccdfe2}%deepgreen mixed with white
+\definecolor{highlightcolor}{RGB}{255,255,109}%W5
+
+
+\newcommand{\highlightselected}[1]{
+	\renewcommand{#1}{highlightcolor}
+	}
+\newcommand{\unhighlightselected}[1]{
+	\renewcommand{#1}{contentscolor}
+	}
+
+
+%%Table of Contents as a mindmap
+%e.g.: \mapofcontants{\aa,\ab,\ac} will print a frame with the map, and highlight 1.1, 1.2, and 1.3
+
+
+%CHAPTER 1
+\renewcommand{\aa}{contentscolor} %1.1
+\newcommand{\ab}{contentscolor} %1.2
+\newcommand{\ac}{contentscolor} %1.3
+\newcommand{\ad}{contentscolor} %1.4
+\renewcommand{\ae}{contentscolor}%1.5
+\newcommand{\af}{contentscolor} %1.6
+\newcommand{\ag}{contentscolor}%1.7
+\newcommand{\ah}{contentscolor}%1.8
+\newcommand{\ai}{contentscolor}%1.9
+\newcommand{\aj}{contentscolor} %1.10
+\newcommand{\ak}{contentscolor} %1.11
+\newcommand{\al}{contentscolor} %1.12
+\newcommand{\aintro}{contentscolor} %introduction
+\newcommand{\atech}{contentscolor} %techniques
+\newcommand{\atool}{contentscolor} %further tools
+\newcommand{\aapp}{contentscolor} %first applications
+
+\newcommand{\mapofcontentsA}[1]{
+\forcsvlist\highlightselected{#1}
+ \begin{center}\vspace{-5mm}\begin{tikzpicture}[
+	    small mindmap, 
+	    concept color = contentscolor,
+	    every node/.style = {concept}, 
+	    grow cyclic,
+	    rotate=90,
+	    yscale=-1,xscale=-1
+	]
+	\node (root)[concept color=contentscolor!50,minimum size=1mm, inner sep=0] {Integration}
+	    child [concept color=\aintro,text=_darkred, sibling angle=60] {node (1) {Introduction}
+		    child [concept color=\aa, sibling angle=40] {node (11) {1.1\\ Definition}}
+		    child [concept color=\ab, sibling angle=40] {node (12) {1.2\\ Properties}}
+		    child [concept color=\ac, sibling angle=40] {node (13) {1.3\\ Fundamental Theorem}}
+			}
+	    child [concept color=\atech,text=_deepskyblue, sibling angle=40] {node (4) {Techniques}
+	        child[concept color=\ad, sibling angle=45] {node (11) {1.4\\ Substitution}}
+		child [concept color=\ag, sibling angle=45]{node (12) {1.7\\ Integration by Parts}}
+	        child [concept color=\ah, sibling angle=45]{node (13) {1.8\\ Trigonometric Integrals}}        
+	        child [concept color=\ai, sibling angle=45]{node (13) {1.9\\ Trigonometric Substitution}}
+	        child [concept color=\aj, sibling angle=45]{node (13) {1.10\\ Partial Fractions}}
+	         }
+	    child [concept color=\aapp,text=black, sibling angle=110] {node (6) {First Applications}
+	        child[concept color=\ae] {node (61) {1.5\\ Area Between Curves}}
+	        child[concept color=\af, sibling angle = 30] {node (62) {1.6\\ Volumes}}
+	    }
+	    child [concept color=\atool,text=black, sibling angle=67] {node (5) {Further Tools}
+	        child[concept color=\ak, sibling angle=70] {node (51) {1.11\\ Numerical Integration}}
+	        child[concept color=\al, sibling angle=20] {node (52) {1.12\\ Improper Integrals}}
+	    }
+	    ;
+	\end{tikzpicture}\end{center}
+\forcsvlist\unhighlightselected{#1}
+}
+
+%CHAPTER 2
+%%Table of Contents as a mindmap
+%e.g.: \mapofcontantsB{\ba,\bb,\bc} will print a frame with the map, and highlight 2.1, 2.2, and 2.3
+\newcommand{\ba}{contentscolor}%2.1
+\newcommand{\bb}{contentscolor}%2.2
+\newcommand{\bc}{contentscolor}%2.3
+\newcommand{\bd}{contentscolor}%2.4
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\mapofcontentsB}[1]{
+\forcsvlist\highlightselected{#1}
+	\begin{center}\begin{tikzpicture}[
+	    small mindmap, 
+	    concept color = contentscolor,
+	    every node/.style = {concept}, 
+  	    sibling distance=70
+	]
+
+\node (root) [concept color=contentscolor!50]{Applications of integration}
+    child  [concept color = \ba,text=_deepskyblue]{node (21) {2.1\\ Work}}
+        child [concept color=\bb,text=_deepskyblue] {node (21) {2.2\\ Averages}}
+        child [concept color=\bc,text=_deepskyblue] {node (21) {2.3\\ Centre of Mass and Torque}}
+        child [concept color=\bd,text=_deepskyblue] {node (21) {2.4\\ Separable Differential Equations}}
+ ;
+
+\end{tikzpicture}\end{center}
+\forcsvlist\unhighlightselected{#1}
+}
+%
+
+%CHAPTER 3
+%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\ca}{contentscolor}%3.1
+\newcommand{\cb}{contentscolor}%3.2
+\newcommand{\cc}{contentscolor}%3.3
+\newcommand{\cd}{contentscolor}%3.4
+\newcommand{\ce}{contentscolor}%3.5
+\newcommand{\cf}{contentscolor}%3.6
+\newcommand{\cintro}{contentscolor} %introduction
+\newcommand{\cconv}{contentscolor} %convergence
+\newcommand{\cfunc}{contentscolor} %functions
+
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\mapofcontentsC}[1]{
+\forcsvlist\highlightselected{#1}
+	\begin{center}\vspace{-5mm}\begin{tikzpicture}[
+	    small mindmap, 
+	    concept color = contentscolor,
+	    every node/.style = {concept},  
+	     level 1/.append style = {
+	        sibling distance = 4cm,
+		    },
+	     level 2/.append style = {
+	        sibling distance = 2cm,
+		    },
+]
+
+\node (root)[concept color=contentscolor!50] {Sequences and Series}
+    child  [concept color =\cintro,text=_deepskyblue]{node (1) {Introduction}
+        child [concept color = \ca] {node(11) {3.1\\ Sequences}}
+        child [concept color = \cb] {node (12) {3.2 \\ Series}}
+    }
+    child [concept color = \cconv,text=_darkred] {node (2) {Convergence}
+        child [concept color = \cc] {node (21) {3.3\\ Convergence Tests}}
+        child [concept color = \cd] {node (22) {3.4\\ Absolute and Conditional Convergence}}
+    }
+    child  [concept color = \cfunc]{node (3) {Series as Functions} 
+     child [concept color = \ce] {node (31) {3.5\\ Power Series}}
+     child [concept color = \cf] {node (32) {3.6\\ Taylor Series}}
+    } 
+    ;
+\end{tikzpicture}\end{center}
+\forcsvlist\unhighlightselected{#1}
+}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%%%%
+

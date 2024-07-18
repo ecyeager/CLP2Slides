@@ -1,0 +1,749 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+%%%%%%%%
+%for simpson's rule%
+%evaluates f(x), stores as \fx for one particular example
+%%%%%%%%
+\newcommand{\f}[1]{
+	\SIN{#1}{\sx}
+	\DIVIDE{#1}{2}{\hx}%half x
+	\ADD{\hx}{\sx}{\fx}
+	}
+%%%%%%%%%
+
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsA{\ak,\atool}
+ \end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\section{1.11  Numerical Integration}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\StatusBar{1}{3}
+Sometimes, integrals can't be evaluated using the fundamental theorem of calculus:
+\[\int_0^1 e^{x^2}\dee x=\ ? \qquad \int_0^1 \sin(x^2)\dee x=\ ?\]\pause\vfill
+Sometimes, integrals can be evaluated, but only in terms of complicated constant numbers:
+\[\int_0^3 \frac{1}{1+x^2}\ \dee x=\arctan (3)=\ldots \ ?\]
+\pause\vfill
+A \alert{numerical approximation} will give us an approximate \alert{number} for a definite integral.
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]
+\StatusBar{1}{5}
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{0}{8}{y}{0}{4}
+
+\only<1>{\xcoord{1}{a} \xcoord{7}{b}}
+\onslide<2-|handout:0>{
+	\foreach \l in {0,...,3}{%labels
+		\ADD{\l}{1}{\x}
+		\xcoord{\x}{x_\l}
+		}
+	\xcoord{7}{x_n}
+	\foreach \x in {1,...,7}{%slices
+		\DIVIDE{\x}{3}{\xa}
+		\SIN{\x}{\sx}
+		\ADD{1}{\xa}{\xb}
+		\ADD{\xb}{\sx}{\y}
+		\draw[thick,C3] (\x,0)--(\x,\y);
+		}
+	}
+\onslide<3|handout:0>{%midpoint rectangles
+	\foreach \n in {1,...,6}{
+		\ADD{.5}{\n}{\x}
+		\DIVIDE{\x}{3}{\xa}
+		\SIN{\x}{\sx}
+		\ADD{1}{\xa}{\xb}
+		\ADD{\xb}{\sx}{\y}
+		\filldraw[ultra thick,M3, fill opacity=0.3] (\n,0) rectangle (\n+1,\y);
+		}
+	}
+\onslide<4|handout:0>{%trapezoids
+	\foreach \x in {1,...,6}{
+		\DIVIDE{\x}{3}{\xa}
+		\SIN{\x}{\sx}
+		\ADD{1}{\xa}{\xb}
+		\ADD{\xb}{\sx}{\y}
+		
+		\ADD{\x}{1}{\z}
+		\DIVIDE{\z}{3}{\za}
+		\SIN{\z}{\sz}
+		\ADD{1}{\za}{\zb}
+		\ADD{\zb}{\sz}{\yz}
+		
+		\filldraw[ultra thick,M3, fill opacity=0.3] (\x,0) --(\x,\y)--(\z,\yz)|-cycle;
+		}
+	}
+	
+\onslide<5|handout:0>{%parabolas
+	\filldraw[ultra thick,M3, fill opacity=0.3] (1,0) --plot[domain=1:3](\x,{-0.418*\x*\x+1.66*\x+0.923})|-cycle;
+	\filldraw[ultra thick,M3, fill opacity=0.3] (3,0) --plot[domain=3:5](\x,{0.347*\x*\x-3*\x+8})|-cycle;
+	\filldraw[ultra thick,M3, fill opacity=0.3] (5,0) --plot[domain=5:7](\x,{0.128*\x*\x-0.395*\x+0.483})|-cycle;
+	}
+\draw[ thick, C1] plot[domain=0:8,smooth](\x,{1+\x/3+sin(\x r)})node[right]{$y=f(x)$};
+\fill[C1, opacity=0.1] (1,0)--plot[domain=1:7,smooth](\x,{1+\x/3+sin(\x r)})|-cycle;
+\end{tikzpicture}
+\end{center}
+\vfill
+We can approximate the area $\ds\int_a^b f(x) \ \dee x$ by cutting it into slices and approximating the area of those slices with a simple geometric figure, such as a \alert<3|handout:0>{rectangle}, a \alert<4|handout:0>{trapezoid}, or a \alert<5|handout:0>{parabola}.
+\end{frame}
+
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]
+The \alert{midpoint rule} approximates $\ds\int_a^b f(x)\ \dee x$ as its midpoint Riemann sum with $n$ intervals.
+
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{0}{8}{y}{0}{4}
+
+	\xcoord{1}{a=x_0}
+	\xcoord{7}{b=x_n}
+	\foreach \l in {1,...,3}{%labels
+		\ADD{\l}{1}{\x}
+		\xcoord{\x}{x_\l}
+		}
+	\foreach \n in {1,...,6}{%midpoint rectangles
+		\ADD{.5}{\n}{\x}
+		\DIVIDE{\x}{3}{\xa}
+		\SIN{\x}{\sx}
+		\ADD{1}{\xa}{\xb}
+		\ADD{\xb}{\sx}{\y}
+		\filldraw[ultra thick,M3, fill opacity=0.3] (\n,0) rectangle (\n+1,\y);
+		}
+
+\draw[ thick, C1] plot[domain=0:8,smooth](\x,{1+\x/3+sin(\x r)})node[right]{$y=f(x)$};
+\fill[C1, opacity=0.1] (1,0)--plot[domain=1:7,smooth](\x,{1+\x/3+sin(\x r)})|-cycle;
+\end{tikzpicture}
+\end{center}
+\end{frame}
+%%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\StatusBar{1}{4}
+\unote{Equation~\eref{text}{eq:MPrule}}
+\begin{multicols}{2}Approximate the area under the curve $y=f(x)$ from $x=x_{j-1}$ to $x=x_{j}$ with a rectangle.\\[1em]
+To make our writing cleaner, let $\overline{x_j}=\frac{x_{j-1}+x_{j}}{2}$
+\columnbreak
+
+\centering
+\begin{tikzpicture}
+\xcoord{1}{x_{j-1}}
+\xcoord{3}{x_{j}}
+\filldraw[C1, thick, fill opacity=0.3] (1,0)--plot[domain=1:3,smooth](\x,{ln(\x)+1})|-cycle;
+\draw[decorate, decoration={brace,amplitude=5pt,mirror}](1,-.75)--+(2,0)node[midway,below,yshift=-2mm]{$\Delta x$};
+\onslide<3-|handout:0>{\draw (2,1.69)node[vertex,C1,label=above:{$f\left(\overline{x_j}\right)$}]{};
+\filldraw[M3, fill opacity=0.3] (1,0) rectangle (3,1.69);}
+\onslide<2-|handout:0>{\xcoord{2}{\overline{x_j}}}
+\end{tikzpicture}
+\end{multicols}
+
+\onslide<4->{\vspace{-1em}
+\begin{block}{Midpoint Rule}
+The midpoint rule approximation is
+\[\int_a^b f(x) \ \dee x\approx \left[f\left(\overline{x_1}\right)+f\left(\overline{x_2}\right)+\cdots+f\left(\overline{x_n}\right)\right]\Delta x\]
+where $\Delta x = \frac{b-a}{n}$ ~and~  $x_j=a+j\Delta x$
+\end{block}
+	}
+\end{frame}
+%%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]
+\sStatusBar{1}{5}
+Approximate $\ds\int_0^1 \frac{4}{1+x^2}\ \dee x$ using the midpoint rule and $n=4$ slices. Leave your answer in calculator-ready form.
+
+\begin{center}
+\begin{tikzpicture}[xscale=2]
+\myaxis{x}{0}{4.5}{y}{0}{1.25}
+\ycoord{1}{4}
+\xcoord{4}{1}
+\draw[C1,thick] plot[domain=0:1,smooth]({\x*4},{1/(\x*\x+1)});
+
+\sonslide<2->{
+	\foreach \j in {.25,.5,.75,1}{
+		\MULTIPLY{\j}{\j}{\jj}
+		\ADD{\jj}{1}{\temp}
+		\DIVIDE{1}{\temp}{\y}
+		\draw (4*\j,0)--(4*\j,\y);
+		}
+		}
+\sonslide<3->{
+	\foreach \j in {1,3,5,7}{
+		\DIVIDE{\j}{2}{\x}
+		\xcoord{\x}{\frac{\j}{8}}
+		}
+	}
+\sonslide<4->{
+	\foreach \j in {1,3,5,7}{
+		\DIVIDE{\j}{8}{\x}
+		\MULTIPLY{\x}{\x}{\xx}
+		\ADD{\xx}{1}{\xxx}
+		\DIVIDE{1}{\xxx}{\y}
+		\filldraw[fill opacity=0.1] (\x*4-.5,0) rectangle (4*\x+.5,\y);
+		}
+	}
+\end{tikzpicture}
+\end{center}
+\sonslide<4->{
+	\begin{align*}
+	\int_0^1 \frac{4}{1+x^2}\ \dee x &\approx \left[
+	\foreach \j in {1,3,5,7}{\frac{4}{1+\left(\frac{\j}{8}\right)^2} 
+	\ifnum \j<7 + \fi}
+	\right]\cdot\frac14\\
+	\onslide<5->{\int_0^1 \frac{4}{1+x^2}\ \dee x &=4\arctan(1)=4\cdot\frac{\pi}{4}=\pi}
+	\end{align*}
+	
+	}
+\end{frame}
+%%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Error}
+\begin{align*}
+\pi &= \int_0^1 \frac{4}{1+x^2}\ \dee x\approx\left[
+	\foreach \j in {1,3,5,7}{\frac{4}{1+\left(\frac{\j}{8}\right)^2} 
+	\ifnum \j<7 + \fi}
+	\right]\cdot\frac14\\
+	&\approx  3.14680
+\end{align*}\pause
+
+\begin{description}[<+->]
+\item[\alert{Error:}] $|\text{exact}-\text{approximate}|\onslide<+-|handout:0>{\color{spoilercolor}\approx|3.14159-3.14680|=0.00521}$\vfill
+\item[\alert{Relative error:}] $\left|\frac{\text{exact}-\text{approximate}}{\text{exact}}\right|\onslide<+-|handout:0>{\color{spoilercolor}
+\approx\frac{0.00521}{3.14159}\approx0.001658}$\vfill
+\item[\alert{Percent error:}]$100\left|\frac{\text{exact}-\text{approximate}}{\text{exact}}\right|\onslide<+|handout:0>{\color{spoilercolor}\approx100(0.001658)=0.1658\%}$
+\end{description}
+\end{frame}
+%%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Error}
+\unote{Definition~\eref{text}{def:errorType}}
+A numerical approximation will give us an approximate value for a definite integral.
+\\
+This is most useful if we know something about its accuracy.
+\vfill
+
+  $A$: approximation \qquad   $E$: exact number\\[1em]
+
+\begin{description}
+\item[\alert{Error:}] \quad $|A-E|$
+\item[\alert{Relative Error:}] \quad$\left|\dfrac{A-E}{E}\right|$
+\item[\alert{Percent Error:}] \quad$100\left|\dfrac{A-E}{E}\right|$
+\end{description}
+\vfill
+We will discuss error more after we've learned the three approximation rules. For now, we're using error to illustrate that our methods have the potential to produce reasonable approximations without too much work.
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]
+The \alert{trapezoidal rule} approximates each slice of $\ds\int_a^b f(x)\ \dee x$ with a trapezoid.
+
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{0}{8}{y}{0}{4}
+
+	\xcoord{1}{a=x_0}
+	\xcoord{7}{b=x_n}
+	\foreach \l in {1,...,3}{%labels
+		\ADD{\l}{1}{\x}
+		\xcoord{\x}{x_\l}
+		}
+\foreach \x in {1,...,6}{
+		\DIVIDE{\x}{3}{\xa}
+		\SIN{\x}{\sx}
+		\ADD{1}{\xa}{\xb}
+		\ADD{\xb}{\sx}{\y}
+		
+		\ADD{\x}{1}{\z}
+		\DIVIDE{\z}{3}{\za}
+		\SIN{\z}{\sz}
+		\ADD{1}{\za}{\zb}
+		\ADD{\zb}{\sz}{\yz}
+		
+		\filldraw[ultra thick,M3, fill opacity=0.3] (\x,0) --(\x,\y)--(\z,\yz)|-cycle;
+		}
+\draw[ thick, C1] plot[domain=0:8,smooth](\x,{1+\x/3+sin(\x r)})node[right]{$y=f(x)$};
+\fill[C1, opacity=0.1] (1,0)--plot[domain=1:7,smooth](\x,{1+\x/3+sin(\x r)})|-cycle;
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+%%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\sStatusBar{1}{3}
+Recall the area of a right trapezoid with base $b$ and heights $h_1$ and $h_2$:
+\begin{center}
+\begin{tikzpicture}
+%\draw[thick] (0,0) rectangle (6,2);
+%\draw[thick] (4,0)--(2,2);
+\color{W2}
+\fill (0,2)|-(4,0)--(2,2)--cycle;
+\draw (2,-.5) node{$h_1$};
+\draw (1,2.5) node{$h_2$};
+\draw (-.5,1)node{$b$};
+\onslide<2-|handout:0>{\color{W3}
+\fill (6,2)|-(4,0)--(2,2)--cycle;
+\draw (4,2.5) node{$h_1$};
+\draw (5,-.5) node{$h_2$};
+\draw (6.5,1)node{$b$};}
+\end{tikzpicture}\\
+\sonslide<3->{Rectangle area: $b(h_1+h_2)$\\
+Trapezoid area: $\frac{b}{2}(h_1+h_2)$}
+\end{center}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\sStatusBar{1}{3}
+\begin{multicols}{2}
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+\myaxis{x}{0}{4.35}{y}{0}{3}
+\draw[thick] plot[domain=0:1,thick](\x*4,{exp(\x*\x)})node[right]{$y=e^{x^2}$};
+\xcoord{4}{1}
+\ycoord{1}{1}
+\fill[opacity=0.1,C1] (0,0)--(0,1)--plot[domain=0:1](\x*4,{exp(\x*\x)})--(4,0)--cycle;
+\sonslide<2->{
+\xcoord{1}{\frac14}
+\xcoord{2}{\frac12}
+\xcoord{3}{\frac34}
+}
+\end{tikzpicture}\\
+\columnbreak
+Trapezoid area: $\frac{\text{base}}{2}(h_1+h_2)$
+\end{center}
+\end{multicols}
+Approximate $\displaystyle\int_0^1 e^{x^2} \dee x$ using $n=4$ trapezoids.\\ Leave your answer in calculator-ready form.
+
+\sonslide<3->{\begin{align*}
+\int_0^1e^{x^2}\dee x &\approx\frac{1/4}{2}\left(
+e^0+e^{\frac{1}{16}}+e^{\frac{1}{16}}+e^{\frac14}+e^{\frac14}+e^{\frac{9}{16}}+e^{\frac{9}{16}}+e
+\right)\\
+&=\frac{1/4}{2}\left(e^0+2e^{1/16}+2e^{1/4}+2e^{9/16}+e\right)
+\end{align*}
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\unote{Equation~\eref{text}{eq:TRPrule}}
+\begin{block}{Trapezoidal Rule}
+The trapezoidal rule approximation is
+\[\int_a^b f(x) \dee x \approx \Delta x \left[ \frac12\ f(x_0)+f(x_1)+f(x_2)+\cdots+f(x_{n-1})+\frac12\ f(x_n)
+\right]\]
+where  $\Delta x = \frac{b-a}{n}$ and $x_i=a+i\Delta x$
+\end{block}\pause
+
+Using $n=3$ trapezoids, approximate $\ds\int_1^{10} \frac{1}{x}\ \dee x$.
+
+\sonslide<3->{
+	\begin{align*}
+	\Delta x & = \frac{10-1}{3}=3\quad
+	x_0=1 \quad x_1=4 \quad x_2=7 \quad x_3=10\\
+	\int_1^{10}\frac{1}{x}\ \dee x &\approx 3\left[\frac12(1)+\frac14+\frac17+\frac12\left(\frac1{10}\right)\right]
+	=\frac{99}{35}
+	\end{align*}
+	}
+\only<2>{\AnswerYes\NoSpace}
+\end{frame}
+%----------------------------------------------------------------------------------------%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]
+\alert{Simpson's rule} approximates each \textit{pair of slices} of $\ds\int_a^b f(x)\ \dee x$ with a parabola.
+
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{0}{8}{y}{0}{4}
+
+	\xcoord{1}{a=x_0}
+	\xcoord{7}{b=x_n}
+	\foreach \l in {1,...,5}{%labels
+		\ADD{\l}{1}{\x}
+		\xcoord{\x}{x_\l}
+		}
+\draw[dashed,C3] (2,0)--+(0,2.6) (4,0)--+(0,1.6) (6,0)--+(0,2.7);
+\filldraw[ultra thick,M3, fill opacity=0.3] (1,0) --plot[domain=1:3](\x,{-0.418*\x*\x+1.66*\x+0.923})|-cycle;
+\filldraw[ultra thick,M3, fill opacity=0.3] (3,0) --plot[domain=3:5](\x,{0.347*\x*\x-3*\x+8})|-cycle;
+\filldraw[ultra thick,M3, fill opacity=0.3] (5,0) --plot[domain=5:7](\x,{0.128*\x*\x-0.395*\x+0.483})|-cycle;	
+\draw[ thick, C1] plot[domain=0:8,smooth](\x,{1+\x/3+sin(\x r)})node[right]{$y=f(x)$};
+\fill[C1, opacity=0.1] (1,0)--plot[domain=1:7,smooth](\x,{1+\x/3+sin(\x r)})|-cycle;
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+%%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Simpson's Rule}
+Add up \alert{parabolas}.
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{.5}{6.5}{y}{2}{2}
+\draw[thick] plot[domain=0:6, smooth,samples=100](\x,{sin(\x r)+.25*cos(3*\x r)});
+%firstparabola
+\onslide<2->{
+\draw (0,.25) node[vertex]{};%f(0)
+\draw (1.5,0.95) node[vertex]{}; %f(3/2)
+\draw (3,-0.09) node[vertex]{}; %f(3)
+}
+\onslide<3->{
+\draw[W1,thick] plot[domain=0:1](3*\x,{-3.48*\x*\x+3.14*\x+.25});}
+\onslide<4->{
+\fill[W1,opacity=0.1] (0,0)--plot[domain=0:1](3*\x,{-3.48*\x*\x+3.14*\x+.25})--(3,0)--(0,0);
+}
+%second parabola
+\onslide<5->{\draw (4.5,-0.83) node[vertex]{}; %f(3/2)
+\draw (6,-.11) node[vertex]{}; %f(3)
+}
+\onslide<6->{\draw[W3,thick] plot[domain=3:6,samples=50]({\x},{.3244*\x*\x-2.9267*\x+5.77});}
+\onslide<7->{
+\fill[W3,opacity=0.1] (3,0)--plot[domain=3:6,samples=50]({\x},{.3244*\x*\x-2.9267*\x+5.77})--(6,0)--cycle;
+}
+\end{tikzpicture}
+\end{center}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Simpson's Rule Derivation\hfill
+\hyperlink{simpsons}{\beamerskipbutton{skip derivation of Simpson's rule}}
+}
+\begin{center}\begin{tikzpicture}
+\onslide<-2>{\myaxis{x}{3}{3}{}{0}{0}}
+\sonslide<3->{\xcoord{-2}{-h} \xcoord{2}{h}
+\myaxis{x}{3}{3}{y}{0}{2}}
+%points: (-2,1) (0,1.5) (-2,0)
+%parabola: y=-x^2/4-x/4+1.5
+\onslide<1>{
+\draw[gray] plot[domain=-2:2,smooth](\x,{\x*\x/4-\x*\x*\x*\x/8-\x/4+1.5});}
+\onslide<2-|handout:0>{
+\draw[gray,dashed] plot[domain=-2:2,smooth,samples=20](\x,{\x*\x/4-\x*\x*\x*\x/8-\x/4+1.5});}
+\onslide<2->{\draw[M2,ultra thick] plot[domain=-2:2](\x,{-\x*\x/4-\x/4+1.5});}
+\onslide<2-|handout:0>{\fill[M2,opacity=0.2] plot[domain=-2:2](\x,{-\x*\x/4-\x/4+1.5})-|cycle; }
+\foreach \x/\y in {-2/1,0/1.5,2/0}{\draw(\x,\y)node[vertex]{};}
+\end{tikzpicture}
+\end{center}
+What is the area under the parabola passing through three specified points?
+\vfill\color{spoilercolor}
+\onslide<+(3)-|handout:0>{Parabola: $Ax^2+Bx+C$\\}
+\onslide<+(3)-|handout:0>{Area: $\int_{-h}^h(Ax^2+Bx+C)\dee x = \frac{h}{3}\left(2Ah^2+6C\right)$}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+Find \[\color{M2}\frac{h}{3}\left(2Ah^2+6C\right)\]
+for $A$, $B$, and $C$ such that
+\begin{align*}\color{M2}
+Ah^2-Bh+C&=f(-h)\tag{E1}\\
+C&=f(0)\tag{E2}\\
+Ah^2+Bh+C&=f(h)\tag{E3}
+\end{align*}
+Try $(E1)+4(E2)+(E3)$:\pause
+\begin{align*}
+2Ah^2+6C \hspace{1cm}&=\hspace{1cm} f(-h)+4f(0)+f(h)\\
+\text{Area}=\frac{h}{3}\left(2Ah^2+6C\right)\hspace{1cm}&=\hspace{1cm} \frac{h}{3}\left(f(-h)+4f(0)+f(h)\right)
+\end{align*}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\begin{center}\begin{tikzpicture}
+\myaxis{x}{3}{3}{}{0}{0}
+\draw[|-|] (-2,-1)--(-0.1,-1)node[midway,below]{$\Delta x$};
+\draw[|-|] (2,-1)--(0.1,-1)node[midway,below]{$\Delta x$};
+\xcoord{-2}{x_1}
+\xcoord{0}{x_2}
+\xcoord{2}{x_3}
+%points: (-2,1) (0,1.5) (-2,0)
+%parabola: y=-x^2/4-x/4+1.5
+\draw[gray] plot[domain=-2:2,smooth](\x,{\x*\x/4-\x*\x*\x*\x/8-\x/4+1.5});
+
+\sonslide<2->{
+	\draw[gray,dashed] plot[domain=-2:2,smooth,samples=20](\x,{\x*\x/4-\x*\x*\x*\x/8-\x/4+1.5});
+	\draw[M2,ultra thick] plot[domain=-2:2](\x,{-\x*\x/4-\x/4+1.5});\
+	\fill[M2,opacity=0.2] plot[domain=-2:2](\x,{-\x*\x/4-\x/4+1.5})-|cycle; 
+	}
+\foreach \x/\y/\n in {-2/1/1,0/1.5/2,2/0/3}{\draw(\x,\y)node[vertex]{};
+\draw (\x,\y+0.3)node[above,fill=white, inner sep=0]{$f(x_\n)$};}
+\end{tikzpicture}
+\end{center}
+\pause
+Area under parabola:
+\begin{align*}
+\frac{\Delta x}{3}\Big(f(x_1)+4f(x_2)+f(x_3)\Big)
+\end{align*}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\StatusBar{1}{4}
+\begin{center}
+\begin{tikzpicture}[xscale=1.2]
+\myaxis{x}{0}{8.5}{y}{0}{5}
+\draw[thick] plot[domain=0:8, smooth,samples=100](\x,{.5*\x+sin(\x r)});
+
+%lines for 4 intervals
+\foreach \x in {2,4,6,8}{
+\f{\x}
+	\draw (\x,0)--(\x,\fx);}
+\foreach \x in {1,3,5,7}{
+\f{\x}
+	\draw[dashed] (\x,0)--(\x,\fx);}
+\foreach \x in {0,...,8}{\xcoord{\x}{x_{\x}}}
+
+%%%calculate a, b, c for parabola at^2+bt+c
+%samples: t=0, 1/2, 1
+%shift and scale final parabola to fit plot
+\foreach \n in {1,2,3,4}	
+{
+\onslide<2-|handout:0>{
+\color{C\n}
+%store f(0), f(1/2), f(1)
+\MULTIPLY{\n}{2}{\R}%right end x-value
+\SUBTRACT{\R}{1}{\M} %middle x-value
+\SUBTRACT{\R}{2}{\L}%left x-value
+
+\f{\L}
+\COPY{\fx}{\fL}%left y-value
+\draw(\L,\fL)node[vertex]{};%draw grid point
+\f{\M}
+\COPY{\fx}{\fM}%left y-value
+\draw(\M,\fM)node[vertex]{};%draw grid point
+\f{\R}
+\COPY{\fx}{\fR}%left y-value
+\draw(\R,\fR)node[vertex]{};%draw grid point
+
+%compute a,b,c
+%compute a
+\MULTIPLY{2}{\fL}{\ml} %2f(0)
+\MULTIPLY{4}{\fM}{\mm}  %4f(1/2) -- also use in computing b
+\SUBTRACT{\ml}{\mm}{\mmm} %2f(0)-4f(1/2)
+\MULTIPLY{2}{\fR}{\mr} %2f(1)
+\ADD{\mmm}{\mr}{\a} %2f(0)-4f(1/2)+2f(1)
+
+%compute b
+\MULTIPLY{3}{\fL}{\ml} %3f(0)
+\SUBTRACT{\mm}{\ml}{\mmm}
+\SUBTRACT{\mmm}{\fR}{\b}
+
+%copy c
+\COPY{\fL}{\c}
+
+%scale x by 2, since our intervals have length 2
+%shift x by 2(n-1)
+\draw[thick] plot[domain=0:1]({2*\x+2*(\n-1)},{\a*\x*\x+\b*\x+\c});
+\fill[opacity=0.2] ({\L},0)--plot[domain=0:1]({2*\x+2*(\n-1)},{\a*\x*\x+\b*\x+\c})--({\R},0);
+
+}}%end nth parabola and slide
+
+\onslide<3-|handout:0>{
+	\foreach \n in {1,...,4}{
+		\MULTIPLY{\n}{2}{\xx}		
+		\SUBTRACT{\xx}{1}{\x}
+		\SUBTRACT{\x}{1}{\a}
+		\ADD{\x}{1}{\b}
+		\draw(\x,\x/2+1.75)node[C\n,fill=white,inner sep=0]{\small$\frac{\Delta x}{3}\left[f(x_\a)+4f(x_\x)+f(x_\b)\right]$};
+		}}
+\end{tikzpicture}
+\onslide<4-|handout:0>{\[\frac{\Delta x}{3}\Big[\ \textcolor{C1}{f(x_0)} + \textcolor{C1}{4\,f(x_1)} 
++ \textcolor{C1!50!C2}{2\,f(x_2)} + \textcolor{C2}{4\,f(x_3)} + \textcolor{C2!50!C3}{2\,f(x_4)} 
++ \textcolor{C3}{4\,f(x_5)} + \textcolor{C3!50!C4}{2\,f(x_6)} + \textcolor{C4}{4\,f(x_7)}
+ + \textcolor{C4}{f(x_8)}\Big]\]}
+\end{center}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%end derivation of SR
+%----------------------------------------------------------------------------------------
+\begin{frame}[t,label=simpsons]
+\begin{block}{Simpson's Rule}
+The Simpson's rule approximation is
+$\ds\int_a^b f(x)\dee x\approx \frac{\Delta x}{3}\Big[
+\alert<2>{f(x_0)}+\alert<3>4f(x_1)+\alert<4>2f(x_2)+\alert<3>4f(x_3)+\alert<4>2f(x_4)+\cdots+\alert<3>4f(x_{n-1})+\alert<2>{f(x_n)}
+\Big]$\\[1em]
+where $n$ is even, $\Delta x = \frac{b-a}{n}$, and $x_i=a+i\Delta x$
+\end{block}
+\onslide<5->{
+Using Simpson's rule and $n=8$ (i.e. 4 parabolas),\\
+ approximate $\ds\int_1^{17} \frac{1}{x}\ \dee x$. Leave your answer in calculator-ready form.
+}
+\sonslide<6->{ $\approx \frac{2}{3}\left[\frac{1}{1}+4\cdot \frac{1}{3}+2\cdot \frac{1}{5}+4\cdot \frac{1}{7}+2\cdot \frac{1}{9}+4\cdot \frac{1}{11}+2\cdot \frac{1}{13}+4\cdot \frac{1}{15}+\frac{1}{17} \right]$}
+\vfill\vfill
+
+\only<1>{\color{W1}(We'll call $n$ the number of slices; some people call $n/2$ the number of slices, because that's the number of approximating parabolas.)}
+
+\unote{Equation~\eref{text}{eq:SIMPrule}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+The instantaneous electricity use rate (kW/hr) of a factory is measured throughout the day.\\[10pt]
+{\small \begin{tabular}{| l | c|c|c|c|c|c|c|c|c|c|}
+\hline
+time &12:00& 1:00&2:00&3:00&4:00&5:00&6:00&7:00&8:00\\
+\hline
+rate &  100&200&150&400&300&300&200&100 &150\\
+\hline
+\end{tabular}}\\[10pt]
+Use Simpson's Rule to approximate the total amount of electricity you used from noon to 8:00.
+\vfill
+\sonslide<2->{
+We use $n=8$, with $\Delta x = 1$ hour. Let's re-label the times as $x=0$ as noon, $x=1$ as 1 o'clock, etc.
+\begin{align*}
+&\frac{1}{3}\left[f(0)+4f(1)+2f(2)+4f(3)+2f(4)+4f(5)+2f(6)+4f(7)+f(8)\right]\\
+&=\frac13\left[100+800+300+1600+600+1200+400+400+150\right]\\
+&=1850~\text{kW}
+\end{align*}
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section{1.11.4 Error Behaviour}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\begin{block}{Numerical integration errors}
+Assume that $|f''(x)|\le M$ for all $a \le x \le b$ and $|f^{(4)}(x)|\le L$ for all $a \le x \le b$. Then
+\begin{itemize}
+\item the total error introduced by the midpoint rule is bounded by $\ds\frac{M}{24}\frac{(b-a)^3}{n^2}$, 
+\item the total error introduced by the trapezoidal rule is bounded by $\ds\frac{M}{12}\frac{(b-a)^3}{n^2}$, and 
+\item the total error introduced by Simpson's rule is bounded by $\ds\frac{L}{180}\frac{(b-a)^5}{n^4}$ 
+\end{itemize}
+when approximating $\ds\int_a^b f(x)\ \dee x$.
+\end{block}
+\unote{Theorem~\eref{text}{thm num int err}}
+\end{frame}
+%----------------------------------------------------------------------------------------%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]
+\AnswerYes<1>
+\NoSpace<1>
+\QuestionBar<1>{1}{4}
+\AnswerBar<2>{1}{4}
+\begin{block}{Numerical integration errors}
+Assume that $|f''(x)|\le M$ for all $a \le x \le b$. Then
+the total error introduced by the midpoint rule is bounded by $\ds\frac{M}{24}\frac{(b-a)^3}{n^2}$ when approximating $\ds\int_a^b f(x)\ \dee x$.
+\end{block}
+
+Suppose we approximate $\ds\int_0^3 \sin(x)\ \dee x$ using the  midpoint rule and $n=6$ intervals. Give an upper bound of the resulting error. \vfill
+\sonslide<2>{
+If $f(x)=\sin x$, then $f''(x) = - \sin x$. For $0 \le x \le 3$ (indeed, for any $x$), $|f''(x)|=|-\sin x| \le 1$, so we take $M=1$.
+
+\[
+|\text{error}|\le\frac{1}{24}\frac{(3-0)^3}{6^2}=\frac{1}{32}
+\]}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>
+\QuestionBar<1>{2}{4}
+\NoSpace<1>
+\AnswerBar<2>{2}{4}
+\begin{block}{Numerical integration errors}
+Assume that $|f^{(4)}(x)|\le L$ for all $a \le x \le b$. Then
+the total error introduced by Simpson's rule is bounded by $\ds\frac{L}{180}\frac{(b-a)^5}{n^4}$ 
+when approximating $\ds\int_a^b f(x)\ \dee x$.
+\end{block}
+
+Suppose we approximate $\ds\int_2^3 \frac1x \dee x$ using Simpson's rule with $n=10$ slices (5 parabolas).  Give an upper bound of the resulting error.
+
+\sonslide<2->{\vfill
+If $f(x)=\frac{1}{x}$, then $f^{(4)}(x)=\frac{24}{x^5}$. This is a positive, decreasing function for positive values of $x$, so its maximum value on the interval $[2,3]$ is $f^{(4)}(2)=\frac{24}{2^5}=\frac{3}{4}$. So, we take $L=\frac34$.
+Then the error is bounded by
+\[\frac{3/4}{180}\frac{1^5}{10^4}=\frac{1}{240\times 10^4}=\frac{1}{2\,400\,000}\]
+}\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes\QuestionBar{3}{4}
+
+
+\begin{block}{Numerical integration errors}
+Assume that $|f^{(4)}(x)|\le L$ for all $a \le x \le b$. Then
+the total error introduced by Simpson's rule is bounded by $\ds\frac{L}{180}\frac{(b-a)^5}{n^4}$ 
+when approximating $\ds\int_a^b f(x)\ \dee x$.
+\end{block}
+
+We will approximate $\ds\int_0^{1/2} e^{x^2} \dee x$ using Simpson's rule, and we need our error to be no more than $\frac{1}{10\,000}$. How many intervals will suffice?
+\vfill
+You may use, without proof:
+\[\diff{^4}{x^4}\left\{e^{x^2}\right\} = 4e^{x^2}\left(4x^4+12x^2+3\right)\hspace{1cm} \frac{25\sqrt[4]{e}}{180\cdot 2^5}<\frac{1}{3^4}\]
+\vfill\MoreSpace
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}<beamer>[t]
+\AnswerBar{3}{4}
+\only<1>{\AnswerYes}\[\int_0^{1/2}e^{x^2}\ \dee x\hspace{1cm}
+\diff{^4}{x^4}\left\{e^{x^2}\right\} = 4e^{x^2}\left(4x^4+12x^2+3\right)\hspace{1cm} \frac{25\sqrt[4]{e}}{180\cdot 2^5}<\frac{1}{3^4}\]\color{C1}
+\sonly<2>{Since the fourth derivative is positive and increasing for positive $x$, its maximum value on the interval $\left[0,\frac12\right]$ occurs when $x=\frac12$
+\begin{align*}
+L&=4e^{(1/2)^2}\left(\frac{4}{2^4}+\frac{12}{2^2}+3\right)=4\sqrt[4]{e}\left(\frac{1}{4}+3+3\right)=25\sqrt[4]{e}\\
+|\text{error}|& \le\frac{25\sqrt[4]{e}}{180}\frac{(1/2-0)^5}{n^4}=\frac{25\sqrt[4]{e}}{180\cdot 2^5}\frac{1}{n^4} <
+\frac{1}{3^4n^4}\\
+\frac{1}{3^4n^4}&<\frac{1}{10\,000}=\frac{1}{10^4}\\
+n^4&>\frac{10^4}{3^4} \implies n>\frac{10}{3}=3.\overline{33}
+\end{align*}
+So $n=4$ is a large enough number of intervals to guarantee that our error is no more than $\frac{1}{10\,000}$.}
+\sonly<3>{Remark: It's also true that $n=6$ is good enough, as is $n=1,000,000$. If you take some shortcuts and end up with $n=6$ instead of $n=4$, then the difference in the difficulty of your final calculation is not so much, so the shortcuts were probably OK. But if you guess a huge number like $n=1,000,000$, this is no longer reasonable: computing Simpson's rule with this many intervals is extremely difficult.}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes
+\only<1>{\MoreSpace\QuestionBar{4}{4}}
+
+\begin{block}{Numerical integration errors}
+Assume that $|f^{(4)}(x)|\le L$ for all $a \le x \le b$. Then
+the total error introduced by Simpson's rule is bounded by $\ds\frac{L}{180}\frac{(b-a)^5}{n^4}$ 
+when approximating $\ds\int_a^b f(x)\ \dee x$.
+\end{block}
+\vspace{1em}
+It can be shown that the fourth derivative of $\frac{1}{x^2+1}$ has absolute value at most 24 for all real numbers $x$. Using this information, find a rational number approximating $\arctan(2)$ with an error of no more than $\frac{2^6}{3\cdot 5^5}\approx 0.007$.
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerBar{4}{4}
+\AnswerYes<1-2>
+First, we'll set up our integral:
+\sonslide<2->{\[\int_0^2\frac{1}{1+x^2}\ \dee x = \arctan(2)-\arctan(0)=\arctan 2\]}
+
+
+\sonly<2>{
+From the given information, we'll use $L=24$.
+\begin{align*}
+|\text{error}|&\le \frac{L}{180}\frac{(2-0)^5}{n^4}\\&=\frac{24\cdot2^5}{180n^4}=\frac{2^6}{15n^4}\\
+\frac{2^6}{15n^4}&\le \frac{2^6}{15\cdot 5^4}\\
+\frac{1}{n^4}&\le \frac{1}{5^4}\\
+n&\ge 5
+\end{align*}
+Since $n$ must be even, we'll use $n=6.$ Now, we can give the approximation.}
+\sonly<3>{\begin{align*}
+&\arctan(2)=\int_0^2 \frac{1}{1+x^2}\dee x,\qquad n=6, \qquad
+\Delta x =\frac{2-0}{6}=\frac13\\
+& \approx \frac{1/3}{3}\left[f(0)+
+4f\left(\frac13\right)+2f\left(\frac23\right)+
+4f\left(1\right)+2f\left(\frac43\right)+
+4f\left(\frac53\right)+f\left(2\right)
+\right]\\
+&=\frac19\left[\frac{1}{1+0}+\frac{4}{1+1/9}+\frac{2}{1+4/9}+\frac{4}{1+1}
++\frac{2}{1+16/9}
++\frac{4}{1+25/9}+\frac{1}{1+4}\right]
+\end{align*}
+
+Remark: Calculators and computers are pretty good at adding, subtracting, multiplying, and dividing integers. If we can use these operations to approximate an integral, then we can program a computer to evaluate the result. So, an approximation like the one we just did is a reasonable start to approximating $\arctan(2)$ as a decimal.
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------

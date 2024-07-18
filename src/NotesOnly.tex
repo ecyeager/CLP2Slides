@@ -1,0 +1,347 @@
+\documentclass{beamer}
+%xr reference don't work correctly in beamer class
+
+\usepackage{header101}
+\usepackage{wrapfig}
+
+\externaldocument{1_1Definition_full}
+\externaldocument{1_1_7OptionalDefinition_full}
+\externaldocument{1_2Properties_full}
+\externaldocument{1_3FundamentalTheorem_full}
+\externaldocument{1_4Substitution_full}
+\externaldocument{1_5AreaBetweenCurves_full}
+\externaldocument{1_6Volumes_full}
+\externaldocument{1_8TrigIntegrals_full}
+\externaldocument{1_8_3OptionalTrigIntegrals_full}
+\externaldocument{1_9TrigSubstitution_full}
+\externaldocument{1_12ImproperIntegrals_full}
+\externaldocument{2_1Work_full}
+\externaldocument{2_3CentreOfMass_full}
+\externaldocument{2_4_2-2_4_6OptionalDEApplications_full}
+\externaldocument{2_4SeparableDiffEq_full}
+\externaldocument{3_1Sequences_full}
+\externaldocument{3_2Series_full}
+\externaldocument{3_3_1-3_3_3ConvergenceTests_full}
+\externaldocument{3_3_4-3_3_6ConvergenceTests_full}
+\externaldocument{3_4_2OptionalConditionalConvergence_full}
+\externaldocument{3_5PowerSeries_full}
+\externaldocument{3_6TaylorSeries_full}
+
+%
+\newcommand{\notefig}[3]{% #1: literal base filename #2: formatted filename #3: label
+	\begin{wrapfigure}{L}{3.5cm}
+	\includegraphics[page=\getpagerefnumber{#3},height=6em]{../pdfs/#1_full}\\
+	\footnotesize
+	\texttt{#2}\\
+	 \texttt{p \pageref{#3}}
+	\end{wrapfigure}
+	}
+%
+\title{Notes for CLP--2 Slides}
+\date{}
+\author{Joel Feldman, Andrew Rechnitzer, Elyse Yeager}
+\begin{document}
+\begin{frame}
+
+\maketitle
+This document contains notes about the mathematical and pedagogical content of selected slides. For more general notes about compiling and editing slides, or interpreting the symbols on slides, please see ReadMe.pdf.
+
+\end{frame}
+%
+\begin{frame}
+The page numbers in this document refer to the `full' version of each section.
+\vfill
+If you use the included python scripts for compiling the slides, page numbers in this document should synchronize with any changes you've made. This document depends on the .aux files from the full versions of the individual sections, so if you compile it without using the included python scripts, you must make sure these aux files are present.
+\end{frame}
+%
+
+\begin{frame}
+\notefig{1_1Definition}{1\_1Definition}{note1.1a}
+Introductory remarks to motivate the upcoming chapter. We start out in a very pure-math way, so it's nice to remind students that applications will come.\\[1em]
+  Differentiation: when we first learned it, we used it very literally: slopes of lines, rates of change.\\
+  Later, it was a tool for more sophisticated operations, like numerical approximations and optimization.\\[1em]
+  Integration will progress similarly: we'll start by interpreting it quite literally as the area under a curve, then we'll find other uses.
+\end{frame}
+
+%
+\begin{frame}
+\notefig{1_1Definition}{1\_1Definition}{note1.1b}
+
+The formula for a geometric sum will come up again when we do series. The Gaussian sum formula $\sum_{i=1}^n i=\frac{n(n+1)}{2}$ has a proof that is quick and satisfying, but it gives a false hope that the other sum formulas have similarly straightforward justifications.\vfill
+
+In both cases, a common anxiety among students is that they might have to come up with such lovely and clever proofs by themselves on the next homework.
+
+\end{frame}
+%
+\begin{frame}
+\notefig{1_1Definition}{1\_1Definition}{note1.1c}
+
+Students who are rusty with sigma notation often really struggle to find the connection between the Riemann sum and the area, so I like to go rectangle-by-rectangle. I think the repetition helps the interpretation sink in.
+
+\end{frame}
+%
+\begin{frame}
+\notefig{1_1_7OptionalDefinition}{1\_1\_7\_OptionalDefinition}{note1.1.7}
+
+We show in the notes that the limit exists, but we're a little sneaky in assuming that it's equal to the area under the curve. You can get this inequality without assuming integrals give areas:\\
+
+\footnotesize
+\begin{alignat*}{3}
+&f(x)&& \le &&g(x)\\
+\implies &f(x_{i,n}^*)&& \le& &g(x_{i,n}^*)\\
+\implies &f(x_{i,n}^*)\frac{b-a}{n}&& \le& &g(x_{i,n}^*)\frac{b-a}{n}\\
+\implies \sum_{i=1}^n\,&f(x_{i,n}^*)\frac{b-a}{n}&&\le& \sum_{i=1}^n\, &g(x_{i,n}^*)\frac{b-a}{n}\\
+\implies \lim_{n \to \infty}\sum_{i=1}^n\,&f(x_{i,n}^*)\frac{b-a}{n}&&\le& \lim_{n \to\infty}\sum_{i=1}^n\, &g(x_{i,n}^*)\frac{b-a}{n}\\
+\implies \int_a^b &f(x)\,\dee x &&\le & \int_a^b&g(x)\,\dee x
+\end{alignat*}
+\end{frame}
+%
+\begin{frame}
+\notefig{1_2Properties}{1\_2Properties}{note1.2a}
+
+It can be hard, at first, to visualize reflecting a curve across both axes. Flipping back and forth between slides 2 and 3 can be an easier way of demonstrating odd symmetry.
+\end{frame}
+%
+\begin{frame}
+\notefig{1_2Properties}{1\_2Properties}{note1.2b}
+Integral inequalities are used later in convergence results. \\[1em]
+
+See Theorem~\eref{text}{thm:IMPcomparison}, Convergence Tests for Improper Integrals, and Theorem~\eref{text}{thm:SRintegralTest}, The Integral Test.
+\end{frame}
+%
+\begin{frame}
+\notefig{1_2Properties}{1\_2Properties}{note1.2c}
+Some students are uncomfortable with questions that include subjective judgements.
+It can be helpful to explain that we want a bound that is reasonable, without doing ``too much" work. (It can also be helpful to explain how such a question could be asked, and marked, on an exam.)
+\end{frame}
+%
+\begin{frame}
+\notefig{1_2Properties}{1\_2Properties}{note1.2d}
+ The previous question had a fairly straightforward choice of bounds. For this one, we can do less work for the upper bound by computing the area of a triangle, or slightly more by computing the area of a trapezoid. 
+ \vfill
+ The added requirement that $|[c,d]|$ be smaller than some tolerance decreases the ambiguity. (Such phrasing might be useful on an exam question.)
+\end{frame}
+%
+\begin{frame}
+\notefig{1_3FundamentalTheorem}{1\_3Fundamental\linebreak Theorem}{note1.3a}
+\vfill
+When students see the Fundamental Theorem, they often ask what the point of Riemann sums was. It's a nice opportunity to emphasize conceptual understanding. We need a good foundation to understand \textit{why} the difference of antiderivatives (say) leads to the area under the curve.
+
+\end{frame}
+%
+\begin{frame}
+
+\notefig{1_4Substitution}{1\_4Substitution}{note1.4a}
+The brown 'check our work' frames aren't \textit{all} meant to be worked through in class. I might do one or two, but then I click through them and verbally remind students how easy it is to check their work on these types of problems.
+
+\end{frame}
+%
+\begin{frame}
+
+\notefig{1_5AreaBetweenCurves}{1\_5AreaBetweenCurves}{note1.5a}
+
+In the first example, there was no difference between ``integral" and ``area," so we could ``take away" area in an intuitive way. In this example, we reckon with negative area. By looking at the subdividing rectangles, we can see that the height of the rectangle is given by f-g, regardless of the sign of f and the sign of g.
+
+\end{frame}
+
+%
+\begin{frame}
+\notefig{1_6Volumes}{1\_6Volumes}{note1.6a}
+Until the last step, there's not much motivation for giving the radius as $\frac{r}{h}y$, instead of simply $x$. It's OK for students to do it both ways, but once it comes time to evaluate the integral, point out that we don't have a good method for dealing with mixed variables.
+
+\end{frame}
+
+%
+\begin{frame}
+\notefig{1_6Volumes}{1\_6Volumes}{note1.6b}
+Students usually ask here what happens if we take the slices in the other way. The slices are still shapes we could probably approximate, it's just more complicated. Later on there are some examples of solids not formed by rotation, so you can let them know we'll see more general examples later.
+
+\end{frame}
+%
+\begin{frame}
+\notefig{1_6Volumes}{1\_6Volumes}{note1.6c}
+First, we set up a Riemann sum semi-formally. Then we show a more informal way.
+\end{frame}
+%
+\begin{frame}
+\notefig{1_8TrigIntegrals}{1\_8TrigIntegrals}{note1.8a}
+Nearly every antiderivative has a corresponding "check our work" page. I only do a few in class, but flipping by them is a good opportunity to remind students that they \textit{could} easily check such an answer, if they wanted.
+
+\end{frame}
+%
+\begin{frame}
+\notefig{1_8TrigIntegrals}{1\_8TrigIntegrals}{note1.8b}
+Since this is so similar to the others we've done, can leave up the slide with blanks for students to fill in.
+\end{frame}
+
+\begin{frame}
+\notefig{1_8_3OptionalTrigIntegrals}{1\_8\_3Optional\linebreak TrigIntegrals}{note1.8.3a}
+The handout version has the solutions printed on it. I imagine the computations of this section being shown in full and explained at a high-level, rather than expecting students to work through them on their own or really getting into the line-by-line details.
+\end{frame}
+
+\begin{frame}
+\notefig{1_9TrigSubstitution}{1\_9TrigSubstitution}{note1.9a}
+
+The slides for Section 1.9 are written so that, if you choose, you can tell your students to ignore the absolute values, and always let $\sqrt{\cos^2 \theta}=\cos \theta$ (and so on) when doing trigonometric substitutions. Explanations about the absolute value bits are on the upcoming slides, and later on in the various solutions when we use the secant substitution. If you skip the upcoming slides, and work through solutions on your own in class, then students won't see a discussion of the absolute value issues.
+
+The CLP problem book does not include any examples where the two cases of a secant substitution give different answers, and we don't discuss such examples here. 
+
+\end{frame}
+%
+\begin{frame}
+\notefig{1_9TrigSubstitution}{1\_9TrigSubstitution}{note1.9b}
+
+Completing the square is a technique we'll use again during partial fractions.
+\end{frame}
+
+%---------------
+\begin{frame}
+\notefig{1_12ImproperIntegrals}{1\_12Improper\linebreak Integrals}{note1.12a}
+This is a good time to remind students of the way we deal with improper integrals. We can emphasize the limiting process, as opposed to trying to visualise ``infinite area" or ``finite area with infinite length." That's what the animations are for. ``The area under $f$ from here to here is less than $g$, which is less than some finite number; the area under $f$ from here to \textit{here} is still less than that same finite number," etc.
+\end{frame}
+%------------------------------------------------------------------------------------------------------------------------%------------------------------------------------------------------------------------------------------------------------
+\begin{frame}
+\notefig{2_1Work}{2\_1Work}{note2.1a}
+This section involves some physics. Students will need the following:
+\begin{itemize}
+\item Force is mass times acceleration.
+\item If you're lifting something against gravity, acceleration due to gravity is a constant $g$.
+\item If you want to include units, the units used are newtons and joules (in addition to units that would be familiar to students without a physics background, such as metres).
+\end{itemize}
+We've omitted the examples from the text that involve potential and kinetic energy, to minimize assumed prerequisite knowledge. 
+
+\end{frame}
+%---------------
+\begin{frame}
+\notefig{2_3CentreOfMass}{2\_3CentreOfMass}{note2.3a}
+The justification for the formulas we're using for Centre of Mass can be found in the CLP--2 text, optional section~2.3.2
+
+\end{frame}
+
+%---------------
+\begin{frame}
+\notefig{2_4SeparableDiffEq}{2\_4SeparableDiffEq}{note2.4a}
+The book dives right in to solving differential equations, but in my experience, students benefit from some orientation first. Many take time to understand how to check that a function actually solves a differential equation. So, in these slides, we take some time to become familiar with DEs \textit{before} we talk about solving them.\\
+A common protest from students with this introduction is that we're checking answers without knowing where those answers came from. With appropriate reassurances that we are going to ``get there," and that this is just to get us used to things, I still find this introduction to be well worth the time.
+\end{frame}
+%---------------
+\begin{frame}
+\notefig{2_4SeparableDiffEq}{2\_4SeparableDiffEq}{note2.4b}
+I find it helpful to emphasize the mechanics of the substitution. Students are often bewildered at first by distinguishing what gets replaced from what doesn't, so I go through each term: ``Here's a $y$, so that gets replaced; this is a constant, so it stays; this is just $x$, not $y$, so it stays too." I draw boxes around each instance of $y$ and $\diff{y}{x}$ as I go, to make them stand out for the next step, where they're replaced.
+\end{frame}
+%---------------
+\begin{frame}
+\notefig{2_4SeparableDiffEq}{2\_4SeparableDiffEq}{note2.4c}
+Rather than start with the general derivation of the ``rule" for solving separable differential equations, we go through a concrete example first. This helps with two things: First, some students have a hard time thinking of $u$-substitution going in this direction. (They did it once before with trigonometric substitution.) Second, it demonstrates that the ``rule" (which seems to do some pretty dodgy things) is justified.
+
+\end{frame}
+
+%---------------
+\begin{frame}
+\notefig{2_4_2-2_4_6OptionalDEApplications}{2\_4\_2-2\_4\_6OptionalDEApplications}{note2.4.2a}
+
+Carbon dating, Newon's law of cooling, and population growth are also covered in CLP--1, sections \eref{text1}{ssec carbon}, \eref{text1}{sec:newtonCooling}, and \eref{text1}{ssec pop}, respectively.
+\end{frame}
+%---------------
+
+\end{document}
+\begin{frame}
+\notefig{2_4_2-2_4_6OptionalDEApplications}{ 2\_4\_2-2\_4\_6OptionalDE\linebreak Applications}{note2.4.2b}\small 
+The script is something like this:
+
+Nitrogen is present in the atmosphere. Some of it is sometimes turned into carbon-14, which is an unstable isotope, meaning over time it will spontaneously change into something else. 
+
+Carbon-14 is present alongside other carbon isotopes. Plants incorporate these atoms into themselves as they photosynthesize. While they're alive, some carbon-14 inside them decays, and some new carbon-14 is added. Living animals incorporate carbon from plants when they eat them.
+
+After a plant or animal dies, its carbon-14 continues decaying, but it does not replenish it with new carbon-14 from the atmosphere or from its diet. Radiocarbon dating uses the proportion of carbon-14 in a sample to estimate how long ago it died.
+\end{frame}
+%---------------
+\begin{frame}
+\notefig{2_4_2-2_4_6OptionalDEApplications}{ 2\_4\_2-2\_4\_6OptionalDE\linebreak Applications}{note2.4.2c}
+Usually these examples are nicer to write out when we solve for $e^K$, as opposed to solving for $K$ itself. This seems to go counter to the instincts many students have developed, so if you do solve them this way, it's usually worth explaining why.
+\end{frame}
+%---------------
+\begin{frame}
+\notefig{2_4_2-2_4_6OptionalDEApplications}{2\_4\_2-2\_4\_6OptionalDEApplications}{note2.4.2d}
+``Continuously" withdrawing isn't how most of us do it, so it's nice to point out to students that this is a bit of a cheat. It makes the equations nicer and isn't a terrible model for (say) biweekly withdrawals.
+
+\end{frame}
+
+%------------------------------------------------------------------------------------------------------------------------%------------------------------------------------------------------------------------------------------------------------
+
+\begin{frame}
+\notefig{3_1Sequences}{3\_1Sequences}{note3.1a}
+If $b_n \to B$ and $B \neq 0$, then $b_n \neq 0$ for all sufficiently large $n$.
+\end{frame}
+%---------------
+\begin{frame}
+\notefig{3_1Sequences}{3\_1Sequences}{note3.1b}
+The last example here is to emphasize that we can't compute ``infinity times zero" the same way we multiply limits of convergent sequences. Many students desperately want the limit to be 0, so writing out the first few terms of the sequence is helpful.
+
+\end{frame}
+%---------------
+\begin{frame}
+\notefig{3_2Series}{3\_2Series}{note3.2a}
+This is a figure students have mostly seen before somewhere in their lives. If not, they still seem to understand it readily.
+
+The limits of the sequence and series aren't important for the definitions of ``sequence" and ``series," but they do help students to digest this example.
+\end{frame}
+%---------------
+\begin{frame}
+\notefig{3_2Series}{3\_2Series}{note3.2b}
+``What if we mix up the order? Will that change the final result?"
+\end{frame}
+%---------------
+\begin{frame}
+\notefig{3_2Series}{3\_2Series}{note3.2c}
+Students usually have a hard time understanding why $S_n-S_{n-1}=a_n$ (for $n>1$), and also why $a_1$ is not necessarily $S_1-S_0$. This short exercise is meant to help that. I like to start with the question as it's written, then introduce the new notation we've been using.
+\end{frame}
+%---------------
+\begin{frame}
+\notefig{3_2Series}{3\_2Series}{note3.2d}
+The visualizations can get a bit repetitive, but it's the best way I've found to make sure students remember the difference between sequences and series.
+\end{frame}
+%---------------
+
+
+\begin{frame}
+\notefig{3_3_1-3_3_3ConvergenceTests}{3\_3\_1-3\_3\_3ConvergenceTests}{note3.3.3a}
+New visualization: heights of hippos are terms being added, combined heights are sums.
+\end{frame}
+%---------------
+
+\begin{frame}
+\notefig{3_3_1-3_3_3ConvergenceTests}{3\_3\_1-3\_3\_3ConvergenceTests}{note3.3.3b}
+To motivate limit comparison, emphasize that the inequalities have to go the ``right way" in order for (direct) comparison to work. LCT frees us from this constraint, somewhat.
+\end{frame}
+%---------------
+
+\begin{frame}
+\notefig{3_3_1-3_3_3ConvergenceTests}{3\_3\_1-3\_3\_3\linebreak ConvergenceTests}{note3.3.3c}
+It can be useful here to point out that sometimes one series has bigger terms, sometimes the other. The left series has a bigger first term, and a smaller second term. This is an argument for using the limit comparison test, although the originally stated comparison test can also be made to work.
+\end{frame}
+%---------------
+
+\begin{frame}
+\notefig{3_3_4-3_3_6ConvergenceTests}{3\_3\_4-3\_3\_6\linebreak ConvergenceTests}{note3.3.4a}
+``If you squint at it in just the right way, it looks like the Squeeze Theorem."
+
+Since the even / odd partial sums are monotone and bounded, they converge; since $|S_{n}-S_{n-1}|=a_n \to 0$, they converge to the same thing; so Squeeze Theorem actually does apply. But, CLP doesn't state the result that bounded,  monotone sequences converge, so this level of formality isn't included here. Nonetheless, students will probably recognize Squeeze Theorem from the figure.
+\end{frame}
+%%---------------
+
+\begin{frame}
+\notefig{3_4_2OptionalConditionalConvergence}{3\_4\_2Optional\linebreak ConditionalConvergence}{note3.4.2a}
+Two things to mention: the partial sum isn't approaching 0, and we aren't actually rearranging the original sum, because we never add any of the remaining positive terms.
+\end{frame}
+
+%---------------
+\begin{frame}
+\notefig{3_6TaylorSeries}{3\_6TaylorSeries}{note3.6a}
+Much of the next group of slides is meant to emphasize that our Taylor series converges pointwise, as opposed to uniformly. Students are unlikely to know those terms, 
+but they usually notice that it gets harder and harder to get a ``good" approximation of $e^x$ as $x$ gets bigger.
+\\[1em]
+When we just dive in to the algebra, there's a risk of confusion when we say things like ``$n$ changes, but $x$ does not." That's another reason why we do intermediate examples with fixed $x$-values.
+
+\end{frame}
+\end{document}

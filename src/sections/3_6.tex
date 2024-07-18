@@ -1,0 +1,827 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsC{\cf}
+ \end{frame}
+%%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section{3.6.1 Extending Taylor Polynomials}
+
+%---------------------------------------------------------------------------------------
+\newcommand{\taylorblock}{\begin{block}{Taylor series}
+The Taylor series for the function $f(x)$ expanded around $a$
+is the power series
+\begin{align*}
+\sum_{n=0}^\infty \frac{1}{n!}\,f^{(n)}(a)\, (x-a)^n.
+\end{align*}
+When $a=0$ it is also called the Maclaurin series of $f(x)$. 
+\end{block}}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\unote{CLP--1 Definition~\eref{text1}{def_3_4_2} and CLP--2 Definition~\eref{text}{defn:taylorSeries}, first part}
+
+\begin{block}{Taylor polynomial}
+  Let $a$ be a constant and let $n$ be a non-negative integer. The $n^\mathrm{th}$
+order Taylor polynomial for $f(x)$ about $x=a$ is
+\begin{align*}
+  T_n(x) &= \sum_{k=0}^n \frac{1}{k!}\, f^{(k)}(a) \cdot (x-a)^k.
+\end{align*}
+\end{block}\pause
+
+\taylorblock
+
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+Let's compute some Taylor series, using the definition.
+\vfill
+The method is nearly identical to finding Taylor \textit{polynomials}, which is covered in CLP--1.
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]
+Find the Maclaurin series for $f(x)=\sin x$.
+\vspace{1em}
+\sQuestionBar<1-2>{1}{3}
+\nsQuestionBar<1>{1}{3}
+\AnswerBar<3->{1}{3}
+\sonly<1>{\taylorblock\MoreSpace}
+\AnswerYes<2>
+\sonslide<3->{
+\[\begin{array}{ccrcccr}
+f(x)&=&\sin x &~\hspace{1cm}~&f(0)&=&0\\
+f'(x)&=&\cos x &&f'(0)&=&1\\
+f''(x)&=&-\sin x &&f''(0)&=&0\\
+f'''(x)&=&-\cos x &&f'''(0)&=&-1\\
+\end{array}\]
+The derivatives then repeat. Notice we only have non-zero derivatives for odd orders, and these alternate in sign.
+
+We can write the Maclaurin series as follows:
+\begin{align*}
+\sin x & \approx \frac{x^1}{1!}-\frac{x^3}{3!}+\frac{x^5}{5!}-\frac{x^7}{7!}+\cdots\\
+&=\sum_{n=0}^\infty (-1)^{n}\frac{x^{2n+1}}{(2n+1)!}
+\end{align*}
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+Find the Maclaurin series for $f(x)=\cos x$.
+\vspace{1em}
+\QuestionBar<1-2>{2}{3}
+\AnswerBar<3->{2}{3}
+\only<1|handout:0>{\taylorblock\MoreSpace}
+\AnswerYes<2>
+\sonslide<3->{
+\[\begin{array}{ccrcccr}
+f(x)&=&\cos x &&f(0)&=&1\\
+f'(x)&=&-\sin x &&f'(0)&=&0\\
+f''(x)&=&-\cos x &&f''(0)&=&-1\\
+f'''(x)&=&\sin x &&f'''(0)&=&0\\
+\end{array}\]
+The derivatives then repeat. Notice we only have non-zero derivatives for even orders, and these alternate in sign.
+
+We can write the Maclaurin series as follows:
+\begin{align*}
+\cos x & \approx1- \frac{x^2}{2!}+\frac{x^4}{4!}-\frac{x^6}{6!}+\frac{x^8}{8!}-\cdots\\
+&=\sum_{n=0}^\infty (-1)^{n}\frac{x^{2n}}{(2n)!}
+\end{align*}
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+The Maclaurin series for $f(x)=e^x$\quad is\only<-2>{:}\quad \sonslide<3->{$\ds\sum\limits_{n=0}^\infty \frac{x^n}{n!}$.}
+\vspace{1em}
+\AnswerYes<2>
+\QuestionBar<1-2>{3}{3}
+\AnswerBar<3->{3}{3}
+\only<1|handout:0>{\taylorblock\MoreSpace}
+
+
+\sonslide<3->{
+Every derivative of $e^x$ is $ e^x$, so all coefficients $f^{(n)}(0)$ are $e^0$, i.e. 1.
+
+\begin{align*}
+e^x&\approx 1+x+\frac{x^2}{2}+\frac{x^3}{3!}+\cdots \\
+&= \sum_{n=0}^\infty \frac{x^n}{n!}
+\end{align*}
+}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+Let $T_n(x)$ be the $n$-th order Taylor polynomial of the function $f(x)$, centred at $a$. 
+\vfill
+When we introduced Taylor polynomials in CLP--1, we framed $T_n(x)$ as an approximation of $f(x)$. 
+\vfill
+Let's see how those approximations look in two cases:
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame} {Taylor Polynomials for $e^x$}
+\StatusBar{1}{10}
+\begin{tikzpicture}
+\foreach \y [count=\n] in {0.12,
+0.37,
+0.7866666667,
+1.3075,
+1.8283333333,
+2.2623611111,
+2.5723809524,
+2.7661433532,
+2.8737891314,
+2.9276120205
+}{
+	\draw<\n|handout:0> (7.25,\y+1)node[C1,right]{$T_{\n}$};}
+\begin{axis}[
+%	xlabel=\(x\),
+	axis lines = center,
+	ymin=-50,
+	ymax=190,
+	clip=false]
+\addplot[domain=-6:5, color=red,smooth] {exp(x)}node[above]{$e^x$};
+\foreach \n in {1,...,10}{
+	\MODULO{\n}{5}{\m}
+\onslide<\n>{
+	\xdef\taylor{0.0}
+	\foreach \X in {1,...,\n}
+		{\xdef\taylor{
+			\taylor+x^\X/(\X!)
+			}}
+	\only<\n|handout:0>{
+		\addplot[domain=-6:5,smooth,thick,color=C1] {\taylor};}
+	}%onslide n
+}%foreach n
+\end{axis}
+\end{tikzpicture}
+
+\only<1|handout:0>{\[e^x \approx 1+x\qquad \text{ for } x \approx 0 \qquad \text{ (linear approximation)}\]}
+\only<2|handout:0>{\[e^x \approx 1+x+\frac{x^2}{2} \qquad\text{ for } x \approx 0\qquad \text{ (quadratic approximation)}\]}
+\foreach \n in {3,...,9}{
+	\only<\n|handout:0>{\[e^x \approx 1+x+\frac{x^2}{2}\foreach \x in{3,...,\n}{+\frac{x^{\x}}{\x!}} \qquad\text{ for } x \approx 0\]}
+	}
+\only<10>{
+\vspace{4mm}It seems like high-order Taylor polynomials do a pretty good job of approximating the function $e^x$, at least when $x$ is near enough to 0.}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{Taylor Polynomials for  a different function}
+
+But that is not the case for all functions. Define
+$$
+f(x) = \begin{cases}
+e^{-\frac1x} & x>0\\
+0 & x \le 0
+\end{cases}
+$$
+Using the definition of the derivative and l'H\^opital's rule, one can show that $f^{(n)}(0)=0$ for all natural numbers $n$.
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]{Taylor Polynomials for  a different function}
+\StatusBar{2}{6}
+\begin{tikzpicture}
+\myaxis{x}{3}{6}{y}{0}{3.5}
+\draw[thick,W1](-2.9,0)-- plot[domain=0.1:1,smooth](\x,{4*exp(-1/\x)})-- plot[domain=1:4,smooth](\x,{4*exp(-1/\x)})node[right]{$f(x) = \begin{cases}
+e^{-\frac1x} & x>0\\
+0 & x \le 0
+\end{cases}$};
+\foreach \n in {1,...,5}{
+	\ADD{\n}{1}{\s}\draw<\s|handout:0>[thick,C1] (-2.9,0)--(5.9,0)node[above]{$T_{\n}(x)=0$};}
+\draw<handout>[thick,C1] (-2.9,0)--(5.9,0)node[above]{$T_{n}(x)=0$};
+\end{tikzpicture}
+\only<2|handout:0>{\[f(x) \approx 0+0x=0\qquad \text{ for } x \approx 0 \qquad \text{ (linear approximation)}\]}
+\only<3|handout:0>{\[f(x) \approx 0+0x+0\frac{x^2}{2}=0 \qquad\text{ for } x \approx 0\qquad \text{ (quadratic approximation)}\]}
+\only<4|handout:0>{\[f(x) \approx 0+0x+0\frac{x^2}{2}+0\frac{x^3}{3!}=0 \qquad\text{ for } x \approx 0\qquad \text{ (cubic approximation)}\]}
+\only<5|handout:0>{\[f(x) \approx 0+0x+0\frac{x^2}{2}+0\frac{x^3}{3!}+0\frac{x^4}{4!}=0 \ \ \text{ for } x \approx 0\ \  \text{ (quartic approximation)}\]}
+\only<6|handout:0>{\[f(x) \approx 0+0x+0\frac{x^2}{2}+0\frac{x^3}{3!}+0\frac{x^4}{4!}+0\frac{x^5}{5!}=0 \ \ \text{ for } x \approx 0\ \  \text{ (quintic approximation)}\]}
+
+\vspace{1em}
+
+\onslide<6->{Taylor polynomial approximations don't \alert{always} get better as their orders increase -- it depends on the function being approximated.}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%\begin{frame}[t]
+%\StatusBar{1}{3}
+%\unote{Equations~\eref{text}{eq:TaylorPolyPlusError}, \eref{text}{eq:TaylorPolyPlusError_a}, 
+%\eref{text}{eq:TaylorPolyPlusError_b}; Definition~\eref{text}{defn:taylorSeries}, second part}
+%\begin{align*}
+%T_n(x)&=f(a)+f'(a)\,(x-a)+\cdots+\tfrac{1}{n!}f^{(n)}(a)\, (x-a)^n\\
+%f(x) &=T_n(x) +\textcolor{W1}{E_n(x)}
+%\onslide<2->{\intertext{The error satisfies the equation}
+%\textcolor{W1}{E_n(x)}&=\tfrac{1}{(n+1)!}\,f^{(n+1)}(c)\, (x-a)^{n+1}}
+%\end{align*}
+%\onslide<2->{for some $c$ strictly between $a$ and $x$.}
+%
+%\onslide<3->{
+%\begin{block}{Taylor series}
+%If 
+%$\lim\limits_{n\rightarrow\infty}\textcolor{W1}{E_n(x)}=0$, then
+%\[
+%f(x)=\sum_{n=0}^\infty \frac{1}{n!}\,f^{(n)}(a)\, (x-a)^n
+%\]
+%\end{block}}
+%\end{frame}
+%%----------------------------------------------------------------------------------------
+%\begin{frame}
+%Before we get into computing errors,\\ we'll warm up by finding some Taylor series.
+%\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section{Do the Taylor series match their functions?}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}{Investigation}
+\StatusBar{1}{3}
+\begin{itemize}[<+->]
+\item We found the Maclaurin series for $f(x)=e^x$ is $\ds\sum_{n=0}^\infty\frac{x^n}{n!}$.\vfill
+
+\item But, it's not immediately clear whether  $e^x\stackrel{?}{=}\ds\sum_{n=0}^\infty\frac{x^n}{n!}$.\vfill
+\item We're going to demonstrate that $e^x$ is in fact equal to $\ds\sum_{n=0}^\infty\frac{x^n}{n!}$. The proof involves a particular limit: $\lim\limits_{n \to \infty}\textcolor{C2}{\frac{|x|^n}{n!}}$. We'll talk about that limit first, so that it doesn't distract us later.
+\end{itemize}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\StatusBar{2}{10}
+\MoreSpace<11>
+\AnswerYes<12>
+\only<-4>{\COPY{3}{\xy}}
+\only<5-6,11->{\COPY{4}{\xy}}
+\only<7-8>{\COPY{5}{\xy}}
+\only<9-10>{\COPY{4}{\xy}}
+\ADD{\xy}{1}{\xz}
+\SUBTRACT{\xy}{1}{\xx}
+\newcommand{\xval}{
+	\only<2,11-|handout:1>{\textcolor{M1}{|x|}}
+	\only<3-4|handout:0>{\textcolor{M4}{2}}
+	\only<5-6|handout:0>{\textcolor{M3}{3}}
+	\only<7-8|handout:0>{\textcolor{M5}{4}}
+	\only<9-10|handout:0>{\textcolor{M2}{\pi}}
+	}
+Intermediate result: $\lim\limits_{n \to \infty}\textcolor{C2}{\frac{|x|^n}{n!}}$, when $x$ is some fixed number.
+
+\only<2-11|handout:1>{For large $n$, we can think of $\textcolor{C2}{\frac{|x|^n}{n!}}$ as a long multiplication, with decreasing terms. At some point, those terms are all decreasing \textit{and less than 1}.
+\only<2-11|handout:1>{\begin{align*}
+\only<2,11->{\frac{|x|^n}{n!}}%awkwardness around display of absolute values
+\only<3-10|handout:0>{\frac{|\only<7-8|handout:0>{\textcolor{M5}{-}}\xval|^n}{n!}}&=\frac{
+	\foreach \n in {1,...,6}{\xval\cdot}\ldots\cdot\xval
+	}{\foreach \n in {1,...,6}{\n\cdot}\ldots\cdot n}\\
+	&=\foreach \n[evaluate=\s using int(2*\n+2),evaluate=\m using \n-1, evaluate=\ss using int(\s-1)] in {1,...,4}{
+		\only<\ss|handout:0>{\foreach \k in {1,...,6}{
+				\left(\frac{\xval}{\k}\right)}
+				\cdots
+				 \left(\frac{\xval}{n}\right)}
+		\only<\s|handout:0>{
+			\foreach \k in {1,...,\xx}{
+				\left(\frac{\xval}{\k}\right)}
+			~|~
+			\underbrace{\left(\frac{\xval}{\xy}\right)}_{<1}
+			\foreach \k in {\xz,...,6}{
+			\underbrace{\left(\frac{\xval}{\k}\right)}_{<\frac{\xval}{\xy}}}
+			\cdots \underbrace{\left(\frac{\xval}{n}\right)}_{<\frac{\xval}{\xy}}
+		}}
+\only<2,11|handout:0>{\foreach \n in {1,...,6}{\left(\frac{\xval}{\n}\right)}\cdots\left(\frac{\xval}{n}\right)}\end{align*}}}
+\only<11|handout:2>{We're multiplying terms that are closer and closer to 0, so it seems quite reasonable that this sequence should converge to 0.\\[1em]
+ For a more formal proof, we can use the squeeze theorem to compare this sequence to a geometric sequence.}
+
+\only<12>{\unote{Convenient notation: $\lceil x \rceil$ is the number you get when you round $x$ up to the nearest whole number.}}
+\only<12-|handout:0>{
+Let $\frac{|x|}{k}$ be the first factor that's less than 1. Then when $n>k$:
+\sonly<13->{
+\begin{align*}
+\frac{|x|^n}{n!}&=\left(\frac{|x|}{1}\frac{|x|}{2}\cdots\frac{|x|}{k-1}\right)\left(\frac{|x|}{k}\cdots\frac{|x|}{n} \right)\\
+&<\left(\frac{|x|}{1}\frac{|x|}{2}\cdots\frac{|x|}{k-1}\right)\left(\frac{|x|}{k}\right)^{n-(k-1)}\\
+&=\underbrace{\frac{\left(\frac{|x|}{1}\frac{|x|}{2}\cdots\frac{|x|}{k-1}\right)}{
+	\left(\frac{|x|}{k}\right)^{k-1}}}_{a}\underbrace{\left(\frac{|x|}{k}\right)^n}_{r^n}
+\end{align*}
+Since $|r|<1$, the sequence $ar^n$ (as defined above) converges to 0. Since $0 \le \frac{|x^n|}{n!} < ar^n$ for large $n$,  we conclude by the squeeze theorem that
+\[\lim_{n \to \infty}\textcolor{C2}{\frac{|x|^n}{n!}}=0.\]
+}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}{Investigation}
+
+\label<1>{note3.6a}
+
+\StatusBar{1}{2}
+\begin{itemize}
+\item We found the Maclaurin series for $f(x)=e^x$ is $\ds\sum_{n=0}^\infty\frac{x^n}{n!}$.
+\item But, it's not immediately clear whether  $e^x\stackrel{?}{=}\ds\sum_{n=0}^\infty\frac{x^n}{n!}$.\\[-2mm]
+ How could we determine this?
+\item<2->{ \begin{align*}
+e^x&=\sum_{n=0}^\infty\frac{x^n}{n!}\\
+\iff
+0&=e^x - \sum_{n=0}^\infty \frac{x^n}{n}=e^x-\lim_{n \to \infty}\underbrace{\sum_{k=0}^n\frac{x^k}{k!}}_{T_n(x)}=\lim_{n \to \infty}\underbrace{\left[e^x-T_n(x)\right]}_{E_n(x)}\\
+\iff 0&=\lim_{n \to \infty}E_n(x)\quad\text{ (for all $x$)}
+\end{align*}}
+\end{itemize}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame} {Taylor Polynomial Error for $f(x)=e^x$}
+\COPY{7}{\lastpoly}% last taylor polynomial to display
+\StatusBar{1}{\lastpoly}
+If $\lim\limits_{n \to \infty}E_n(x)=0$ for all $x$, then $e^x=\sum_{n=0}^\infty\frac{x^n}{n!}$ for all $x$.
+ 
+ \onslide<\lastpoly>{It \textit{looks} plausible, especially when $x$ is close to 0. Let's try to prove it.}
+ \vfill
+\begin{tikzpicture}
+\begin{axis}[
+	axis lines = center,
+	ymin=-50,
+	ymax=190,
+	clip=false]
+\addplot[domain=-6:5, color=red,smooth] {exp(x)}node[above]{$e^x$};
+%plot Taylor polynomials
+\foreach \n in {1,...,\lastpoly}{
+\onslide<\n>{
+	\xdef\taylor{0.0}%recursively define the taylor polynomials
+	\foreach \X in {1,...,\n}
+		{\xdef\taylor{
+			\taylor+x^\X/(\X!)
+			}}
+		%draw in several error lines; for loops aren't working in this environment
+		\addplot[domain=-5:-5.01,opacity=0]{\taylor}coordinate(T-5){};
+		\addplot[domain=-5:-5.01,opacity=0=0]{exp(\x)}coordinate(f-5){};
+		\addplot[domain=2:2.01,opacity=0]{\taylor}coordinate(T2){};
+		\addplot[domain=2:2.01,opacity=0]{exp(\x)}coordinate(f2){};
+		\addplot[domain=4:4.01,opacity=0]{\taylor}coordinate(T4){};
+		\addplot[domain=4:4.01,opacity=0]{exp(\x)}coordinate(f4){};
+		\only<\n|handout:0>{\addplot[domain=-6:5,smooth,thick,color=C1] {\taylor};
+		\draw[|-|](T-5)--(f-5);
+		\draw[|-|](T2)--(f2);
+		\draw[|-|](T4)--(f4);
+		}%\only<\n>
+	}%onslide n
+}%foreach n
+\end{axis}
+
+\begin{scope}[W1,xshift=3.75 cm,yshift=1.22cm,xscale=1.18/2,yscale=1.2/50]%scale to match axis
+%label errors; can't access \n inside the axis environment, so doing it separately here
+\foreach \s in {1,...,\lastpoly}{\foreach \x[evaluate=\y using exp(\x)] in {-5,2,4}{
+	\onslide<\s|handout:0>{\draw(\x,\y)node[above,yshift=2mm]{$E_{\s}(\x)$};}
+	}}
+\end{scope}
+\end{tikzpicture}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerSpace
+\only<2>{\MoreSpace}
+\begin{block}{Equation~\eref{text}{eq:TaylorPolyPlusError_b}}
+Let $T_n(x)$ be the $n$-th order Taylor approximation of a function $f(x)$, centred at $a$. Then $E_n(x)=f(x)-T_n(x)$ is the error in the $n$-th order Taylor approximation.
+
+For some $c$ strictly between $x$ and $a$,
+\[E_n(x)=\frac{1}{(n+1)!}\ f^{(n+1)}(c)\cdot(x-a)^{n+1}\]
+\end{block}
+\unote{CLP--1 Equation~\eref{text1}{eq:taylorErrorN}, CLP--2 Equation~\eref{text}{eq:TaylorPolyPlusError_b}}
+\pause\vfill
+When $f(x)=e^x$,
+\[E_n(x)=e^c\frac{x^{n+1}}{(n+1)!}\]
+for some $c$ between 0 and $x$.
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>
+\color{spoilercolor}
+\begin{align*}
+\color{black}E_n(x)&\color{black}=e^x-T_n(x)\\
+&\color{black}=e^c\frac{x^{n+1}}{(n+1)!}&\color{black}\mbox{for some $c$ between 0 and $x$}\\
+\sonslide<2->{0\le |E_n(x)|&< \left| e^c\frac{x^{n+1}}{(n+1)!}\right|\\
+&\le e^{|x|}\color{C2}\frac{|x|^{n+1}}{(n+1)!}\\
+0&=\lim_{n\to\infty}\color{C2}\frac{|x|^{n+1}}{(n+1)!}&\mbox{ by our previous result}\\
+\implies 0&=\lim_{n \to \infty}|E_n(x)|&\mbox{by the squeeze theorem}
+}
+\end{align*}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\COPY{7}{\lastpoly}% last taylor polynomial to display
+\StatusBar{1}{\lastpoly}
+\only<1>{\AnswerYes}
+We found $0 \le |E_n(x)|<e^{|x|}\frac{|x|^{n+1}}{(n+1)!}$ for large $n$, hence $\lim\limits_{n \to \infty}|E_n(x)|=0$.
+ 
+ \vfill
+ \parbox{5.75cm}{
+\begin{tikzpicture}[xscale=0.8]
+\begin{axis}[
+	axis lines = center,
+	ymin=-50,
+	ymax=190,
+	clip=false]
+\addplot[domain=-6:5, color=red,smooth] {exp(x)}node[above]{$e^x$};
+%plot Taylor polynomials
+\foreach \n in {1,...,\lastpoly}{
+\onslide<\n>{
+	\xdef\taylor{0.0}%recursively define the taylor polynomials
+	\foreach \X in {1,...,\n}
+		{\xdef\taylor{
+			\taylor+x^\X/(\X!)
+			}}
+		%draw in several error lines; for loops aren't working in this environment
+		\addplot[domain=-5:-5.01,opacity=0]{\taylor}coordinate(T-5){};
+		\addplot[domain=-5:-5.01,opacity=0=0]{exp(\x)}coordinate(f-5){};
+		\addplot[domain=4:4.01,opacity=0]{\taylor}coordinate(T4){};
+		\addplot[domain=4:4.01,opacity=0]{exp(\x)}coordinate(f4){};
+		\only<\n|handout:0>{\addplot[domain=-6:5,smooth,thick,color=C1] {\taylor};
+		\draw[|-|](T-5)--(f-5);
+		\draw[|-|](T4)--(f4);
+		}%\only<\n>
+	}%onslide n
+}%foreach n
+\draw(axis cs: 0,0) coordinate;
+\pgfgetlastxy{\Xorigin}{\Yorigin} 
+\end{axis}
+
+\begin{scope}[W1,xshift=3.75 cm,yshift=1.22cm,xscale=1.18/2,yscale=1.2/50]%scale to match axis
+%label errors; can't access \n inside the axis environment, so doing it separately here
+\foreach \s[evaluate=\t using int(\s+1)] in {1,...,\lastpoly}{\foreach \x[evaluate=\y using exp(\x),evaluate=\X using int(abs(\x))] in {-5,4}{
+	\onslide<\s|handout:0>{\draw(\x*.7,\y)node[above,yshift=2mm,fill=white,inner sep=0]{$|E_{\s}(\text{\x})|<e^{\text{\X}}\left(\textcolor{C2}{\frac{\X^{\t}}{\t!}}\right)$};
+	}
+	}}
+\end{scope}
+\end{tikzpicture}}\hfill
+\parbox{4cm}{
+For a particular value of $x$:
+\begin{align*}
+\text{We saw }\quad0&=\lim_{n \to \infty}\textcolor{C2}{\frac{|x|^{n+1}}{(n+1)!}}\\
+\onslide<2->{\text{so }\quad 0&=\lim_{n \to \infty}E_n(x)\\
+\text{That is, }~ 0&=\lim_{n \to \infty}\left[e^x-T_n(x)\right]\\
+\text{So, }e^x&=\lim_{n \to \infty}T_n(x)\\
+&=\sum_{n=0}^{\infty} \frac{x^n}{n!}}
+\end{align*}}
+\end{frame}
+%----------------------------------------------------------------------------------------%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Taylor polynomial error for sine and cosine}
+\MoreSpace<1>
+\AnswerYes<2>
+\only<1>{\begin{block}{Equation~\eref{text}{eq:TaylorPolyPlusError_b}}
+Let $T_n(x)$ be the $n$-th order Taylor approximation of a function $f(x)$, centred at $a$. Then $E_n(x)=f(x)-T_n(x)$ is the error in the $n$-th order Taylor approximation.
+
+For some $c$ strictly between $x$ and $a$,
+\[E_n(x)=\frac{1}{(n+1)!}\ f^{(n+1)}(c)\cdot(x-a)^{n+1}\]
+\end{block}
+\unote{CLP--1 Equation~\eref{text1}{eq:taylorErrorN}, CLP--2 Equation~\eref{text}{eq:TaylorPolyPlusError_b}}
+\vfill}
+
+Suppose $f(x)$ is either $\sin x$ or $\cos x$. \only<1>{Is $f(x)$ equal to its Maclaurin series? }\sonslide<3->{In either case, $|f^{(n+1)}(c)|$ is either $|\sin c|$ or $|\cos c|$, so it's between 0 and 1.}
+
+\begin{align*}
+\onslide<2->{\color{black}\left|\textcolor{W1}{E_n(x)}\right|&
+\color{black}=\frac{1}{(n+1)!}\left|f^{(n+1)}(c)\right||x|^{n+1}}
+\sonly<3->{\leq\textcolor{C2}{ \frac{|x|^{n+1}}{(n+1)!}}\\
+\implies 0  \le |E_n(x)|  &\le\textcolor{C2}{ \frac{|x|^{n+1}}{(n+1)!}}
+\intertext{We saw before that $\lim\limits_{n \to \infty} \textcolor{C2}{\frac{|x|^{n+1}}{(n+1)!}}=0$. So, by the squeeze theorem,}\quad
+\lim_{n \to \infty}|\textcolor{W1}{E_n(x)}|&=0\\
+}
+\end{align*}
+
+\sonly<3->{So sine and cosine are equal to their Taylor series everywhere.}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+
+\begin{frame} {Taylor Polynomials for $\sin(x)$}
+\StatusBar{1}{8}
+\centerline{\begin{tikzpicture}
+\begin{axis}[
+	axis lines = center,
+	ymin=-5,
+	ymax=5,
+	clip=false]
+\addplot[domain=-12:12, color=red,smooth,samples=100] {sin(x*180/pi)}node[right]{$\sin(x)$};
+\foreach \n in {1,...,8}{
+	\MODULO{\n}{5}{\m}
+\onslide<\n>{
+	\xdef\taylor{x}
+	\foreach \X in {1,...,\n}
+		{\xdef\taylor{
+			\taylor+(-1)^\X*x^(2*\X+1)/((2*\X+1)!)
+			}}
+	\only<\n|handout:0>{
+	\addplot[domain=-13:13,smooth,thick,color=C1, restrict y to domain =-5:5,samples=100] {\taylor};}
+	}%onslide n
+}%foreach n
+\addplot[opacity=0,domain=-10:10]{x*.13};%keeping space free for Taylor polynomials
+\end{axis}
+\end{tikzpicture}}
+
+
+\only<1|handout:0>{\[T_3(x)= x-\frac{x^3}{3!} \]}
+\foreach \n[evaluate=\Nindex using int(2*\n+1)] in {2,...,8}{
+	\only<\n|handout:0>{\[T_{\Nindex}(x)= x-\frac{x^3}{3!}\foreach \x[evaluate=\N using int(2*\x+1)] in{2,...,\n}{\ifodd \x -\frac{x^{\N}}{\N!} \else +\frac{x^{\N}}{\N!} \fi}\]}
+	}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame} {Taylor Polynomials for $\cos(x)$}
+\StatusBar{1}{8}
+\centerline{\begin{tikzpicture}
+\begin{axis}[
+	axis lines = center,
+	ymin=-5,
+	ymax=5,
+	clip=false]
+\addplot[domain=-12:12, color=red,smooth,samples=100] {cos(x*180/pi)}node[right]{$\cos(x)$};
+\foreach \n in {1,...,8}{
+	\MODULO{\n}{5}{\m}
+\onslide<\n>{
+	\xdef\taylor{1}
+	\foreach \X in {1,...,\n}
+		{\xdef\taylor{
+			\taylor+(-1)^\X*x^(2*\X)/((2*\X)!)
+			}}
+	\only<\n|handout:0>{
+	\addplot[domain=-13:13,smooth,thick,color=C1, restrict y to domain =-5:5,samples=100] {\taylor};}
+	}%onslide n
+}%foreach n
+\addplot[opacity=0,domain=-10:10]{x*.13};%keeping space free for Taylor polynomials
+\end{axis}
+\end{tikzpicture}}
+
+
+\only<1|handout:0>{\[T_2(x)=1- x^2 \]}
+\foreach \n[evaluate=\Nindex using int(2*\n)] in {2,...,8}{
+	\only<\n|handout:0>{\[T_{\Nindex}(x)= 1-x^2\foreach \x[evaluate=\N using int(2*\x)] in{2,...,\n}{\ifodd \x -\frac{x^{\N}}{\N!} \else +\frac{x^{\N}}{\N!} \fi}\]}
+	}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+
+\unote{\eref{text}{thm:SRimportantTaylorSeries}}
+\begin{block}{Selected Taylor series that equal their functions}
+\begin{alignat*}{5}
+e^x &= \textstyle\sum\limits_{n=0}^\infty\dfrac{x^n}{n!}
+    &&\qquad\text{for all $-\infty<x<\infty$} \\[1mm]
+\sin(x) &= \textstyle\sum\limits_{n=0}^\infty(-1)^n\dfrac{1}{(2n+1)!}x^{2n+1}
+    &&\qquad\text{for all $-\infty<x<\infty$} \\[1mm]
+\cos(x) &= \textstyle\sum\limits_{n=0}^\infty(-1)^n\dfrac{1}{(2n)!}x^{2n}
+    &&\qquad\text{for all $-\infty<x<\infty$} \\[1mm]
+\frac{1}{1-x} &= \textstyle\sum\limits_{n=0}^\infty x^n
+    &&\qquad\text{for all $-1<x<1$} \\[1mm]
+\log(1+x) &= \textstyle\sum\limits_{n=0}^\infty (-1)^n\dfrac{x^{n+1}}{n+1}
+    &&\qquad\text{for all $-1<x\le 1$} \\[1mm]
+\arctan x &=  \textstyle\sum\limits_{n=0}^\infty (-1)^n\dfrac{x^{2n+1}}{2n+1}
+    &&\qquad\text{for all $-1\le x\le 1$}
+\end{alignat*}
+\end{block}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section{3.6.2 Computing with Taylor Series}
+%---------------------------------------------------------------------------------------%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Computing $\pi$}
+\QuestionBar<1>{1}{4}
+\AnswerBar<2>{1}{4}
+\unote{Example~\eref{text}{eg:pi}}
+Use the fact that $\arctan 1 = \frac{\pi}{4}$ to find a series converging to $\pi$ whose terms are rational numbers.
+
+\sonslide<2->{
+For all $-1 \le x\le 1$:
+\begin{align*}
+\arctan x & =\sum_{n=0}^\infty(-1)^n\frac{x^{2n+1}}{2n+1}\\
+4\arctan x & =4\sum_{n=0}^\infty(-1)^n\frac{x^{2n+1}}{2n+1}\\
+\pi=4\arctan 1 & =4\sum_{n=0}^\infty(-1)^n\frac{1^{2n+1}}{2n+1}\\
+&=\sum_{n=0}^\infty(-1)^n\frac{4}{2n+1}\\
+&=4-\frac43+\frac45-\frac47+\frac49-\cdots 
+\end{align*}
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}{Error function}
+%\QuestionBar{2}{4}
+\unote{Example~\eref{text}{eg:erf}}
+The \textit{error function}
+\[\text{erf}(x) =\frac{2}{\sqrt{\pi}}\int_0^x e^{-t^2}\ \dee{t}\]
+is used in computing ``bell curve'' probabilities. 
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\StatusBar{1}{12}
+\begin{tikzpicture}[xscale=1.5]
+\myaxis{x}{0}{2}{y}{0}{7}
+\draw[very thick] plot[domain=0:1.39](\x,{exp(\x*\x)})node[right]{$y=e^{x^2}$};
+\foreach \x in {0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,1.1}{\onslide<+|handout:0>{
+	\xcoord{\x}{\x}
+	\filldraw[fill=C3,fill opacity=0.5] plot[domain=0:\x](\x,{exp(\x*\x)})|-(0,0)--(0,1);
+	}}
+\end{tikzpicture}
+\hfill
+\begin{tikzpicture}[xscale=1.5]
+\myaxis{x}{0}{2}{y}{0}{7}
+\foreach \x[count=\n,evaluate=\l using \x+\x^3/3+\x^5/10+\x^7/42+\x^9/216] in {0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,1.1}{
+	\onslide<\n|handout:0>{
+	\xcoord{\x}{\x}
+	\ifnum \n>1
+	\ROUND[2]{\l}{\L}
+	\draw[very thick] plot[domain=0:\x](\x,{\x+\x^3/3+\x^5/10+\x^7/42+\x^9/216})node[above right,fill=white,inner sep=1mm]{$\ds\int_0^{\x}e^{x^2}\,\dee x \approx \L$};
+	\ycoord{\L}{\L}
+	\else
+	\draw (0,0)node[above right]{$\ds\int_0^0e^{x^2}\,\dee x =0$};
+	\fi
+	}}
+\onslide<13->{\draw[very thick] plot[domain=0:1.745](\x,{\x+\x^3/3+\x^5/10+\x^7/42+\x^9/216})node[right]{$\ds\int_0^xe^{t^2}\,\dee t$};}
+
+\onslide<14->{\draw[very thick,C3] plot[domain=0:1.694](\x,{1.128*(\x+\x^3/3+\x^5/10+\x^7/42+\x^9/216)})node[left,xshift=-2mm,fill=white,inner sep=1mm]{$\ds\frac{2}{\sqrt\pi}\int_0^xe^{t^2}\,\dee t$};}
+\end{tikzpicture}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Error function}
+\MoreSpace<1>
+\AnswerYes<2>
+\QuestionBar<1-2>{2}{4}
+\AnswerBar<3->{2}{4}
+\unote{Example~\eref{text}{eg:erf}}
+\only<-2>{The \textit{error function}
+\[\text{erf}(x) =\frac{2}{\sqrt{\pi}}\int_0^x e^{-t^2}\ \dee{t}\]
+is used in computing ``bell curve'' probabilities. }
+
+\only<1>{\vspace{1em}The indefinite integral
+of the integrand $e^{-t^2}$ cannot be expressed in terms of standard
+functions. But we can still evaluate the integral to within any desired degree
+of accuracy by using the Taylor expansion of the exponential.
+
+For example, evaluate $\text{erf}\left(\frac{1}{\sqrt 2}\right)$.}
+
+
+
+\sonslide<2->{\begin{align*}
+\text{erf}\left(\frac{1}{\sqrt 2}\right)&=\onslide<3->{
+\frac{2}{\sqrt{\pi}}\int_0^{\frac{1}{\sqrt 2}} e^{-t^2}\ \dee{t}
+=\frac{2}{\sqrt\pi}\int_0^{\frac{1}{\sqrt 2}} 
+\left.\left(\sum_{n=0}^\infty \frac{x^n}{n!}\right)\right|_{x=-t^2}
+\ \dee{t}\\
+&=\frac{2}{\sqrt\pi}\int_0^{\frac{1}{\sqrt 2}} 
+\left(\sum_{n=0}^\infty\frac{(-1)^n t^{2n}}{n!}\right)
+\ \dee{t}
+=\frac{2}{\sqrt\pi}
+\left[
+\sum_{n=0}^\infty \frac{(-1)^nt^{2n+1}}{(2n+1)n!}
+\right]_0^{\frac{1}{\sqrt 2}} \\
+&=\frac{2}{\sqrt\pi}
+\left[
+\sum_{n=0}^\infty \frac{(-1)^n}{(2n+1)n!{(\sqrt 2)}^{2n+1}}-
+\sum_{n=0}^\infty \frac{(-1)^n\cdot 0^{2n+1}}{n!\cdot(2n+1)}
+\right]\\
+&=\frac{2}{\sqrt \pi}\sum_{n=0}^\infty\frac{(-1)^n}{ \sqrt 2\cdot 2^n(2n+1)n!}
+=
+\sqrt{\frac{2}{\pi}}\sum_{n=0}^\infty\frac{ (-1)^n}{2^n(2n+1)n!}\\
+&=\sqrt{\frac{2}{\pi}}\left(1-\frac{1}{6}+\frac{1}{40}-\frac{1}{336}+\cdots\right)
+}%end slide 3-
+\end{align*}
+}%end slide 2-
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Evaluating a convergent series}
+\AnswerSpace
+\sQuestionBar<1-2>{3}{4}
+\nsQuestionBar<1>{3}{4}
+\sMoreSpace<1>
+\AnswerYes<2>
+\AnswerBar<3->{3}{4}
+Evaluate $\ds\sum_{n=1}^\infty\frac{1}{n\cdot 3^n}$
+\unote{Example~\eref{text}{eg:lntwo}}
+
+\sonly<1>{\scriptsize\vspace{1em}
+\fbox{\parbox{.8\textwidth}{\vspace{-2mm}
+\begin{alignat*}{5}
+e^x &= \textstyle\sum\limits_{n=0}^\infty\dfrac{x^n}{n!}
+    &&\qquad\text{for all $-\infty<x<\infty$} \\[1mm]
+\sin(x) &= \textstyle\sum\limits_{n=0}^\infty(-1)^n\dfrac{1}{(2n+1)!}x^{2n+1}
+    &&\qquad\text{for all $-\infty<x<\infty$} \\[1mm]
+\cos(x) &= \textstyle\sum\limits_{n=0}^\infty(-1)^n\dfrac{1}{(2n)!}x^{2n}
+    &&\qquad\text{for all $-\infty<x<\infty$} \\[1mm]
+\frac{1}{1-x} &= \textstyle\sum\limits_{n=0}^\infty x^n
+    &&\qquad\text{for all $-1<x<1$} \\[1mm]
+\log(1+x) &= \textstyle\sum\limits_{n=0}^\infty (-1)^n\dfrac{x^{n+1}}{n+1}
+    &&\qquad\text{for all $-1<x\le 1$} \\[1mm]
+\arctan x &=  \textstyle\sum\limits_{n=0}^\infty (-1)^n\dfrac{x^{2n+1}}{2n+1}
+    &&\qquad\text{for all $-1\le x\le 1$}
+\end{alignat*}\vspace{-2mm}
+}}}
+\sonslide<3->{
+The series most closely resembles the Taylor series $\log(1+x)=\sum\limits_{m=0}^\infty (-1)^m\dfrac{x^{m+1}}{m+1}$. To make that relation clearer, set $m=n-1$:
+\begin{align*}
+\sum_{n=1}^\infty\frac{1}{n\cdot 3^n}&=\sum_{m=0}^\infty \frac{1}{(m+1)\cdot 3^{m+1}}\\
+&=\sum_{m=0}^\infty(-1)^{m+1} \frac{(-1)^{m+1}}{(m+1)\cdot 3^{m+1}}\\
+&=-\sum_{m=0}^\infty(-1)^{m} \frac{\left(-\frac13\right)^{m+1}}{(m+1)}\\
+&=-\log\left(1-\frac13\right)=-\log\left(\frac23\right)=\log\left(\frac32\right)
+\end{align*}
+}
+\end{frame}
+%----------------------------------------------------------------------------------------%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Finding a high-order derivative}
+\QuestionBar<1>{4}{4}
+\AnswerYes<1-2>
+\AnswerBar<2->{4}{4}
+Let $f(x) = \sin(2x^3)$. Find $f^{(15)}(0)$, the fifteenth derivative
+of $f$ at $x=0$.\vspace{1em}
+
+
+\sonly<2>{
+Differentiating directly gets messy quickly. Instead, let's find the Taylor series. Let $y=2x^3$:
+\begin{align*}
+\sin(y)&=\sum_{n=0}^\infty(-1)^n\dfrac{1}{(2n+1)!}y^{2n+1}\\
+\implies \quad f(x)=\sin(2x^3)&=\sum_{n=0}^\infty(-1)^n\dfrac{1}{(2n+1)!}{(2x^3)}^{2n+1}\\
+\implies \quad f(x)=\sum_{m=0}^\infty \frac{f^{(m)}(0)}{m!}x^m &=
+\sum_{n=0}^\infty(-1)^n\dfrac{2^{2n+1}}{(2n+1)!}x^{6n+3}
+\end{align*}
+}
+\sonly<3>{
+The coefficients of $x^{15}$ on the left and right series must match for the series to be equal.
+
+When $m=15$ on the left-hand side, we get the term $\frac{f^{(15)}(0)}{15!}x^{15}$. The right-hand side term corresponding to $x^{15}$ occurs when $6n+3=15$, i.e. when $n=2$.
+
+\begin{align*}
+\underbrace{\frac{f^{(15)}(0)}{15!}}_{m=15}&=\underbrace{(-1)^2\frac{2^5}{5!}}_{n=2}\\
+f^{(15)}(0)&=\frac{15!}{5!}\cdot 2^5
+\end{align*}
+}
+\unote{Example~\eref{text}{eg:SRfindDeriv}.}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section{3.6.4 Evaluating limits}
+%---------------------------------------------------------------------------------------%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>
+\QuestionBar<1>{1}{2}
+\AnswerBar<2->{1}{2}
+\unote{Example~\eref{text}{eg:TaylorlimitA}}
+Given that $\sin x = x-\frac{x^3}{3!}+\frac{x^5}{5!}-\cdots$, we have a new way of evaluating the familiar limit
+\[\lim_{x \to 0}~\frac{\sin x}{x}\colon\]
+
+\vfill
+\sonly<2>{
+\begin{align*}
+\lim_{x \to 0}~\frac{\sin x}{x}&=
+\lim_{x \to 0}~\frac{ x-\frac{x^3}{3!}+\frac{x^5}{5!}-\cdots}{x}\\[2mm]
+&=\lim_{x \to 0}\left[1-\frac{x^2}{3!}+\frac{x^4}{5!}-\cdots\right]\\[2mm]
+&=0
+\end{align*}
+\vfill
+This technique is sometimes faster than l'H\^opital's rule.}
+\end{frame}
+%----------------------------------------------------------------------------------------%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>\QuestionBar<1>{2}{2}
+\AnswerBar<2->{2}{2}
+\unote{Example~\eref{text}{eg:TaylorlimitB}}
+Evaluate $\ds\lim_{x\rightarrow 0}~\frac{\arctan x -x}{\sin x-x}$.
+
+
+
+\sonly<2>{
+\begin{align*}
+\arctan x - x &= \left(x-\frac{x^3}{3}+\frac{x^5}{5}-\cdots\right)-x\\
+&=-\frac{x^3}{3}+\frac{x^5}{5}-\cdots\\[1em]
+\sin x - x & = \left(x-\frac{x^3}{3!}+\frac{x^5}{5!}-\cdots\right)-x\\
+&=-\frac{x^3}{3!}+\frac{x^5}{5!}-\cdots\\[1em]
+\lim_{x \to 0}~\frac{\arctan x -x}{\sin x-x}&=
+\lim_{x \to 0}~\frac{-\frac{x^3}{3}+\frac{x^5}{5}-\cdots}{-\frac{x^3}{3!}+\frac{x^5}{5!}-\cdots}\left(\frac{\frac{1}{x^3}}{\frac{1}{x^3}}\right)\\
+&=\lim_{x \to 0}\frac{-\frac13+\frac{x^2}{5}-\cdots}{-\frac1{3!}+\frac{x^2}{5!}-\cdots}=\frac{-\frac13}{-\frac16}=2
+\end{align*}
+}
+
+\end{frame}
+%----------------------------------------------------------------------------------------%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------

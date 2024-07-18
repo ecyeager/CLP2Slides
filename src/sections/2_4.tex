@@ -1,0 +1,438 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsB{\bd}
+ \end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\section{Introduction to Differential Equations}
+%----------------------------------------------------------------------------------------
+\begin{frame}\begin{block}{Differential Equation}
+A \alert{differential equation} is an equation for an unknown function that
+involves the derivative of the unknown function.
+\end{block} \pause
+ Differential equations
+play a central role in modelling a huge number of different phenomena.
+Here is a table giving a bunch of named differential equations and what
+they are used for. It is far from complete.
+
+\begin{center}\tiny
+\renewcommand{\arraystretch}{1.4}
+     \begin{tabular}{|c|c|}
+        \hline
+  Newton's Law of Motion
+      & describes motion of particles \\ \hline
+  Maxwell's equations
+      &describes electromagnetic radiation \\ \hline
+  Navier--Stokes equations
+      &describes fluid motion \\ \hline
+  Heat equation
+      &describes heat flow \\ \hline
+  Wave equation
+      &describes wave motion \\ \hline
+  Schr\"odinger equation
+      &describes atoms, molecules and crystals \\ \hline
+  Stress-strain equations
+      &describes elastic materials \\ \hline
+  Black--Scholes models
+      &used for pricing financial options \\ \hline
+  Predator--prey equations
+      &describes ecosystem populations  \\ \hline
+  Einstein's equations
+      &connects gravity and geometry  \\ \hline
+  Ludwig--Jones--Holling's equation
+      &models spruce budworm/Balsam fir ecosystem  \\ \hline
+  Zeeman's model
+      &models heart beats and nerve impulses \\ \hline
+  Sherman--Rinzel--Keizer model
+      &for electrical activity in Pancreatic $\beta$--cells  \\ \hline
+  Hodgkin--Huxley equations
+      &models nerve action potentials  \\
+  \hline
+     \end{tabular}
+\renewcommand{\arraystretch}{1.0}
+\end{center}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------
+\begin{frame}
+\label{note2.4a}
+\centering
+Disclaimer:
+
+We are dipping our toes into a vast topic. Most universities offer half a dozen different undergraduate
+courses on various aspects of differential equations. We will just look
+at one special, but important, type of equation.
+\vfill
+
+\begin{itemize}[<+->]
+\item We will first learn to \alert{verify} solutions without \alert{finding} them. (If you learned about differential equations last semester, this will be review.)\vfill
+\item \alert{Then,} we will learn to solve one particular type of differential equation.\vfill
+
+\end{itemize}
+\vfill
+
+\end{frame}
+%-------------------------------------------------------------
+\begin{frame}{Differential Equations}
+\begin{defn}
+	A \textbf{differential equation} is an equation involving the derivative of an unknown function.
+	\end{defn}
+\pause \vfill
+Examples: $\diff{y}{x}=2x$; \qquad $x\diff{y}{x}=7xy+y$
+\pause \vfill
+\begin{defn}
+	If a \alert{function} makes a differential equation true, we say it \textbf{satisfies} the differential equation, or is a solution to the differential equation.
+\end{defn}
+\pause\vfill
+Example: $y=x^2$ and $y=x^2+1$ both satisfy the first differential equation%;
+%\pause\vfill
+%the function $y=xe^{7x+9}$ satisfies the second.\vfill
+\end{frame}
+%-------------------------------------------------------------
+
+\begin{frame}[t]{Verifying Solutions}
+\AnswerNo
+Consider the equation 
+\[x+2=x^3-x^2\]
+
+How would you verify whether $x=1$ satisfies the equation?\\
+
+
+How would you verify whether $x=2$ satisfies the equation?\\
+\pause
+
+\color{W1} Plug $x$ into the equation, check whether the left-hand side and the right-hand side are the same \textbf{number}.
+\end{frame}
+%-------------------------------------------------------------
+
+\begin{frame}[t]{Verifying Solutions}
+\label{note2.4b}
+\AnswerYes<1-2>
+\NoSpace<2>
+Consider the differential equation 
+\[\diff{y}{x}=2y+4x\]
+
+\only<-2>{
+How would you verify whether $\textcolor{C2}{y=e^{2x}-2x}$ satisfies the equation?\\
+How would you verify whether $\textcolor{C2}{y=e^{2x}-2x-1}$ satisfies the equation?\\}
+
+
+\onslide<2->{\color{W1} Replace $y$ and $\diff{y}{x}$ in the equation, check whether the left-hand side and the right-hand side are the same \textbf{function}. } 
+
+\sonly<3->{
+	\begin{itemize}\color{spoilercolor}
+	\only<3>{\item If $\textcolor{C2}{y=e^{2x}-2x}$, then $\textcolor{C3}{\diff{y}{x}=2e^{2x}-2}$. Plug these into both sides of the differential equation, replacing anything depending on $y$:
+	\begin{align*}
+	\textcolor{C3}{\diff{y}{x}}&=2\textcolor{C2}{y}+4x\\
+	\textcolor{C3}{2e^{2x}-2}&\stackrel{?}{=} 2\textcolor{C2}{(e^{2x}-2x)}+4x\\
+	2e^{2x}-2&\stackrel{?}{=} 2e^{2x}
+	\end{align*}
+	Since the functions on the left and right are not the same function, $y=e^{2x}-2x$ is \alert{not} a solution to the differential equation.}
+	\item<4> If $\textcolor{C2}{y=e^{2x}-2x-1}$, then $\textcolor{C3}{\diff{y}{x}=2e^{2x}-2}$. Plug these into both sides of the differential equation, replacing anything depending on \textcolor{C3}{$y$}:
+	\begin{align*}
+	\textcolor{C3}{\diff{y}{x}}&=2\textcolor{C2}{y}+4x\\
+	\textcolor{C3}{2e^{2x}-2}&\stackrel{?}{=} 2\textcolor{C2}{(e^{2x}-2x-1)}+4x\\
+	2e^{2x}-2&\stackrel{?}{=} 2e^{2x}-4x-2+4x
+	\end{align*}
+	Since the functions on the left and right are the same function, $y=e^{2x}-2x-1$ \alert{is} a solution to the differential equation.
+	\end{itemize}}
+	
+\end{frame}
+%-------------------------------------------------------------
+
+\begin{frame}[t]
+\AnswerYes<2>\MoreSpace<2>
+\begin{multicols}{2}\alert{Differential equation:}
+\[x\diff{y}{x}=7xy+y\]
+\vfill
+
+\columnbreak
+
+\alert{Interpretation:}\\[1em]
+There is a function $y(x)$ that makes the left-hand side and the right-hand side into the same function.\\[1em]
+To check whether a given function satisfies the differential equation, plug it in for everything with a ``$y$": $y$ itself and $\diff{y}{x}$.
+\end{multicols}
+
+\onslide<2->{Is $y=xe^{7x+9}$  a solution to the differential equation?}
+
+\vfill
+\end{frame}
+%-------------------------------------------------------------
+\begin{frame}<beamer>[t]
+\AnswerYes<1>
+Differential equation: $x\diff{y}{x}=7xy+y$\\
+Function: $y=xe^{7x+9}$
+
+\sonslide<2->{
+If $\textcolor{C2}{y=xe^{7x+9}}$, then $\textcolor{C3}{\diff{y}{x}}=x\left(7e^{7x+9}\right)+e^{7x+9}=\textcolor{C3}{(7x+1)e^{7x+9}}$. We replace all terms depending on $\textcolor{C3}{y}$ in the differential equation with these functions.
+\begin{align*}
+x\textcolor{C3}{\diff{y}{x}}&=7x\textcolor{C2}{y}+\textcolor{C2}y\\
+x\textcolor{C3}{(7x+1)e^{7x+9}}&=7x\textcolor{C2}{(xe^{7x+9})}+\textcolor{C2}{xe^{7x+9}}\\
+x(7x+1)e^{7x+9}&=x(7x+1)e^{7x+9}
+\end{align*}
+The left and right hand side of the equation give the same function, so our function $y=xe^{7x+9}$ satisfies the differential equation.}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>\NoSpace<1>
+Which of the following solve the differential equation $\diff{y}{x}=\frac{x}{y}$ ?\\[10pt]
+
+\salert<2>{A. $y=-x$}\hfill  B. $y=x+5 $ \hfill  \salert<2>{C. $y=\sqrt{x^2+5}$}
+
+\sonslide<2->{
+	
+	\begin{itemize}\color{spoilercolor}
+	\item If $\textcolor{C2}{y=-x}$, then $\textcolor{C3}{\diff{y}{x}=-1}$. Plugging into the differential equation yields:
+	$\textcolor{C3}{-1}\stackrel{?}{=}\frac{x}{\textcolor{C2}{-x}}$.
+	Since the left and right are the same function (except for the single point when $x=0$), we say $y=-x$ \alert{solves} the differential equation.
+	\vfill
+	\item If $\textcolor{C2}{y=x+5}$, then $\textcolor{C3}{\diff{y}{x}=1}$. Plugging into the differential equation yields:
+	$\textcolor{C3}{1}\stackrel{?}{=}\frac{x}{\textcolor{C2}{x+5}}$.
+	Since the left and right are \alert{not} the same function, $y=x+5$ \alert{does not solve} the differential equation.
+	\vfill
+	\item If $\textcolor{C2}{y=\sqrt{x^2+5}}$, then $\textcolor{C3}{\diff{y}{x}}=\frac{2x}{2\sqrt{x^2+5}}=\textcolor{C3}{\frac{x}{\sqrt{x^2+5}}}$. Plugging into the differential equation yields:
+	$
+	\textcolor{C3}{\frac{x}{\sqrt{x^2+5}}}\stackrel{?}{=}\frac{x}{\textcolor{C2}{\sqrt{x^2+5}}}
+	$.
+	Since the left and right are the same function, we say $y=\sqrt{x^2+5}$ \alert{solves} the differential equation.
+	\end{itemize}
+	}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section{2.4 Separable Differential Equations}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{First Example of a Separable DE}
+\label{note2.4c}
+\AnswerYes<2>
+\only<1>{\begin{block}{Definition}
+A separable differential equation is an equation for a function y(x) that can be written in the form
+\[g(y)\cdot\diff{y}{x}=f(x) \]
+\end{block}
+(It may take some rearranging to get the equation into this form.)\\[1em]
+For example:
+\MoreSpace}
+
+
+\begin{align*}
+\color{black}y^2\cdot\diff{y}{x}&\color{black}=4x\\
+\sonslide<3->{
+\int \left(y^2 \cdot \diff{y}{x}\right)\ \dee{x}&=\int 4x \ \dee{x}\\
+\int y^2 \ \dee{y} &=2x^2+C\\
+\frac{1}{3}y^3 &=2x^2+C\\
+y^3&=6x^2+3C\\
+y(x)&=\sqrt[3]{6x^2+3C}\\
+y(x)&=\sqrt[3]{6x^2+D}
+}
+\end{align*}
+\sonslide<3->{Here $C$ and $D$ are arbitrary constants.}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{General Method for Solving Separable DEs}
+\AnswerYes<1>
+\[g(y)\cdot\diff{y}{x}=f(x) \]
+\sonly<2>{
+\begin{align*}
+g(y(x))\cdot \diff{y}{x}&=f(x)\\
+\int \left(g(y(x))\cdot \diff{y}{x}\right)\,\dee{x}&=\int f(x)\,\dee{x}\intertext{$y$-substitution:}
+\int g(y)\,\dee{y}&=\int f(x)\,\dee{x}
+\end{align*}}
+\snshonly{3}{2}{2}{\color{C2}Shorthand:
+\begin{align*}
+g(y)\cdot \diff{y}{x}&=f(x)\\
+g(y)\,\dee{y}&=f(x)\,\dee{x}\\
+\int g(y)\,\dee{y}&=\int f(x)\,\dee{x}
+\end{align*}}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\QuestionBar<1>{1}{3}
+\AnswerBar<2->{1}{3}
+\AnswerYes<-6>
+\nsAnswerYes<-6>
+\StatusBar{1}{7}
+\[\diff{y}{x}=y^2x\]\pause
+\begin{enumerate}
+\item ``Separate" $y$'s from $x$'s. \pause \\
+\only<beamer>{\textcolor{spoilercolor}{$\underbrace{\frac{1}{y^2}\dee{y}}_{\text{only }y}=\underbrace{x\dee{x}}_{\text{only }x}$}\pause}
+\item Integrate.\pause
+\only<beamer>{\textcolor{spoilercolor}{\begin{align*}
+\int\frac{1}{y^2}\dee{y}&=\int x\dee{x} &&\implies&& -\frac1y=\frac12x^2+C
+\end{align*}}\pause}
+\item Solve explicitly for $y$.\hfill \pause
+\only<beamer>{\textcolor{spoilercolor}{$\displaystyle y=\frac{1}{-\frac12x^2-C}$}
+\hfill~}
+\end{enumerate}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\QuestionBar<1>{2}{3}\AnswerYes<1>
+\AnswerBar<2>{2}{3}
+
+\[\diff{y}{x}=(xy)^4,\qquad y(0)=\frac12 \]
+\sonslide<2>{\footnotesize
+\begin{multicols}{2}\allowdisplaybreaks
+\begin{align*}
+\diff{y}{x}&=x^4y^4\\
+y^{-4}\ \dee y & = x^4 \dee x\\
+\int y^{-4} \dee y & =\int  x^4 \dee x\\
+\frac{1}{-3}y^{-3} & = \frac15 x^5 +C\\
+\frac{1}{y^3}&=-3\left(\frac{1}{5}x^5+C\right)\\
+y&=\frac{1}{-\sqrt[3]{3\left(\frac{1}{5}x^5+C\right)}}\\
+y(0)&=-\left.\sqrt[3]{\frac{1}{3\big(\frac{1}{5}x^5+C\big)}}\right|_{x=0}\\
+\frac12&=-\sqrt[3]{\frac{1}{3C}}\\
+2&=-\sqrt[3]{3C}\\
+3C&=-8\\
+y(x)&=-\sqrt[3]{\frac{1}{\frac{3}{5}x^5-8}}\\
+&=\sqrt[3]{\frac{1}{8-\frac{3}{5}x^5}}\\
+\end{align*}\end{multicols}}
+\end{frame}
+%---------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]\[\diff{y}{x}=y(4x^3-1)\qquad y(0)=-2\]
+\QuestionBar<1>{3}{3}\AnswerYes<1>
+\AnswerBar<2>{3}{3}
+\sonslide<2>{\begin{align*}
+\frac1y\ \dee y&=\left(4x^3-1\right)\dee x\\
+\int \frac1y\ \dee y&=\int \left(4x^3-1\right)\dee x\\
+\log|y|&=x^4-x+C\\
+\text{When $x=0$,\ \ }\log|-2|&=0^4-0+C\\
+C&=\log 2\\
+|y(x)|&=e^{x^4-x+\log 2}\\
+y(x)&=e^{x^4-x+\log 2} \quad\mbox{ or }\quad y(x)=-e^{x^4-x+\log 2}\\
+y(x)&=-e^{x^4-x+\log 2}=-2e^{x^4-x}\quad\text{to make $y(0)=-2$}
+\end{align*}}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]
+\AnswerYes<1>
+Let $a$ and $b$ be any two constants. We'll now solve the family of differential
+equations
+\begin{equation*}
+\diff{y}{x} =a(y-b)
+\end{equation*}
+using our mnemonic device.
+\sonslide<2->{
+\begin{align*}
+\frac{\dee{y}}{y-b} &=a\,\dee{x}\\
+\int \frac{\dee{y}}{y-b}&= \int a\,\dee{x}\\
+\log|y-b|&= ax+c\\
+|y-b|&= e^{ax+c} =e^c e^{ax} \\
+y-b &=\pm e^c e^{ax} = C e^{ax}
+\end{align*}
+where the constant $C$ can be any real number. (Even $C=0$ works, i.e. $y(x)=b$  solves $\diff{y}{x}=a(y-b)$.) Note that when $y(x)=C e^{ax}+b$ we have $y(0)=C+b$. So $C=y(0)-b$ and the general solution is
+\begin{equation*}
+y(x) = \{y(0)-b\}\,e^{ax} + b
+\end{equation*}}
+	\unote{Example~\eref{text}{eg:SDEsdeFrist}}
+\end{frame}
+%-------------------------------------------------------------%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]
+\AnswerYes<2>\NoSpace<2>
+\QuestionBar<2>{1}{2}
+\AnswerBar<3>{1}{2}
+\only<-2>{
+\begin{block}{Linear First-Order Differential Equations}
+Let $a$ and $b$ be constants.
+The differentiable function $y(x$) obeys the differential equation
+\begin{equation*}
+\diff{y}{x} =a(y-b)
+\end{equation*}
+if and only if
+\begin{equation*}
+y(x) = \{y(0)-b\}\,e^{ax} + b
+\end{equation*}
+\end{block}}
+
+\pause
+Find a function $y(x)$ with $y'=3y+7$ and $y(2)=5$.
+
+\sonly<3>{
+\begin{multicols}{2}
+
+To avoid re-inventing the wheel, we'll use our equation. But first, we should re-write our differential equation so the formatting matches.
+
+\begin{align*}
+\diff{y}{x}&=3\left(y+\frac73\right)\\
+a&=3,\quad b=-\frac73\\
+y(x)&=Ce^{3x}-\frac73
+\intertext{Since we aren't given $y(0)$, we can't use the theorem as a shortcut to find $C$. We'll do it the old-fashioned way.}
+5=y(2)&=Ce^{3(2)}-\frac73\\
+\frac{22}{3}&=Ce^6\\
+C&=\frac{22}{3e^6}\\
+y(x)&=\frac{22}{3e^6}e^{3x}-\frac73
+\end{align*}
+\end{multicols}
+}
+\unote{Theorem~\eref{text}{thm:linearODE}}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\QuestionBar<1>{2}{2}\AnswerYes<1>
+\AnswerBar{2}{2}<2->
+\sMoreSpace<2->
+\nsMoreSpace<1>
+The rate at which a medicine is metabolized (broken down) in the body depends on how much of it is in the bloodstream. Suppose a certain medicine is metabolized at a rate of $\frac{1}{10}A$ $\mu$g/hr, where $A$ is the amount of medicine in the patient. The medicine is being administered to the patient at a constant rate of 2 $\mu$g/hr.
+
+If the patient starts with no medicine in their blood at $t=0$, give the formula for the amount of medicine in the patient at time $t$. What happens to the amount over time?\vfill
+
+\sonslide<2->{The rate of change of the amount of medicine in the patient is given by how quickly the medicine is being administered, minus how quickly it is metabolized:
+\[\diff{A}{t}=2-\frac{1}{10}A\]}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerBar{2}{2}
+\AnswerYes<1>\NoSpace<1>
+\begin{block}{Linear First-Order Differential Equations}
+Let $a$ and $b$ be constants.
+The differentiable function $y(x$) obeys the differential equation
+\begin{equation*}
+\diff{y}{x} =a(y-b)
+\end{equation*}
+if and only if
+\begin{equation*}
+y(x) = \{y(0)-b\}\,e^{ax} + b
+\end{equation*}
+\end{block}
+
+\[\diff{A}{t}=2-\frac{1}{10}A=-\frac{1}{10}(A-20)\qquad A(0)=0\]
+
+\sonslide<2->{
+\begin{multicols}{2}
+\begin{align*}
+a&=-\frac{1}{10},\quad b=20\\
+A(t)&=(A(0)-20)e^{-t/10}+20\\
+A(t)&=-20e^{-t/10}+20\\
+\end{align*}
+This is an increasing function, with $\lim\limits_{t \to \infty}A(t)=20$. So the amount of medicine initially increases, but eventually almost holds steady at 20 $\mu$g.
+\end{multicols}}
+
+
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+

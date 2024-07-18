@@ -1,0 +1,3 @@
+\beamer@sectionintoc {1}{3.3.1 Divergence Test}{3}{0}{1}
+\beamer@sectionintoc {2}{3.3.2 Integral Test}{11}{0}{2}
+\beamer@sectionintoc {3}{3.3.3 Comparison Test}{57}{0}{3}

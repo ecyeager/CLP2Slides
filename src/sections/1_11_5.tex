@@ -1,0 +1,316 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+%%%%%%%%
+
+
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsA{\ak,\atool}
+ \end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\section{1.11.5  Optional -- An Error Bound for the Midpoint Rule}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t,label=statement]
+\begin{block}{Numerical integration errors}
+Assume that $|f''(x)|\le M$ for all $a \le x \le b$ and $|f^{(4)}(x)|\le L$ for all $a \le x \le b$. Then
+\begin{itemize}
+\item\alert{the total error introduced by the midpoint rule is bounded by $\ds\frac{M}{24}\frac{(b-a)^3}{n^2}$, }
+\item the total error introduced by the trapezoidal rule is bounded by $\ds\frac{M}{12}\frac{(b-a)^3}{n^2}$, and 
+\item the total error introduced by Simpson's rule is bounded by $\ds\frac{L}{180}\frac{(b-a)^5}{n^4}$ 
+\end{itemize}
+when approximating $\ds\int_a^b f(x)\ \dee x$.
+\end{block}
+\unote{Theorem~\eref{text}{thm num int err}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Why the \textit{second} derivative?}
+\StatusBar{1}{3}
+The midpoint rule gives the exact area under the curve for
+\[f(x)=ax+b\]
+when $a$ and $b$ are any constants. 
+
+\begin{center}\begin{tikzpicture}[yscale=0.75,xscale=1.75]
+\myaxis{x}{2.5}{2.5}{y}{2}{2}
+\xcoord{-2}{a}\xcoord{2}{b}
+
+\foreach \s/\a/\b in {1/.5/0,2/.5/1.25,3/-1.1/0}{
+	\onslide<\s|handout:0>{
+		\draw[thick,C1] plot[domain=-2:2](\x,{\a*\x+\b});
+		\fill[W2,opacity=0.3] (-2,0)--plot[domain=-2:2](\x,{\a*\x+\b})|-cycle;
+		\foreach \x in {-1.5,-.5,0.5,1.5}{
+			\MULTIPLY{\x}{\a}{\xa}
+			\ADD{\xa}{\b}{\y}
+			\filldraw[C3,fill opacity=0.3] (\x-.5,0) rectangle (\x+.5,\y);
+			}
+		}}
+\end{tikzpicture}\end{center}
+
+The first derivative can be large without causing a large error.
+\end{frame}
+%----------------------------------------------------------------------------------------
+\againframe{statement}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]\StatusBar{1}{4}
+We'll start small: let's consider one-half of a single interval being approximated using the midpoint rule.\\
+\onslide<2->{To avoid messiness, let's also consider a simplified location:}
+
+\begin{center}
+\begin{tikzpicture}[yscale=0.8]
+\myaxis{x}{.5}{3.5}{}{0}{0}
+\filldraw[W1,  pattern=north east lines] (1.5,0) rectangle (3,2.4375);
+\draw[thick,C1] plot[domain=-0.5:3.5,smooth](\x,{3-(\x-3)*(\x-3)/4})node[right]{$f(x)$};
+\onslide<-2>{\filldraw[C3,fill opacity=0.5] (0,0) rectangle (3,2.4375);}
+\onslide<1|handout:0>{
+	\xcoord{0}{x_{i-1}}
+	\xcoord{3}{x_{i}}
+	\xcoord{1.5}{\overline{x_{i}}}
+	}
+\onslide<2->{
+	\onslide<-2>{\xcoord{0}{-q}}
+	\xcoord{3}{q}
+	\xcoord{1.5}{0}
+}
+
+
+\onslide<3->{\filldraw[C3,fill opacity=0.5] (3,0) rectangle (1.5,2.4375);}
+\end{tikzpicture}
+\end{center}
+\onslide<4->{
+	We want to relate the actual area of this half-slice to its approximate area: \[\ds\int_{0}^{q}f(x)\ \dee x\approx q\cdot f(0)\]
+	}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+ \[\ds\int_{0}^{q}f(x)\ \dee x\approx q\cdot f(0)\]
+If you squint just right, the right-hand side looks a bit like the ``$u\cdot v$" term from integration by parts, where $u=f(x)$ and $\dee v = \dee x$.\pause
+\begin{itemize}[<+->]
+\item Set $u=f(x)$ and $\dee v=\dee x$, so $\dee u = f'(x)\ \dee x$.\\ We choose $v(x)=x-q$, so that $f(v(q))=f(0)$.
+\begin{align*}
+\int_{0}^{q}f(x)\ \dee x&=\big[(x-q)f(x)\big]_0^q -\int_0^q(x-q)\,f'(x)\ \dee x
+\\&=q\cdot f(0)-\int_0^q( x-q)\,f'(x)\ \dee x
+\end{align*}
+\item We know something about the second derivative, not the first, so repeat: set $u=f'(x)$, $\dee v =(x-q)\ \dee x $; $\dee u = f''(x)\ \dee x$, $v=\frac{(x-q)^2}{2}$
+\begin{align*}
+\int_{0}^{q}f(x)\ \dee x&=q\cdot f(0)+\frac{q^2}{2}\cdot f'(0)+\int_0^q \frac{(x-q)^2}{2}f''(x)\ \dee x
+\end{align*}
+
+\end{itemize}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\StatusBar{1}{4}
+\begin{center}
+\begin{tikzpicture}[yscale=0.8]
+\myaxis{x}{.5}{3.5}{}{0}{0}
+\draw[thick,C1] plot[domain=-0.5:3.5,smooth](\x,{3-(\x-3)*(\x-3)/4})node[right]{$f(x)$};
+	\xcoord{3}{q}
+	\xcoord{1.5}{0}
+
+\onslide<2>{\filldraw[W2,fill opacity=0.5] (1.5,0)-- plot [smooth,domain=1.5:3](\x,{3-(\x-3)*(\x-3)/4})|-cycle;}
+\onslide<3->{\filldraw[C3,fill opacity=0.5] (3,0) rectangle (1.5,2.4375);}
+\onslide<4->{\filldraw[M4, pattern=crosshatch, pattern color=M4] plot [smooth,domain=1.5:3](\x,{3-(\x-3)*(\x-3)/4})|-cycle;}
+\end{tikzpicture}
+\end{center}\vspace{1cm}
+
+\begin{tabular}{ccccc}
+$\ds\textcolor<2|handout:0>{W2}{\int_{0}^{q}f(x)\ \dee x}$ & $=$ 
+& $\textcolor<3>{C3}{q\cdot f(0)}$ &$+$&$\ds
+\textcolor<4>{M4}{\frac{q^2}{2}\cdot f'(0)+\int_0^q \frac{(x-q)^2}{2}f''(x)\ \dee x}$\\[1em]
+\onslide<2->{\color{W2} exact} &&
+\onslide<3->{\color{C3} approximate}&&
+\onslide<4->{\color{M4} $\pm$ error}
+\end{tabular}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+Repeat for the other half of the slice:
+\begin{align*}
+\int_{-q}^0\underbrace{f(x)}_{u} \ \underbrace{\dee x}_{\dee v} & = \big[\underbrace{f(x)}_{u}\cdot\underbrace{(x+q)}_{v}\big]_{-q}^0-\int_{-q}^0 \underbrace{(x+q)}_{v}\cdot\underbrace{ f'(x)\ \dee x}_{\dee u}\\
+&=q\cdot f(0)-\int_{-q}^0  \underbrace{ f'(x)}_{\hat{u}} \cdot \underbrace{(x+q)\ \dee x}_{\dee \hat{v}}\\
+&=q\cdot f(0)-\left[\underbrace{f'(x)}_{\hat{u}}\underbrace{\frac{(x+q)^2}{2}}_{ \hat v}\right]_{-q}^0
++\int_{-q}^0 \underbrace{\frac{(x+q)^2}{2}}_{\hat v} \underbrace{f''(x)\ \dee x}_{\dee \hat u}\\
+&=q\cdot f(0)-\frac{q^2}{2}f'(0)+\int_{-q}^0 \frac{(x+q)^2}{2}f''(x) \ \dee x
+\end{align*}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\StatusBar{1}{4}
+\begin{center}
+\begin{tikzpicture}[yscale=0.8]
+\myaxis{x}{.5}{3.5}{}{0}{0}
+\draw[thick,C1] plot[domain=-0.5:3.5,smooth](\x,{3-(\x-3)*(\x-3)/4})node[right]{$f(x)$};
+	\xcoord{0}{-q}
+	\xcoord{1.5}{0}
+
+\onslide<2>{\filldraw[W2,fill opacity=0.5] (1.5,0)-- plot [smooth,domain=1.5:0](\x,{3-(\x-3)*(\x-3)/4})|-cycle;}
+\onslide<3->{\filldraw[C3,fill opacity=0.5] (0,0) rectangle (1.5,2.4375);}
+\onslide<4->{\filldraw[M4, pattern=crosshatch, pattern color=M4] plot [smooth,domain=1.5:0](\x,{3-(\x-3)*(\x-3)/4})|-cycle;}
+\end{tikzpicture}
+\end{center}\vspace{1cm}
+
+\begin{tabular}{ccccc}
+$\ds\textcolor<2|handout:0>{W2}{\int_{-q}^{0}f(x)\ \dee x}$ & $=$ 
+& $\textcolor<3>{C3}{q\cdot f(0)}$ &$-$&$\ds
+\textcolor<4>{M4}{\frac{q^2}{2}\cdot f'(0)+\int_{-q}^0 \frac{(x+q)^2}{2}f''(x)\ \dee x}$\\[1em]
+\onslide<2->{\color{W2} exact} &&
+\onslide<3->{\color{C3} approximate}&&
+\onslide<4->{\color{M4} $\pm$ error}
+\end{tabular}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\StatusBar{1}{2}
+\begin{center}
+\begin{tikzpicture}[yscale=0.8]
+\myaxis{x}{.5}{3.5}{}{0}{0}
+\filldraw[W1,fill opacity=0.5] (0,0) rectangle (1.5,2.4375);
+\filldraw[C1,fill opacity=0.5] (1.5,0) rectangle (3,2.4375);
+\xcoord{0}{-q} \xcoord{3}{q} \xcoord{1.5}{0}
+\draw[thick,C1] plot[domain=-0.5:3.5,smooth](\x,{3-(\x-3)*(\x-3)/4})node[right]{$f(x)$};
+\end{tikzpicture}
+\end{center}
+\begin{align*}
+\color{W1}\ds \int_{-q}^0 f(x) \ \dee x &\color{W1} = q\cdot f(0)-\frac{q^2}{2}f'(0)+\int_{-q}^0 \frac{(x+q)^2}{2}f''(x) \ \dee x
+\\
+\color{C1}\ds \int_0^q f(x) \ \dee x &\color{C1} = q\cdot f(0)+\frac{q^2}{2}\cdot f'(0)+\int_0^q \frac{(x-q)^2}{2}f''(x)\ \dee x\\
+\onslide<2->{
+	\int_{-q}^q f(x) \ \dee x &=2q\cdot f(0)+
+	\int_{-q}^0 \frac{(x+q)^2}{2}f''(x) \ \dee x+
+	\int_{0}^q \frac{(x-q)^2}{2}f''(x) \ \dee x
+	\\
+	}
+\end{align*}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\StatusBar{1}{4}
+\begin{center}
+\begin{tikzpicture}[yscale=0.8]
+\myaxis{x}{.5}{3.5}{}{0}{0}
+\draw[thick,C1] plot[domain=-0.5:3.5,smooth](\x,{3-(\x-3)*(\x-3)/4})node[right]{$f(x)$};
+	\xcoord{3}{q}
+	\xcoord{1.5}{0}
+	\xcoord{0}{-q}
+
+\onslide<2>{\filldraw[W2,fill opacity=0.5] (0,0)-- plot [smooth,domain=0:3](\x,{3-(\x-3)*(\x-3)/4})|-cycle;}
+\onslide<3->{\filldraw[C3,fill opacity=0.5] (3,0) rectangle (0,2.4375);}
+\onslide<4->{\filldraw[M4, pattern=crosshatch, pattern color=M4] plot [smooth,domain=0:3](\x,{3-(\x-3)*(\x-3)/4})--(3,2.4375)-|cycle;}
+\end{tikzpicture}
+\end{center}\vspace{1cm}
+
+\begin{tabular}{ccccc}
+$\ds\textcolor<2|handout:0>{W2}{\int_{-q}^{q}f(x)\ \dee x}$ & $=~\textcolor<3>{C3}{2q\cdot f(0)}~+$&$\ds
+\textcolor<4>{M4}{\int_{-q}^0 \frac{(x+q)^2}{2}\,f''(x)\ \dee x+\int_0^q \frac{(x-q)^2}{2}f''(x)\ \dee x}$\\[1em]
+\onslide<2->{\color{W2} exact} &
+\onslide<3->{\color{C3} approximate}&
+\onslide<4->{\color{M4} $\pm$ error}
+\end{tabular}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+We re-arrange to write the \textcolor{M4}{error} as the difference between the \textcolor{W2}{actual} area of one slice and its rectangular \textcolor{C3}{approximation}.
+\begin{align*}
+{\color{W2}\int_{-q}^q f(x) \ \dee x}-\color{C3}2q\cdot f(0)&=\color{M4}\int_{-q}^0 \frac{(x+q)^2}{2}f''(x) \ \dee x+\int_{0}^q \frac{(x-q)^2}{2}f''(x) \ \dee x\\
+\onslide<2->{\text{error}&=\left| \int_{-q}^0 \frac{(x+q)^2}{2}f''(x) \ \dee x+\int_{0}^q \frac{(x-q)^2}{2}f''(x) \ \dee x\right|\\
+&\leq  \left| \int_{-q}^0 \frac{(x+q)^2}{2}\alert<3|handout:0>{f''(x)} \ \dee x\right|+\left|\int_{0}^q \frac{(x-q)^2}{2}\alert<3|handout:0>{f''(x)} \ \dee x\right|\\}
+\onslide<3->{
+&\leq \int_{-q}^0\frac{(x+q)^2}{2}\alert<3|handout:0>{M} \ \dee x+\int_{0}^q\frac{(x-q)^2}{2}\alert<3|handout:0>{M} \ \dee x\\
+&=M\left[\frac{(x+q)^3}{6}\right]_{-q}^0+M\left[\frac{(x-q)^3}{6}\right]_0^q\\
+&=\frac{M\cdot q^3}{3}
+}
+\end{align*}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]\StatusBar{1}{6}
+Now we can bound the error of a single slice:
+
+\begin{multicols}{2}
+\begin{tikzpicture}[yscale=0.8]
+\myaxis{x}{.5}{3.5}{}{0}{0}
+\draw[thick,C1] plot[domain=-0.5:3.5,smooth](\x,{3-(\x-3)*(\x-3)/4})node[right]{$f(x)$};
+\filldraw[C3,fill opacity=0.5] (3,0) rectangle (0,2.4375);
+
+\onslide<1-2|handout:0>{
+	\draw[C1] (1.5,0) -- (1.5,2.4375);
+	\xcoord{0}{-q}
+	\xcoord{3}{q}
+	\xcoord{1.5}{0}
+}
+\onslide<2->{
+	\draw[decorate,decoration={brace,mirror,amplitude=10pt}](0,-1)--(1.45,-1)node[midway,below,yshift=-3mm]{$q$};
+	\draw[decorate,decoration={brace,mirror,amplitude=10pt}](1.55,-1)--(3,-1)node[midway,below,yshift=-3mm]{$q\only<5->{=\frac{b-a}{2n}}$};}
+
+\onslide<3->{
+	\xcoord{0}{x_{i-1}}
+	\xcoord{3}{x_{i}}
+	\xcoord{1.5}{\overline{x_{i}}}
+	}
+
+\onslide<4->{
+	\draw[decorate,decoration={brace,mirror,amplitude=10pt}] (0,-2) --+(3,0)node[midway,below,yshift=-3mm]{$\frac{b-a}{n}$};
+	}
+\filldraw[M4, pattern=crosshatch, pattern color=M4] plot [smooth,domain=0:3](\x,{3-(\x-3)*(\x-3)/4})--(3,2.4375)-|cycle;
+\end{tikzpicture}
+\columnbreak
+\begin{align*}
+\left|\int_{-q}^q f(x) \ \dee x - 2q \cdot f(0)\right| &\le\color{M4} \frac{M}{3}\cdot q^3\\
+\end{align*}
+\end{multicols}
+\onslide<6->{
+\[\left|\int_{x_{i-1}}^{x_i} f(x) \ \dee x - \frac{b-a}{n} \cdot f\big(\overline{x_i}\big)\right| \le \frac{M}{3}\left(\frac{b-a}{2n}\right)^3=\color{M4}\frac{M}{24}\frac{(b-a)^3}{n^3}
+\]}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}\StatusBar{1}{3}
+\begin{center}
+\begin{tikzpicture}[yscale=0.4]
+\myaxis{x}{0}{8}{y}{0}{4}
+
+	\xcoord{1}{a=x_0}
+	\xcoord{7}{b=x_n}
+	\foreach \x in {2,...,6}{\xcoord{\x}{}}
+\draw(7,0)--(7,4);
+\foreach \n in {1,...,6}{%midpoint rectangles
+		\ADD{.5}{\n}{\x}
+		\DIVIDE{\x}{3}{\xa}
+		\SIN{\x}{\sx}
+		\ADD{1}{\xa}{\xb}
+		\ADD{\xb}{\sx}{\y}
+		\ifnum \n = 3
+			\filldraw[ultra thick,M3, fill opacity=0.3] (\n,0) rectangle (\n+1,\y);
+		\else
+			\onslide<2->{\filldraw[ultra thick,M3, fill opacity=0.3] (\n,0) rectangle (\n+1,\y);}
+		\fi
+		\DIVIDE{\n}{3}{\na}
+		\SIN{\n}{\sn}
+		\ADD{1}{\na}{\nb}
+		\ADD{\nb}{\sn}{\yy}
+		\draw(\n,0)--(\n,\yy);
+		}
+
+\draw[ thick, C1] plot[domain=0:8,smooth](\x,{1+\x/3+sin(\x r)})node[right]{$y=f(x)$};
+\fill[C1, opacity=0.1] (1,0)--plot[domain=1:7,smooth](\x,{1+\x/3+sin(\x r)})|-cycle;
+\end{tikzpicture}
+\end{center}
+
+\begin{itemize}[<+->]
+\item The error in each slice is at most \quad \color{M4}$\ds\frac{M}{24}\frac{(b-a)^3}{n^3}$
+\item There are $n$ slices
+\item The overall error is at most\quad $n\cdot\ds\frac{M}{24}\frac{(b-a)^3}{n^3}= \color{M4}\ds\frac{M}{24}\frac{(b-a)^3}{n^2}$
+\end{itemize}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------

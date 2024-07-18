@@ -1,0 +1,705 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsA{\ah,\atech}
+ \end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------%----------------------------------------------------------------------------------------
+
+\begin{frame}{1.8 Trigonometric Integrals}
+Recall:
+\begin{itemize}
+\item $\sin^2  x + \cos^2 x = 1$
+\item $\tan^2x+1=\sec^2x$
+\item $\sin^2 x = \frac{1}{2}(1-\cos 2x)$
+\item $\cos^2 x = \frac{1}{2}(1+\cos 2x)$
+\item $\sin(2x)=2\sin x \cos x$
+\end{itemize}\vfill
+\unote{Equations~\eref{text}{eq:TRGINTtrigidentityA}, \eref{text}{eq:TRGINTtrigidentityB}, \eref{text}{eq:TRGINTtrigidentityC}, \eref{text}{eq:TRGINTtrigidentityF}, \eref{text}{eq:TRGINTtrigidentityG}}
+\label{note1.8a}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%\section{Products of sines and cosines}
+\section{1.8.1 Integrating $\int\left(\sin^mx\cos^nx\right)\dee x$}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Integrating Products of Sine and Cosine}
+\sStatusBar{1}{6}
+\AnswerYes<1-2,4-5>
+\sQuestionBar<1-2>{1}{3}
+\nsQuestionBar<1>{1}{3}
+\AnswerBar<3>{1}{3}
+\sQuestionBar<4-5>{2}{3}
+\nsQuestionBar<2>{2}{3}
+\AnswerBar<6->{2}{3}
+\sonslide<2->{Let $\textcolor{M3}{u=\sin x}$, $\textcolor{C3}{\dee u=\cos x \,\dee x}$}
+\begin{align*}
+\int \textcolor<2-|handout:0>{M3}{\sin x} ~\textcolor<2-|handout:0>{C3}{\cos x \,\dee x} &=
+\sonslide<3->{
+\int \textcolor{M3}{u}\,\textcolor{C3}{\dee u} = \frac{1}{2}u^2+C=\frac{1}{2}\sin^2x+C}
+\end{align*}
+\vfill
+\snshonslide{4-}{2}{2}{
+\sonslide<5->{{Let $\textcolor{M3}{u=\sin x}$, $\textcolor{C3}{\dee u=\cos x \,\dee x}$}}
+\begin{align*}
+\int \stextcolor{M3}{\sin}^{10} \stextcolor{M3}{x}~\stextcolor{C3}{ \cos x \,\dee x}&=
+\sonslide<6->{
+\int \textcolor{M3}{u}^{10}\,\textcolor{C3}{\dee u} = \frac{1}{11}u^{11}+C=\frac{1}{11}\sin^{11}x+C}
+\end{align*}}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+\CheckFrame{
+\AnswerBar{1}{3}
+\nsAnswerBar{1}{3}
+If we are correct that $\ds\int \sin x \cos  x ~\dee x =\onslide<beamer>{\frac{\sin^2 x}{2}+C}$, then it should be true that $\diff{}{x}\left\{\onslide<beamer>{\frac{\sin^2 x}{2}+C}\right\}=\sin x\cos x$. }{We differentiate, using the chain rule:
+\begin{align*}
+\diff{}{x}&\left\{\frac{\sin^2 x}{2}+C\right\}=\frac{2}{2}\sin x\cos x=\sin x\cos x
+\end{align*}
+Our answer works.}
+%----------------------------------------------------------------------------------------
+\CheckFrame{
+\AnswerBar{2}{3}
+\nsAnswerBar{2}{3}
+If we are correct that $\ds\int \sin^{10} x \cos  x ~\dee x =\onslide<beamer>{\frac{\sin^{11} x}{11}+C}$, then it should be true that $\diff{}{x}\left\{\onslide<beamer>{\frac{\sin^{11} x}{2}+C}\right\}=\sin^{10} x\cos x$.}{ We differentiate, using the chain rule:
+\begin{align*}
+\diff{}{x}&\left\{\frac{\sin^{11} x}{11}+C\right\}=\frac{11}{11}\sin^{10} x\cos x=\sin^{10} x\cos x
+\end{align*}
+Our answer works.
+}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Integrating Products of Sine and Cosine}
+\sStatusBar{1}{3}
+\AnswerYes<1-2>
+\sQuestionBar<1-2>{3}{3}
+\nsQuestionBar<1>{3}{3}
+\AnswerBar<3>{3}{3}
+\sonslide<2->{Let $\textcolor{M3}{u=\sin x}$, $\textcolor{C3}{\dee u=\cos x ~\dee x}$}
+
+\snshonslide{1-}{1}{1}{\begin{align*}
+\int_{\stextcolor<2->{C4}0}^{\stextcolor<2->{C4}{\frac{\pi}{2}}} \stextcolor<2->{M3}{\sin^{\textcolor{black}{\pi+1}} x}~\stextcolor<2->{C3}{ \cos x ~\dee x} &=
+\sonslide<3->{
+\int_{\textcolor{C4}{\sin(0)}}^{\textcolor{C4}{\sin(\pi/2)}} \textcolor{M3}{u}^{\pi+1}\textcolor{C3}{\dee u }
+= \left.\frac{1}{\pi+2}u^{\pi+2}\right|_0^1\\
+&=\frac{1}{\pi+2}
+}
+\end{align*}}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\CheckFrame{
+\AnswerBar{3}{3}
+\nsAnswerBar{3}{3}
+If we are correct that $\ds\int\sin^{\pi+1} x \cos x  ~\dee x =\onslide<beamer>{\frac{\sin^{\pi+2} x}{\pi+2}+C}$, then it should be true that $\diff{}{x}\left\{\onslide<beamer>{\frac{\sin^{\pi+2} x}{\pi+2}+C}\right\}=\sin^{\pi+1} x\cos x$. }{We differentiate, using the chain rule:\begin{align*}
+\diff{}{x}&\left\{\frac{\sin^{\pi+2} x}{\pi+2}+C\right\}=\frac{\pi+2}{\pi+2}\sin^{\pi+1} x\cos x=\sin^{\pi+1} x\cos x
+\end{align*}
+Our answer works.
+}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Integrating Products of Sine and Cosine}
+\sStatusBar{1}{3}
+\nsStatusBar{1}{2}
+\AnswerYes<1-2> 
+\QuestionBar<1-2>{1}{2}
+\AnswerBar<3>{1}{2}<3>
+Let $\textcolor{M3}{u=\sin x}$, $\textcolor{C3}{\dee u=\cos x ~\dee x}$.\\
+\onslide<2-|handout:0>{ Use~ \textcolor{M4}{$\sin^2x + \cos^2 x =1$}.}
+
+
+\begin{align*}
+\color{black}\int &\color{black}\textcolor{M3}{\sin^{\color{black}10} x} \cos^3 x ~\dee x =\color{C1}\sonslide<3->{\int\textcolor{M3}{\sin^{\color{black}10}x}~{\cos^2 x}~\textcolor{C3}{\cos x ~\dee x} \\
+&= \int\textcolor{M3}{\sin^{10}x}~\textcolor{M4}{(1-\sin^2x)}~\textcolor{C3}{\cos x ~\dee x}\\
+&=\int\textcolor{M3}{u}^{10}(1-\textcolor{M3}{u}^2)~\textcolor{C3}{\dee u}
+=\int (\textcolor{M3}{u}^{10}-\textcolor{M3}{u}^{12})~\textcolor{C3}{\dee u}\\
+&=\frac{1}{11}\textcolor{M3}{u}^{11}-\frac{1}{13}\textcolor{M3}{u}^{13}+C=\frac{\textcolor{M3}{\sin^{\color{black}11} x}}{11}-\frac{\color{M3}\sin^{\color{black}13} x}{13}+C
+}
+\end{align*}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\CheckFrame{
+\AnswerBar{1}{2}
+\nsAnswerBar{1}{2}
+If we are correct that $\ds\int \sin^{10} x \cos^3 x ~\dee x =\onslide<beamer>{\frac{\sin^{11} x}{11}-\frac{\sin^{13} x}{13}+C}$, then it should be true that $\ds\diff{}{x}\left\{\onslide<beamer>{\frac{\sin^{11} x}{11}-\frac{\sin^{13} x}{13}+C}\right\}=\sin^{10}x\cos^3x$. }{We differentiate, using the chain rule:\vfill
+\begin{align*}
+\diff{}{x}&\left\{\frac{\sin^{11} x}{11}-\frac{\sin^{13} x}{13}+C\right\}=\frac{11}{11}\sin^{10}x\cos x-\frac{13}{13}\sin^{12}x\cos x\\
+&=\sin^{10}x\left(1-\sin^2x \right)\cos x=\sin^{10}x\cos^2x\cos x\\
+& = \sin^{10}x\cos^3x
+\end{align*}\vfill
+Our answer works.
+}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Integrating Products of Sine and Cosine}
+\sStatusBar{1}{3}
+\AnswerYes<1-2> 
+\sQuestionBar<1-2>{2}{2}
+\nsQuestionBar{2}{2}
+\AnswerBar<3>{2}{2}
+\sonslide<2->{ $\textcolor{M3}{u=\cos x}$, $\textcolor{C3}{\dee u=-\sin x ~\dee x}$
+ \hspace{1cm} \textcolor{M4}{$\sin^2x + \cos^2 x =1$}.}
+
+
+\begin{align*}
+\color{black}\int &\color{black}\sin^{5} x \cos^4 x ~\dee x =\sonslide<3->{\int(\textcolor{M4}{\sin^{2}x})^2~\textcolor{M3}{\cos^{\color{C1}4} x}~\textcolor{C3}{\sin x \,\dee x }\\
+&= \int(\textcolor{M4}{1-\cos^2x})^2~\textcolor{M3}{\cos^{\color{C1}4} x}~\textcolor{C3}{\sin x \,\dee x}\\
+&=\textcolor{C3}-\int(1-\textcolor{M3}{u}^{2})^2\textcolor{M3}{u}^4\,\textcolor{C3}{\dee u}=-\int(1-2\textcolor{M3}{u}^{2}+\textcolor{M3}{u}^{4})\textcolor{M3}{u}^4\textcolor{C3}{\dee u}
+\\&=-\int (\textcolor{M3}{u}^{4}-2\textcolor{M3}{u}^{6}+\textcolor{M3}{u}^{8})\textcolor{C3}{\dee u}=
+-\frac{\textcolor{M3}{u}^{5}}{5}+\frac{2\textcolor{M3}{u}^{7}}{7}-\frac{\textcolor{M3}{u}^{9}}{9}+C\\
+&=-\tfrac{1}{5}\textcolor{M3}{\cos}^5\textcolor{M3}x+\tfrac{2}{7}\textcolor{M3}{\cos}^7\textcolor{M3}{x}-\tfrac{1}{9}\textcolor{M3}{\cos}^9\textcolor{M3}x+C}
+\end{align*}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\CheckFrame{
+\AnswerBar{2}{2}
+\nsAnswerBar{2}{2}
+If we are correct that $\ds\int \sin^{5} x \cos^4 x ~\dee x =\onslide<beamer>{-\tfrac{1}{5}\cos^5x+\tfrac{2}{7}\cos^7x-\tfrac{1}{9}\cos^9x+C}$, then it should be true that $\ds\diff{}{x}\left\{\onslide<beamer>{-\tfrac{1}{5}\cos^5x+\tfrac{2}{7}\cos^7x-\tfrac{1}{9}\cos^9x+C}\right\}=\sin^{5}x\cos^4x$.}{ We differentiate, using the chain rule:\vfill
+\begin{align*}
+\diff{}{x}&\left\{-\tfrac{1}{5}\cos^5x+\tfrac{2}{7}\cos^7x-\tfrac{1}{9}\cos^9x+C\right\}\\
+&=\frac{5}{5}\cos^4x\sin x - \frac{2\cdot7}{7}\cos^6x \sin x + \frac{9}{9}\cos^8 x \sin x\\
+&=\cos^4 x \sin x \left( 1-2\cos^2x+\cos^4x\right)\\
+&=\cos^4 x \sin x \left( 1-\cos^2x\right)^2=
+\cos^4 x \sin x \left( \sin^2x\right)^2\\&=\sin^5 x \cos^4 x
+\end{align*}
+\vfill
+Our answer works.
+}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}{Generalize: $\displaystyle\int \sin^m x\cos^nbx~\textup{\dee} x$}
+\StatusBar{1}{5}
+To use the substitution \textcolor{M3}{$u=\sin x$},~\textcolor{C3}{ $\dee u=\cos x ~\dee x$}:
+\pause
+\begin{itemize}[<+->]
+\item We need to \textcolor{C3}{reserve} one \textcolor{C3}{$\cos x$} for the differential.
+\item We need to \textcolor{M3}{convert} the remaining \textcolor{M3}{$\cos^{n-1} x$} to \textcolor{M3}{$\sin x$} terms.
+\item We convert using \textcolor{M4}{$\cos^2 x = 1-\sin^2 x$}. To avoid square roots, that means $n-1$ should be \textcolor{M4}{even when we convert}.
+\item \textcolor{W1}{So, we can use this substitution when the original power of cosine, $n$, is ODD: one cosine goes to the differential, the rest are converted to sines.}
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}{Generalize: $\displaystyle\int \sin^m x\cos^nx~\textup{\dee} x$}
+\StatusBar{1}{5}
+To use the substitution \textcolor{M3}{$u=\cos x$},~\textcolor{C3}{ $\dee u=-\sin x ~\dee x$}:
+\pause
+\begin{itemize}[<+->]
+\item We need to \textcolor{C3}{reserve} one \textcolor{C3}{$\sin x$} for the differential.
+\item We need to \textcolor{M3}{convert} the remaining \textcolor{M3}{$\sin^{m-1} x$} to \textcolor{M3}{$\cos x$} terms.
+\item We convert using \textcolor{M4}{$\sin^2 x = 1-\cos^2 x$}. To avoid square roots, that means $ m-1$  should be \textcolor{M4}{even when we convert}.
+\item \textcolor{W1}{So, we can use this substitution when the original power of sine, $m$, is ODD: one sine goes to the differential, the rest are converted to cosines.}
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}{Mnemonic: ``Odd One Out"}
+\[\text{Integrating } \int \sin^m x \cos^n x \ \dee x\]
+\vfill
+If you want to use \textcolor{M3}{$u=\sin x$}, there should be an odd power of \textcolor{C3}{cosine}.
+\vfill
+If you want to use \textcolor{M3}{$u=\cos x$}, there should be an odd power of \textcolor{C3}{sine}.
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\AnswerSpace
+%question
+\only<+>{ 
+\AnswerYes\NoSpace
+\QuestionBar{1}{3}
+\QuestionBar{2}{3}
+\QuestionBar{3}{3}
+Carry out a suitable substitution (but do not evaluate the resulting integral):
+\vfill
+\begin{itemize}
+\item $\ds\int \sin^4 x \cos^7 x \,\dee x$\vfill
+\item $\ds\int \sin^7 x \cos^4 x \,\dee x$\vfill
+\item $\ds\int \sin^7 x \cos^7 x \,\dee x$\vfill
+\end{itemize}
+}\color{C1}
+%-sol1
+\sonly<+>{\AnswerBar{1}{3}
+$\ds\int \sin^4 x \cos^7 x ~\dee x$\\\vfill
+ The power of \textcolor{C3}{cosine} is odd, so it becomes our differential. That is, we use $\textcolor{M3}{u=\sin x}$, $\textcolor{C3}{\dee u=\cos x\, \dee{x}}$.
+\begin{align*}
+&\int \textcolor{M3}{\sin}^4 \textcolor{M3}{x} \cos^7 x \,\dee x
+\\=&\int\textcolor{M3}{\sin}^4\textcolor{M3}x \,(\cos^2x)^3\textcolor{C3}{\cos x\,\dee x}
+ \\=& \int\textcolor{M3}{\sin}^4\textcolor{M3}x \,(1-\textcolor{M3}{\sin}^2 \textcolor{M3}{x})^3\textcolor{C3}{\cos x\,\dee x}
+ \\=&\int \textcolor{M3}u^4(1-\textcolor{M3}u^2)^3\,\textcolor{C3}{\dee u}
+\end{align*}
+}
+%--sol2
+\sonly<+>{
+\AnswerBar{2}{3}
+$\ds\int \sin^7 x \cos^4 x ~\dee x$\\\vfill
+ The power of \textcolor{C3}{sine} is odd, so it becomes our differential. That is, we use 
+ \textcolor{M3}{$u=\cos x$}, \textcolor{C3}{$\dee u=-\sin x\ \dee{x}$}.
+ \begin{align*}
+&\int \sin^7 x\, \textcolor{M3}{\cos}^4 \textcolor{M3}x ~\dee x
+\\=&\int {(\sin^2x)}^3\,\textcolor{M3}{\cos}^4 \textcolor{M3}x\ \textcolor{C3}{\sin x\,\dee x} \\=& \int {(1-\textcolor{M3}{\cos}^2 \textcolor{M3}x)}^3 \textcolor{M3}{\cos}^4\textcolor{M3}x\ \textcolor{C3}{\sin x\,\dee{x}}
+ \\=&\textcolor{C3}-\int {(1-\textcolor{M3}u^2)}^3\textcolor{M3}u^4\,\color{C3} \dee u
+\end{align*}
+}
+%--sol3, two ways
+\sonly<+>{
+\AnswerBar{3}{3}
+$\ds\int \sin^7 x \cos^7 x ~\dee x$\vfill
+\normalsize The powers of sine and cosine are both odd, so we can use either as our differential.\\\vfill
+\setlength\columnseprule{.4pt}\begin{multicols}{2}
+Solution 1:\\  $\textcolor{M3}{u=\sin x}$, $\textcolor{C3}{\dee u=\cos x}$\vfill
+\begin{align*}
+&\int \textcolor{M3}{\sin}^7 \textcolor{M3}x \cos^7 x ~\dee x
+ \\=& \int \textcolor{M3}{\sin}^7\textcolor{M3}x (\cos^2x)^3\textcolor{C3}{\cos x ~\dee x} 
+ \\=& \int\textcolor{M3}{\sin}^7 \textcolor{M3}{x} (1-\textcolor{M3}{\sin}^2\textcolor{M3}{x})^3\color{C3}\cos x ~\dee x \\=& \left.\int \textcolor{M3}u^7(1-\textcolor{M3}u^2)^3\,\textcolor{C3}{\dee u}\right|_{\color{M3}u=\sin x}
+ \end{align*}
+\columnbreak
+
+Solution 2:\\  $\textcolor{M3}{u=\cos x}$, $\textcolor{C3}{\dee u=-\sin x\ \dee{x}}$
+\begin{align*}
+&\int \sin^7 x \textcolor{M3}{\cos}^7\textcolor{M3}x~\dee{x}
+ \\=&\int(\sin^2x)^3\textcolor{M3}{\cos}^7\textcolor{M3}{x}\ \textcolor{C3}{\sin x~\dee x} 
+ \\=& \int (1-\textcolor{M3}{\cos}^2 \textcolor{M3}x)^3\textcolor{M3}{\cos}^7\textcolor{M3}x\ \textcolor{C3}{\sin x~\dee x}
+ \\=\textcolor{C3}{-}&\left.\int (1-\textcolor{M3}u^2)^3\textcolor{M3}u^7\,\textcolor{C3}{\dee u}\right|_{\color{M3}u=\cos x}
+ \end{align*}
+\end{multicols}\setlength\columnseprule{0pt}
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}
+To evaluate $\int \sin^m x \cos ^n x ~\dee x$, we use:
+\begin{itemize}
+\item $u=\sin x$ if $n$ is odd, and/or
+\item $u=\cos x$ if $m$ is odd
+\end{itemize} \vfill
+\textcolor{W1}{What if $n$ and $m$ are both even?}\pause\vfill
+\[\cos^2x=\frac{1+\cos 2x}{2} \hspace{1cm} \sin^2 x = \frac{1-\cos 2x}{2}\]
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>\QuestionBar<1>{1}{2}
+\AnswerBar<2>{1}{2}
+\[\color{W2} \cos^2x=\frac{1+\cos 2x}{2} \hspace{1cm} \sin^2 x = \frac{1-\cos 2x}{2}\]
+
+\begin{align*}
+\int \sin^2 x ~\dee x &= \sonslide<2->{ \int \frac{1-\cos 2x}{2}~\dee x\\
+&=\frac{1}{2}\int (1-\cos 2x)~\dee x \\&= \frac{1}{2}\left(x-\frac12\sin 2x\right)+C}
+\end{align*}
+
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+\CheckFrame{
+\AnswerBar{1}{2}
+\nsAnswerBar{1}{2}
+We check that $\ds\int \sin^2 x ~\dee x = \onslide<beamer>{\frac{1}{2}\left(x-\frac12\sin 2x\right)+C}$ by differentiating:}{
+\begin{align*}
+\diff{}{x}\left\{ \frac{1}{2}\left(x-\frac12\sin 2x\right)+C \right\}&=\frac{1}{2}\left(1-\frac12(\cos 2x)(2) \right)\\
+&=\frac{1-\cos 2x}{2}=\sin^2x
+\end{align*}
+So, our answer works.
+}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>\QuestionBar<1>{2}{2}
+\AnswerBar<2>{2}{2}
+\[\color{W2}\cos^2x=\frac{1+\cos 2x}{2} \hspace{1cm} \sin^2 x = \frac{1-\cos 2x}{2}\]
+
+Evaluate $\ds\int \sin^4 x  ~\dee x$.
+\sonslide<2>{
+\begin{align*}
+\int& \sin^4 x  ~\dee x=\int (\sin^2x)^2~\dee x=\int\left( \frac{1-\cos2x}{2}\right)^2~\dee x\\
+&=\frac{1}{4}\int(1-2\cos2x+\cos^2 2x)~\dee x\\
+&=\frac14\int(1-2\cos2x)~\dee x+\frac14\int \cos^2(2x)~\dee x\\
+&=\frac14\left( x-\sin 2x \right)+\frac14\int\left( \frac{1+\cos(4x)}{2}\right)~\dee x\\
+&=\frac14(x-\sin2x)+\frac18\left(x+\frac14\sin(4x)\right)+C\\
+&=\frac38x-\frac14\sin(2x)+\frac{1}{32}\sin(4x)+C
+\end{align*}
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\CheckFrame{
+\AnswerBar{2}{2}
+\nsAnswerBar{1}{2}
+We want to check that 
+$\ds\int \sin^4 x  ~\dee x=\onslide<beamer>{\frac38x-\frac14\sin(2x)+\frac{1}{32}\sin(4x)+C.}$ }{Note $\sin^2 x = \frac{1-\cos(2x)}{2}$, so $\cos(2x)=1-2\sin^2x$. Also remember $\frac12\sin(2x)=\sin x \cos x$.
+\begin{align*}
+\diff{}{x}&\left\{ \frac38x-\frac14\sin(2x)+\frac{1}{32}\sin(4x)+C\right\}=\frac38-\frac24\cos(2x)+\frac{4}{32}\cos(4x)\\
+&=\frac{3}{8}-\frac12\left(1-2\sin^2x \right)+\frac18\left( 1-2\sin^2(2x)\right)\\
+&=\frac{3}{8}-\frac12+\sin^2x +\frac18-\frac{1}{4}\sin^2(2x)\\
+&=\sin^2x-\left(\frac12\sin 2x \right)^2=\sin^2x-\sin^2x\cos^2x\\
+&=\sin^2x(1-\cos^2x)=\sin^2x(\sin^2x)=\sin^4x
+\end{align*}
+So, our answer works.
+}
+
+%-------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%\section{$\int \left(\sec x \right)\dee x$, $\int \left(\tan x \right)\dee x$}
+\section{1.8.2 Integrating $\int\left( \sec^n x \tan ^m x \right)\dee x$}
+%----------------------------------------------------------------------------------------
+\begin{frame}
+Recall:
+\begin{itemize}
+\item $\diff{}{x}\{\tan x\}=\sec^2 x$
+\item $\diff{}{x}\{\sec x\}=\sec x\ \tan x$
+\item $\tan^2x+1=\sec^2x$
+\end{itemize}\vfill
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>
+\begin{align*}\color{black}
+\int \tan x ~\dee x&=\sonslide<2->{\int\frac{\textcolor{C3}{\sin x}}{\color{M3}\cos x}\textcolor{C3}{~\dee x}\qquad \color{M3}u=\cos x \quad\color{C3}
+\dee  u = - \sin x\ \dee x
+\\&=\textcolor{C3}{-}\int \frac{1}{\textcolor{M3}{u}}~\textcolor{C3}{\dee u}=-\log|\textcolor{M3}u|+C\\&=\log|\textcolor{M3}u^{-1}|+C=\log\left|\frac{1}{\color{M3}\cos x} \right|+C\\&=\log|\sec x|+C}
+\end{align*}
+
+\end{frame}
+%---------------
+\CheckFrame{
+Let's check that $\ds\int \tan x \dee x = \onslide<beamer>{\log|\sec x|+C}$  by differentiating.
+}{\[
+\diff{}{x}\left\{\log|\sec x|+C\right\}=\frac{\sec x \tan x}{\sec x}=\tan x \qquad 
+\]
+So, our answer works.
+}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\sStatusBar{1}{3}
+\nsStatusBar{1}{2}
+\AnswerYes<1-2>
+Optional: A nifty trick -- you won't be expected to come up with it. There is some motivation for the trick in Example \eref{text}{eg:TRGINTopta} in the CLP-2 text.
+\begin{align*}\int \sec x ~\dee x&=\onslide<2->{
+\int \sec x \left(\frac{\sec x + \tan x}{\sec x + \tan x} \right)~\dee x
+}\\
+\sonslide<3->{
+&=\int \left( \frac{\color{C3}\sec^2 x + \sec x \tan x}{\color{M3}\sec x + \tan x}\right)~\color{C3}\dee x\\
+&\hskip0.2in\text{set } \color{M3}u=\sec x+\tan x,\ \color{C3} \dee{u}= (\sec x \tan x+\sec^2 x)\,\dee{x}\\
+&=\int \frac{1}{\color{M3}u}\,\textcolor{C3}{\dee u}=\log|\textcolor{M3}u|+C\\
+&=\log\left| \textcolor{M3}{\sec x + \tan x} \right|+C
+}
+\end{align*}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}
+Useful integrals:\\[1em]
+\begin{itemize}
+\item $\ds\int \tan x ~\dee x=\log\left| \sec x \right|+C$
+\item $\ds\int \sec x ~\dee x=\log\left| \sec x + \tan x \right|+C$
+\end{itemize}
+
+\end{frame}
+%%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>
+
+\begin{enumerate}
+\item $\ds\int \sec x \tan x ~\dee x =\sonslide<2->{\sec x +C}$
+\vfill
+\item $\ds\int \sec^2 x ~\dee x=\sonslide<2->{\tan x +C}$
+\vfill
+\item $\ds\int \tan x ~\dee x=\sonslide<2->{\log|\sec x| +C}$
+\vfill
+\item $\ds\int \sec x ~\dee x=\sonslide<2->{\log|\sec x+\tan x| +C}$
+\end{enumerate}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%%----------------------------------------------------------------------------------------
+%\section{Products of secants and tangents}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\sStatusBar{1}{5}
+\sQuestionBar<1-2>{1}{2}\nsQuestionBar{2}{2}
+\sNoSpace<1-2> \nsNoSpace
+\AnswerBar<3->{1}{2}\AnswerBar<3->{2}{2}
+\AnswerYes<-4>
+
+Evaluate using the substitution rule:\\[1em]
+
+\sonslide<2->{\textcolor{M3}{$u=\tan x$},~ \textcolor{C3}{$\dee u=\sec^2x~\dee x$}\\}
+$\ds\int \stextcolor<2-|handout:0>{M3}{\tan^5 x}~ \stextcolor<2-|handout:0>{C3}{\sec^2 x ~\dee x}=$
+\sonslide<3->{$\ds\int \textcolor{M3}u^5\textcolor{C3}{\dee u}=\frac{1}{6}\textcolor{M3}u^6+C=\frac{1}{6}\textcolor{M3}{\tan}^6\textcolor{M3}x+C$}
+\vfill
+\sonslide<4->{\textcolor{M3}{$u=\sec x$}, \textcolor{C3}{$\dee u=\sec x\tan x~\dee x$}\\}
+$\ds\int \stextcolor<4-|handout:0>{M3}{\sec^4 x}\ (\stextcolor<4-|handout:0>{C3}{\sec x \tan x }) ~\stextcolor<4-|handout:0>{C3}{\dee x=}$\sonslide<5->{
+$\ds\int \textcolor{M3}u^4\textcolor{C3}{\dee u}=\frac{1}{5}\textcolor{M3}u^5+C=\frac{1}{5}\textcolor{M3}{\sec}^5\textcolor{M3}x+C$}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+\CheckFrame{
+\AnswerBar{1}{2}
+\nsAnswerBar{1}{2}
+Let's check that $\ds\int \tan^5 x \sec^2 x ~\dee x=\onslide<beamer>{\frac{1}{6}\tan^6x+C}$ by differentiating.}{
+
+\begin{align*}
+\diff{}{x}\left\{\frac{1}{6}\tan^6x+C\right\}=\frac{6}{6}\tan^5 x \sec^2 x = \tan^5 x \sec^2 x
+\end{align*}
+So, our answer works.}
+%----------------------------------------------------------------------------------------
+\only<beamer>{
+\CheckFrame{
+\AnswerBar{2}{2}
+\nsAnswerBar{2}{2}
+Let's check that $\ds\int \sec^4 x (\sec x\tan x) \,\dee x=\frac{1}{5}\sec^5x+C$ by differentiating.
+}{
+\begin{align*}
+\diff{}{x}\left\{\frac{1}{5}\sec^5x+C\right\}=\frac{5}{5}\sec^4 x\,( \sec x\tan x) = \sec^4 x\,(\sec x \tan x)
+\end{align*}
+So, our answer works.
+}}%repress second blank page for handout
+%----------------------------------------------------------------------------------------%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+Evaluate using the identity $\sec^2 x = 1+ \tan^2 x$\\[1em]
+
+$\ds\int \tan^4 x \sec^6 x ~\dee x=$
+\vfill
+$\ds\int \tan^3 x  \sec^5 x~\dee x=$
+\AnswerYes\NoSpace
+\QuestionBar{1}{2} \QuestionBar{2}{2}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\iftoggle{spoiler}{\begin{frame}<beamer>
+\AnswerBar{1}{2}\color{spoilercolor}
+
+\textcolor{M3}{$u=\tan x$}, \textcolor{C3}{$\dee u=\sec^2x~\dee x$}\\
+ Reserve \textcolor{C3}{$\sec^2x$}, change the rest of the secants to tangents.\\
+\begin{align*}
+\int &\tan^4 x \sec^6 x ~\dee x=
+\int \textcolor{M3}{\tan^4 x} (\sec^2x)^2\textcolor{C3}{\sec^2 x~\dee x}\\
+&=\int \textcolor{M3}{\tan^4 x} (1+\textcolor{M3}{\tan^2 x})^2\textcolor{C3}{\sec^2 x~\dee x}
+=\int \textcolor{M3}u^4  (1+\textcolor{M3}u^2 )^2\color{C3}\dee u\\
+&=\int (\textcolor{M3}u^4+2\textcolor{M3}u^6+\textcolor{M3}u^8)\color{C3}\dee u
+\\&=\frac{1}{5}\textcolor{M3}u^5+\frac{2}{7}\textcolor{M3}u^7+\frac{1}{9}\textcolor{M3}u^9+C\\
+&=\frac{1}{5}\textcolor{M3}{\tan}^5\textcolor{M3}x+\frac{2}{7}\textcolor{M3}{\tan}^7\textcolor{M3}x+\frac{1}{9}\textcolor{M3}{\tan}^9\textcolor{M3}x+C
+\end{align*}
+\end{frame}}{}
+%----------------------------------------------------------------------------------------
+\CheckFrame{\AnswerBar{1}{2} \nsAnswerBar{1}{2}
+Let's check that $\ds\int \tan^4 x \sec^6 x  ~\dee x=\onslide<beamer>{\frac{1}{5}\tan^5x+\frac{2}{7}\tan^7x+\frac{1}{9}\tan^9x+C.}$}{
+
+\begin{align*}
+\diff{}{x}&\left\{ \frac{1}{5}\tan^5x+\frac{2}{7}\tan^7x+\frac{1}{9}\tan^9x+C\right\}\\
+&=\tan^4x\sec^2x+2\tan^6x\sec^2x+\tan^8x\sec^2x\\
+&=\tan^4x\sec^2x(1+2\tan^2 x + \tan^4 x)=\tan^4x\sec^2x(1+\tan^2x)^2\\
+&=\tan^4x\sec^2x(\sec^2 x)^2=\tan^4x\sec^6x
+\end{align*}
+
+So, our answer works.
+}
+%----------------------------------------------------------------------------------------
+\iftoggle{spoiler}{\begin{frame}<beamer>
+\AnswerBar{2}{2}\color{C1}
+\textcolor{M3}{$u=\sec x$}, \textcolor{C3}{$\dee u=\sec x\tan x~\dee x$}\\
+Reserve \textcolor{C3}{$\sec x\tan x$},\\ change the rest of the tangents to secants.\\
+\begin{align*}
+\int &\tan^3 x \sec^5 x ~\dee x=
+\int \tan^2 x ~\textcolor{M3}{\sec^4 x }~\textcolor{C3}{(\sec x \tan x)\,\dee x} \\
+&= \int (\textcolor{M3}{\sec^2 x}-1)\ \textcolor{M3}{\sec^4x}\ \textcolor{C3}{(\sec x \tan x)~\dee x}\\
+&=\int(\textcolor{M3}u^2-1)\textcolor{M3}u^4\,\color{C3}\dee u\\
+& = \int (\textcolor{M3}u^6-\textcolor{M3}u^4)\,\color{C3} \dee u\\
+&=\frac{1}{7}\textcolor{M3}u^7-\frac{1}{5}\textcolor{M3}u^5+C \\
+&= \frac{1}{7}\textcolor{M3}{\sec}^7\textcolor{M3}x-\frac{1}{5}\textcolor{M3}{\sec}^5\textcolor{M3}x+C
+\end{align*}
+\end{frame}}{}
+%----------------------------------------------------------------------------------------
+\only<beamer>{\CheckFrame{\AnswerBar{2}{2}
+Let's check that $\ds\int \tan^3 x \sec^5 x~\dee x= \frac{1}{7}\sec^7x-\frac{1}{5}\sec^5x+C$.}{
+
+\begin{align*}
+\diff{}{x}&\left\{ \frac{1}{7}\sec^7x-\frac{1}{5}\sec^5x+C\right\}=\sec^6x\sec x \tan x - \sec^4 x \sec x \tan x\\
+&=\sec^5 x \tan x (\sec^2 x-1)=\sec^5x \tan x (\tan^2 x)=\tan^3 x\sec^5 x
+\end{align*}
+So, our answer works.
+}}%prevent double blank frame in handout
+%----------------------------------------------------------------------------------------
+\begin{frame}{Choosing a Substitution: $\int \tan^m x \sec^n x ~\textup{\dee} x$}
+\sStatusBar{1}{8}
+\nsStatusBar{1}{6}
+Using  \textcolor{M3}{$u=\sec x$}, \textcolor{C3}{$\dee u=\sec x \tan x~\dee x$}:
+\begin{itemize}
+\onslide<2->{\item Reserve \textcolor{C3}{$\sec x \tan x$} for the differential.\\}
+\onslide<4->{ ($m$, $n$ should each be at least 1)}
+\onslide<3->{\item From the remaining $\tan^{m-1}x\ \sec^{n-1}x$, convert all tangents to secants using \textcolor{M4}{$\tan^2x+1=\sec^2x$}.}\\
+\onslide<5->{($m-1$ should be even, to avoid square roots)}
+\end{itemize}\vfill\color{W1}
+\onslide<6->{To use the substitution $\textcolor{M3}{u=\sec x}$, $\textcolor{C3}{\dee u=\sec x \tan x~\dee x}$ to evaluate $\ds\int \tan^m x \sec^n x ~\dee x$, $n$ should be \fbox{\iftoggle{spoiler}{\sonslide<7->{at least one}}{\hspace{1cm}\vphantom{L}}}, and $m$ should be  \fbox{\iftoggle{spoiler}{\sonslide<8->{odd}}{\hspace{1cm}\vphantom{L}}}.}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}{Choosing a Substitution: $\int\tan^m x \sec^nx ~\textup{\dee} x$}
+\sStatusBar{1}{6}
+\label{note1.8b}
+Using  \textcolor{M3}{$u=\tan x$}, \textcolor{C3}{$\dee u=\sec^2 x ~\dee x$}:
+\begin{itemize}
+\item Reserve \fbox{\textcolor{C3}{\iftoggle{spoiler}{\onslide<2->{$\sec^2x$}}{\phantom{$\qquad\sec^2 x\qquad$}}}} for the differential.\\
+\sonslide<2->{ ($n\ge 2$)}
+\item From the remaining terms, convert all \fbox{\iftoggle{spoiler}{\sonslide<3->{secants}}{\hspace{1cm}\vphantom{L}}} to \fbox{\iftoggle{spoiler}{\sonslide<4->{tangents}}{\hspace{1cm}\vphantom{L}}} using \textcolor{M4}{$\tan^2x+1=\sec^2x$}.\\
+\sonslide<5->{($n-2$ should be even, to avoid square roots)}
+\end{itemize}\vfill\color{W1}
+To use the substitution $\textcolor{M3}{u=\tan x}$, $\textcolor{C3}{\dee u=\sec^2 x~\dee x}$ to evaluate $\ds\int \tan^m x \sec^n~\dee x$, $n$ should be
+ \fbox{\iftoggle{spoiler}{\sonslide<6->{even (and at least 2)}}{\hspace{1cm}\vphantom{L}}}.
+\end{frame}
+%----------------------------------------------------------------------------------------
+%\section{Powers of secants and tangents}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\begin{block}{Evaluating $\int \tan^m x \sec^n ~\dee x$}
+To evaluate $\int \tan^m x \sec^n ~\dee x$, we can use:
+\begin{itemize}
+	\item $u=\sec x$ if $m$ is odd and $n \ge 1$
+	\item $u=\tan x$ if $n$ is even and $n \ge 2$
+\end{itemize} 
+\end{block}\vfill
+Choose a substitution for the integrals below.\vfill
+
+\begin{itemize}
+\item $\ds\int \sec^2 x \tan^3 x ~\dee x$
+\vfill
+\item $\ds\int \sec^2 x \tan^2 x ~\dee x$
+\vfill
+\item $\ds\int \sec^3 x \tan^3 x ~\dee x$
+\vfill
+\end{itemize}
+\foreach \x in {1,2,3}{\QuestionBar{\x}{3}}
+\MoreSpace
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}<beamer>[t]
+\QuestionBar<1>{1}{3}\AnswerYes<1>
+\AnswerBar<2>{1}{3}
+ \[\int \sec^2 x \tan^3 x ~\dee x\]
+\sonslide<2->{
+ Solution 1: $\textcolor{M3}{u=\tan x}$, $\textcolor{C3}{\dee u=\sec^2 x~\dee x}$:
+ \begin{align*}
+ \int \textcolor{C3}{\sec^2} x\, \textcolor{M3}\tan^3  \textcolor{M3}x ~\textcolor{C3}{\dee x}&=\left.\int  \textcolor{M3}u^3\textcolor{C3}{\dee u}\right|_{\color{M3}u=\tan x}
+ \end{align*}
+\vfill
+ Solution 2: $\textcolor{M3}{u=\sec x}$, $\textcolor{C3}{\dee u=\sec x\tan x~\dee x}$:
+ \begin{align*}
+ \int \sec^2 x \tan^3 x ~\dee x&=\int \tan^2 x\, \textcolor{M3}{\sec x}\,\textcolor{C3}{ (\sec x \tan x)~\dee x}\\
+ &=\int (\textcolor{M3}\sec^2 \textcolor{M3}x-1)\,\textcolor{M3}{\sec x} (\sec x \tan x)~\dee x
+ \\&=\left.\int (\textcolor{M3}u^2-1)\,\textcolor{M3}u\,\textcolor{C3}{ \dee u}\right|_{\color{M3}u=\sec x}
+ \end{align*}
+(the rest you can do)}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\QuestionBar<1>{2}{3}\AnswerYes<1>
+\AnswerBar<2>{2}{3}
+ \[\int \sec^2 x \tan^2 x ~\dee x\]
+\sonslide<2->{
+Let $\textcolor{M3}{u=\tan x}$ and $\textcolor{C3}{\dee u=\sec^2 x~\dee x}$.
+\begin{align*}
+\int \textcolor{C3}{\sec^2 x}\, \textcolor{M3}\tan^2\textcolor{M3} x ~\color{C3}\dee x
+&=\int \textcolor{M3}u^2\,\color{C3}\dee u
+\end{align*}
+(the rest you can do)}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\QuestionBar<1>{3}{3}\AnswerYes<1>
+\AnswerBar<2>{3}{3}
+\[\int \sec^3 x \tan^3 x ~\dee x\]
+\sonslide<2->{Let $\textcolor{M3}{u=\sec x}$ and $\textcolor{C3}{\dee u=\sec x\tan x~\dee x}$.
+\begin{align*}
+\int \sec^3 x \tan^3 x ~\dee x&=\int \textcolor{M3}\sec^2\textcolor{M3} x \tan^2 x\, \textcolor{C3}{(\sec x \tan x)~\dee x}
+\\&=\int \textcolor{M3}\sec^2 \textcolor{M3}x (\textcolor{M3}\sec^2 \textcolor{M3}x-1)\color{C3}(\sec x \tan x)~\dee x\\
+&=\int\textcolor{M3} u^2(\textcolor{M3}u^2-1)\,\textcolor{C3}{\dee u}
+\end{align*}
+(the rest you can do)}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+
+\begin{frame}[t]
+\AnswerSpace
+\sStatusBar{1}{3}
+\AnswerYes<1-2>
+\[\text{Evaluate} \int \tan^3 x ~\dee x\onslide<2->{=\int \frac{\sin^3 x}{\cos^3 x}~\dee x}\]
+
+\sonslide<3->{
+Let $\textcolor{M3}{u=\cos x}$, $\textcolor{C3}{\dee{u}=-\sin x\ \dee x}$.
+\begin{align*}&=
+\int\frac{\sin^2x}{\color{M3}\cos^3x}\,\textcolor{C3}{\sin x~\dee x}
+=	\int\frac{1-\textcolor{M3}\cos^2\textcolor{M3}x}{\textcolor{M3}\cos^3\textcolor{M3}x}\color{C3}\sin x~\dee x\\
+&=	\textcolor{C3}-\int\frac{1-\textcolor{M3}u^2}{\textcolor{M3}u^3}\color{C3}\dee u
+\\&=	\int\left(\frac1{\textcolor{M3}u}-\textcolor{M3}u^{-3}\right)\color{C3}\dee u\\
+&=\log|\textcolor{M3}u|+\frac12\textcolor{M3}u^{-2}+C\\
+&=\log|\textcolor{M3}{\cos x}|+\frac12\textcolor{M3}{\sec}^2 \textcolor{M3}{x}+C
+\end{align*}}
+\end{frame}
+%-------------
+\CheckFrame{
+Let's check that $\ds\int \tan^3 x ~\dee x=\onslide<beamer>{\log|\cos x|+\frac12\sec^2 x+C.} $ by differentiating.
+}{
+\begin{align*}
+\diff{}{x}\left\{\log|\cos x|+\frac12\sec^2 x+C\right\}&=\frac{-\sin x}{\cos x}+\frac12(2\sec x) \sec x \tan x\\&=-\tan x + \sec^2 x \tan x\\
+&=-\tan x + (\tan^2 x + 1)\tan x\\& = -\tan x + \tan^3 x +\tan x\\
+&=\tan^3 x
+\end{align*}
+So, indeed, $\ds\int \tan^3 x ~\dee x = \log|\cos x|+\frac12\sec^2 x+C$.
+}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+Generalizing the last example:
+\begin{align*}
+\int \tan^m x \sec^n x \ \dee x&=\onslide<2->{\int\left(\frac{\sin x}{\cos x}\right)^m\left(\frac{1}{\cos x}\right)^n\dee x
+\\&=\int\frac{\sin^mx}{\cos ^{m+ n}x}\dee x \\
+&=\int\left(\frac{\sin^{m-1}x}{\textcolor<3->{M3}{\cos} ^{m+ n}\textcolor<3->{M3}{x}}\right)\textcolor<3->{C3}{\sin x\ \dee x} }
+\end{align*}
+\onslide<3->{To use $\textcolor{M3}{u=\cos x}$, $\textcolor{C3}{\dee u = \sin x\ \dee x}$:}
+\onslide<4->{we will convert $\sin^{m-1}(x)$ into cosines, so $m-1$ must be even, so $m$ must be odd.}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\StatusBar{1}{4}\AnswerSpace
+\AnswerYes<2>\nsAnswerYes<2>\NoSpace<2>
+\begin{block}{Evaluating $\int \tan^m x \sec^n ~\dee x$}
+To evaluate $\int \tan^m x \sec^n ~\dee x$, we can use:
+\begin{itemize}
+	\item $u=\sec x$ if $m$ is odd and $n \ge 1$
+	\item $u=\tan x$ if $n$ is even and $n \ge 2$
+	\item \alert<1|handout:0>{$u=\cos x$ if $m$ is odd}
+	\item<4-|alert@4>{$u=\tan x$ if $m$ is even and $n=0$\\ (after using $\tan^2 x = \sec^2 x - 1$, maybe several times)}
+\end{itemize} 
+\end{block}
+
+\[\text{Evaluate }\int\tan^2 x\ \dee x\]
+\onslide<3-|handout:0>{\color{spoilercolor}
+\begin{align*}
+\int\tan^2 x\ \dee x&=\int(\sec^2 x - 1)\dee x=\tan x + x+ C
+\end{align*}}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
