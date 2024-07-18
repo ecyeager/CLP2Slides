@@ -37,3 +37,6 @@
 src/*lecture.tex
 src/*handout.tex
 src/*full.tex
+
+#in the src folder, ignore pdfs
+Src/*.pdf
