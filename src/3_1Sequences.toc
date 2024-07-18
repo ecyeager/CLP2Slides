@@ -1,2 +1,0 @@
-\beamer@sectionintoc {1}{Introduction to Sequences and Series}{2}{0}{1}
-\beamer@sectionintoc {2}{3.1 Sequences}{7}{0}{2}

@@ -1,1 +1,0 @@
-\beamer@sectionintoc {1}{1.8.3 Optional -- integrating $\qopname \relax o{sec}x$, $\qopname \relax o{csc}x$, $\qopname \relax o{sec}^3 x$, and $\qopname \relax o{csc}^3 x$.}{2}{0}{1}
