@@ -140,20 +140,20 @@ def onesection(sectionnumber,sectionname,slidetype):
 	if slidetype=='lecture' or slidetype=='l':
 		base_filename=sectionnumber+sectionname+'_lecture'
 		texFile=open(os.path.join('src',base_filename)+'.tex','w')
-		texFile.write('\\documentclass[10pt]{beamer} ')
+		texFile.write("\\documentclass[10pt]{beamer} \n\n\\usepackage{header101} \n\\usepackage{header_maps}\n \\settoggle{spoiler}{false}")
 	elif slidetype=='handout' or slidetype=='h':
 		base_filename=sectionnumber+sectionname+'_handout'
 		texFile=open(os.path.join('src',base_filename+'.tex'),'w')
-		texFile.write('\\documentclass[10pt,handout]{beamer} ')
+		texFile.write("\\documentclass[10pt,handout]{beamer}  \n\n\\usepackage{header101} \n\\usepackage{header_maps}\n\\settoggle{spoiler}{false}")
 	elif slidetype=='full' or slidetype=='f':
 		base_filename=sectionnumber+sectionname+'_full'
 		texFile=open(os.path.join('src',base_filename+'.tex'),'w')
-		texFile.write('\\documentclass[10pt]{beamer} \n')
+		texFile.write("\\documentclass[10pt]{beamer} \n\n\\usepackage{header101} \n\\usepackage{header_maps}")
 	else:
 		print('second argument should be "lecture" or "l" for slides to show in class, "handout" or "h" for slides to give to students, or "full" or "f" for slides with solutions')
 
 	#packages and begin{document} common to all types
-	texFile.write('\n\n\\usepackage{header101} \n\\usepackage{header_maps} \n\n\\begin{document} \n\n')
+	texFile.write(' \n\n\\begin{document} \n\n')
 	#input the section contents
 	texFile.write('\\input{sections/'+sectionnumber+'.tex}\n')	
 	#end tex file
