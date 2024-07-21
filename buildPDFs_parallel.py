@@ -32,9 +32,9 @@ print_full = True
 ## To choose which to print, set the following to True or False:
 
 print_sections = True
-print_readme = False
-print_studentworkbook = False
-print_notesonly = False #to compile this, make sure you also compile ALL sections
+print_readme = True
+print_studentworkbook = True
+print_notesonly = True #to compile this, make sure you also compile ALL sections
 
 ## Delete the auxiliary files makes the src directory cleaner
 ## To keep the aux files, set the following to False; to delete them, set it to True:
@@ -87,33 +87,33 @@ number_of_processes = None
 # section number, section name
 section_names_list = [
     ["1_1","Definition"],
-    # ["1_1_7","OptionalDefinition"],
-    # ["1_2","Properties"],
-    # ["1_3","FundamentalTheorem"],
-    # ["1_4","Substitution"],
-    # ["1_5","AreaBetweenCurves"],
-    # ["1_6","Volumes"],
-    # ["1_7","IntegrationByParts"],
-    # ["1_8","TrigIntegrals"],
-    # ["1_8_3","OptionalTrigIntegrals"],
-    # ["1_9","TrigSubstitution"],
-    # ["1_10","PartialFractions"],
-    # ["1_11","NumericalIntegration"],
-    # ["1_11_5","OptionalErrorMidpoint"],
-    # ["1_12","ImproperIntegrals"],
-    # ["2_1","Work"],
-    # ["2_2","Averages"],
-    # ["2_3","CentreOfMass"],
-    # ["2_4","SeparableDiffEq"],
-    # ["2_4_2-2_4_6","OptionalDEApplications"],
-    # ["3_1","Sequences"],
-    # ["3_2","Series"],
-    # ["3_3_1-3_3_3","ConvergenceTests"],
-    # ["3_3_4-3_3_6","ConvergenceTests"],
-    # ["3_4_1","AbsoluteConvergence"],
-    # ["3_4_2","OptionalConditionalConvergence"],
-    # ["3_5","PowerSeries"],
-    # ["3_6","TaylorSeries"]
+    ["1_1_7","OptionalDefinition"],
+    ["1_2","Properties"],
+    ["1_3","FundamentalTheorem"],
+    ["1_4","Substitution"],
+    ["1_5","AreaBetweenCurves"],
+    ["1_6","Volumes"],
+    ["1_7","IntegrationByParts"],
+    ["1_8","TrigIntegrals"],
+    ["1_8_3","OptionalTrigIntegrals"],
+    ["1_9","TrigSubstitution"],
+    ["1_10","PartialFractions"],
+    ["1_11","NumericalIntegration"],
+    ["1_11_5","OptionalErrorMidpoint"],
+    ["1_12","ImproperIntegrals"],
+    ["2_1","Work"],
+    ["2_2","Averages"],
+    ["2_3","CentreOfMass"],
+    ["2_4","SeparableDiffEq"],
+    ["2_4_2-2_4_6","OptionalDEApplications"],
+    ["3_1","Sequences"],
+    ["3_2","Series"],
+    ["3_3_1-3_3_3","ConvergenceTests"],
+    ["3_3_4-3_3_6","ConvergenceTests"],
+    ["3_4_1","AbsoluteConvergence"],
+    ["3_4_2","OptionalConditionalConvergence"],
+    ["3_5","PowerSeries"],
+    ["3_6","TaylorSeries"]
 ]
 
 
