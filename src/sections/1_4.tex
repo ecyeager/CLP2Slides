@@ -1,0 +1,464 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsA{\ad,\atech}
+ \end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section{1.4: Substitution}
+%----------------------------------------------------------------------------------------
+\begin{frame}{Antiderivatives}
+\StatusBar{1}{5}
+Fact:
+\[\diff{}{x}\left\{\sin\left(x^2+x \right) \right\}=\pause \only<beamer>{(2x+1)\cos(x^2+x)}\]\pause\vfill
+Related Fact:
+\[\int(2x+1)\cos(x^2+x)\,\dee x =\onslide<4-|handout:0>{ \sin\left(x^2+x \right)+C} \]\vfill
+\onslide<5-|handout:0>{Hard to guess the antiderivative without seeing the derivative first!}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}{Antiderivatives}
+\StatusBar{1}{3}
+Chain Rule:
+\[\diff{}{x}
+\left\{\sin\Big(\underbrace{\sdu{x^2+x}}_{\mathclap{\text{ inside function}}}\Big) ~~ \right\}=\pause\Big(\underbrace{\sdu{2x+1}}_{\mathclap{\text{\parbox{1.75cm}{derivative of \\[-1mm]inside function}}}}\Big)\cos\Big(\underbrace{\sdu{x^2+x}}_{\text{\makebox[0pt]{ inside function}}}\Big)
+\]\pause\vfill
+Hallmark of the chain rule: an ``inside" function, with that function's derivative multiplied.\\ 
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}{Solve by Inspection}
+$\ds \int 2xe^{x^2+1}\ \dee x$ \sonslide<2->{$=e^{x^2+1}+C$}\vfill
+$\ds\int \frac1x \cos(\log x)\ \dee x $ \sonslide<2->{$=\sin(\log x)+C$}\vfill
+$\ds\int 3(\sin x+1)^2 \cos x\ \dee x $ \sonslide<2->{$=(\sin x + 1)^3+C$} \vfill
+(Look for an ``inside" function, with its derivative multiplied.)
+\AnswerYes<1>
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Undoing the Chain Rule}
+Chain Rule:
+\[\diff{}{x}\left\{ f(u(x))\right\} = f'(u(x))\cdot u'(x) \]
+(Here, $u(x)$ is our ``inside function")\vfill
+Antiderivative Fact:
+\[\int f'(u(x))\cdot u'(x)\ \dee x=f(u(x))+C \]
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}{Undoing the Chain Rule}
+Antiderivative Fact:
+\[\int f'(u(x))\cdot u'(x)\ \dee x=f(u(x))+C \]\vfill\pause
+
+Shorthand: call $\su{u(x)}$ simply $\su{}$;\\
+since $\diff{u}{x}=u'(x)$, call $\sdu{u'(x)\ \dee x}$ simply $\sdu{}$.\pause\vfill
+\[\int f'(\su{u(x)})\cdot \sdu{u'(x)\ \dee x} = \int f'(\su{})\ \sdu{}\Big|_{\su{u=u(x)}}=f\big(\su{u(x)}\big)+C\]\vfill
+This is the \alert{substitution rule}.
+\end{frame}
+%%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+We saw these integrals before, and solved them by inspection. Now try using the language of substitution.
+\vfill
+
+$\ds \int 2xe^{x^2+1}\, \dee x$
+
+ \sonslide<2->{\vfill Using $\su{}$ as shorthand for $\su{x^2+1}$, and $\sdu{}$ as shorthand for $\sdu{2x\,\dee x}$:
+ $\int \sdu{2x}e^{\su{x^2+1}}\, \sdu{\dee x}=\int e^{\su{}}\,\sdu{\dee u }= e^{\su{}}+C
+ = e^{\su{x^2+1}}+C$}
+ \vfill
+ 
+$\ds\int \frac1x \cos(\log x)\, \dee x $ 
+
+\sonslide<2->{\vfill
+Using $\su{}$ as shorthand for $\su{\log x}$, and $\sdu{}$ as shorthand for $\sdu{\frac1x\,\dee x}$:
+$\int \sdu{\frac1x} \cos(\su{\log x})\, \sdu{\dee x} = 
+\int \cos(\su{})\,\sdu{}=\sin(\su{})+C=\sin(\su{\log x})+C$ 
+}
+\vfill
+$\ds\int 3(\sin x+1)^2 \cos x\, \dee x $
+
+ \sonslide<2->{\vfill Using $\su{}$ as shorthand for $\su{\sin x+1}$, and $\sdu{}$ as shorthand for $\sdu{\cos x\,\dee x}$:
+
+$\int 3(\su{\sin x+1})^2 \sdu{\cos x\, \dee x}
+=\int 3\su{}^2\,\sdu{}
+=\su{}^3+C
+=(\su{\sin x + 1})^3+C$} \vfill
+
+\only<1>{\AnswerYes\NoSpace}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%\subsection{Examples Using the Substitution Rule}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\only<-6>{\AnswerYes}
+\StatusBar{1}{9}
+\begin{align*}
+\int (\sdu<3,5-|handout:0>{3x^2})\sin(\su<2,5-|handout:0>{x^3+1})\,\sdu<5-|handout:0>{\dee x} &=
+\onslide<5-|handout:2->{\left.\int \sin(\su{})\,\sdu{\dee u }\right|_{\su{u=x^3+1}}
+\\}
+\onslide<6-|handout:3>{&=\left.-\cos(\su{})+C\right|_{\su{u=x^3+1}}\\}
+\onslide<7-|handout:3>{&=\cos(\su{x^3+1})+C}
+\end{align*}
+
+\onslide<2-|handout:2->{``Inside" function: \su{$x^3+1$}.} \onslide<3-|handout:2->{Its derivative: \sdu{$3x^2$}}
+
+\onslide<4-|handout:2->{Shorthand: $\su{x^3+1 \to u}$,\quad $\sdu{3x^2\,\dee x \to \dee u}$}
+\vfill
+
+\color{W1}
+\begin{overlayarea}{\textwidth}{6 em}
+\only<8|handout:3>{Warning 1: We don't just change $ \dee x$ to $ \dee u$. We need to couple $ \dee x$ with the derivative of our inside function. 
+
+After all, we're undoing the chain rule! We need to have an ``inside derivative."
+\vspace{1em}}
+
+\only<9|handout:3>{Warning 2: The final answer is a function of $x$.}
+\end{overlayarea}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\only<1>{\AnswerYes}\AnswerSpace
+We used the substitution rule to conclude
+\begin{align*}
+\int (3x^2)\sin(x^3+1)\,\dee x &= -\cos(x^3+1)+C
+\intertext{We can check that our antiderivative is correct by differentiating.}
+\sonslide<2-|handout:0>{\diff{}{x}\left\{-\cos(x^3+1)+C\right\}&\color{spoilercolor}=\sin(x^3+1)(3x^2)}
+\end{align*}
+
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%\subsection{Definite Integrals and the Substitution Rule}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<-3>
+\sStatusBar{1}{4}
+We saw:
+\[\int 3x^2\sin(x^3+1)\, \dee x=-\cos(x^3+1)+C\]
+So, we can evaluate:
+\[\int_0^1  3x^2\sin(x^3+1) \,\dee x
+ \sonslide<2->{=\left.-\cos(x^3+1)\right|_0^1
+ =\cos(1)-\cos(2)}\]
+
+\sonslide<3->{Alternately, we can put in the limits of integration as we substitute. The bounds are originally given as values of $x$; we simply change them to values of $u$.
+
+If $\su{u(x)=x^3+1}$, then $\su{u(0)=1}$ and $\su{u(1)=2}$.}
+\sonslide<4->{
+\[
+\underbrace{\int_{0}^{1}}_{x\text{-values}} 3x^2\sin(x^3+1)\,\dee x =\underbrace{\int_{\su{1}}^{\su{2}}}_{u\text{-values}}\sin(\su{})\,\dee u=-\cos(2)+\cos(1)
+\]
+
+}
+\end{frame}
+%------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%\subsection{Notation for Substituting Bounds}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Notation: limits of integration}
+\StatusBar{1}{11}
+
+\[\int_{\pi/4}^{\pi/2} \frac{\cos x}{\sin^3 x}\ \dee x\]\pause
+
+Let $\su{u=\sin x}$, $\sdu{\ \dee u=\cos x \ \dee x}$. Note the limits (or bounds) of integration $\pi/4$ and $\pi/2$ are values of $x$, not $u$: they follow the differential, unless otherwise specified.
+\pause
+
+\begin{tikzpicture}
+%unsubbed
+\draw (0,0) node {$\ds\int_{\su{\pi/4}}^{\su{\pi/2}} \frac{\sdu{\cos x}}{\su{\sin}^3 \su{x}}\sdu{\ \dee x}$};
+\draw[|->] (1.,-.25) -- (1.,-1)-|(-.8,-.75);
+\draw (0,-1.5) node{$x=\frac{\pi}{2}\atop x=\frac{\pi}{4}$};
+
+%
+\begin{scope}[xshift=4cm]%totally subbed
+\onslide<5-7|handout:0>{\draw (0,0) node {$\ds\int_{\su{\pi/4}}^{\su{\pi/2}} \frac{1}{\su{}^3}\sdu{\ \dee u}$};
+\onslide<6-7|handout:0>{\draw[|->] (0.8,-.25) -- (0.8,-1)-|(-.6,-.75);
+	\draw (0,-1.75) node{${u=\frac{\pi}{2}}\atop{u=\frac{\pi}{4}}$};}
+%cross out
+\filldraw[M5, fill opacity=0.1] (-1.25,-2.25) rectangle (1.25,.75);}
+\onslide<7|handout:0>{\draw[ultra thick, M5] (-1.25,-2.25)--(1.25,.75) (-1.25,.75)--(1.25,-2.25);
+\draw[M5] (0,-2.5) node{different};}
+%fixed partial sub
+\onslide<8-|handout:0>{\draw (0,0) node {$\ds\int_{\su{x=\pi/4}}^{\su{x=\pi/2}} \frac{1}{\su{}^3}\sdu{\ \dee u}$};}
+\onslide<9-|handout:0>{\draw (0,-1.75) node{${x=\frac{\pi}{2}}\atop{x=\frac{\pi}{4}}$};}
+%cross out
+\onslide<10|handout:0>{\filldraw[W4, fill opacity=0.1] (-1.5,-2.25) rectangle (1.5,.75);
+\draw[W4!50!black] (0,-2.5) node{not standard, but OK};
+}
+\onslide<10-11|handout:0>{
+\draw[W4!50!black] (-2,0) node{$=$};
+\draw[W4!50!black] (2,0) node{$=$};
+}
+\end{scope}
+%
+
+\onslide<4-|handout:0>{\begin{scope}[xshift=8cm]%partly subbed
+\draw (0,0) node {$\ds\int_{\su{1/\sqrt2}}^{\su{1}} \frac{1}{\su{}^3}\sdu{\ \dee u}$};
+\draw[|->] (0.8,-.25) -- (0.8,-1)-|(-.6,-.75);
+\draw (0,-1.75) node{${u=\sin\left(\frac{\pi}{2}\right)=1}\atop{u=\sin\left(\frac{\pi}{4}\right)=\frac{1}{\sqrt2}}$};
+\end{scope}}
+\end{tikzpicture}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+
+
+
+
+%----------------------------------------------------------------------------------------
+\begin{frame}<beamer>[t]
+\only<1>{\AnswerYes}\AnswerSpace
+\[\int_{\pi/4}^{\pi/2} \frac{\cos x}{\sin^3 x}\ \dee x\]
+
+Let $\su{u=\sin x}$, $\sdu{ \dee u=\cos x \ \dee x}$. 
+
+\color{C1}
+\begin{align*}
+\color{black}\int_{\su{\pi/4}}^{\su{\pi/2}} \frac{\sdu{\cos x}}{\su{\sin}^3 \su{x}}\sdu{\ \dee x}
+&\color{black}=\ds\int_{\su{1/\sqrt2}}^{\su{1}} \frac{1}{\su{}^3}\sdu{\ \dee u}
+\sonslide<2>{\\&=\ds\int_{\su{1/\sqrt2}}^{\su{1}} \su{}^{-3} \sdu{\ \dee u}\\
+&=\left[\frac{1}{-2\su{}^2}\right]_{\su{1/\sqrt2}}^{\su{1}}\\&=-\frac12-(-1)=\frac12}
+\end{align*}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{True or False?}
+\only<1>{\AnswerYes}
+
+\begin{enumerate}
+\item[1.] Using $u= x^2$, \[\ds\int e^{x^2}\ \dee x=\int e^u\ \dee u\]
+\vfill
+\sonslide<2->{False: missing $u'(x)$. \\$ \dee u=(2x\ \dee x) \neq \ \dee x$}
+\item[2.] Using $u=x^2+1$, \[\ds\int_0^1 x\sin(x^2+1)\ \dee x=\int_0^1 \frac12\sin u \ \ \dee u\]
+\sonslide<2->{False: limits of integration didn't translate. \\When $x=0$, $u=0^2+1=1$, and when $x=1$, $u=1^2+1=2$.}
+\end{enumerate}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\only<1>{\AnswerYes} \AnswerSpace
+Evaluate $\ds\int_0^1 x^7\left(x^4+1\right)^5 \, \dee x$.
+\sonslide<2->{
+\begin{align*}
+u&=x^4+1,\ \dee u = 4 x^3\, \dee x \\
+u(0)&=1,\ u(1)=2 \\
+x^4&=u-1,\ x^3\ \dee x= \tfrac14\, \dee u \\
+\int_0^1 x^7\left(x^4+1\right)^5\dee x &=\int_0^1 (x^4)\cdot(x^4+1)^5\cdot x^3\, \dee x\\
+&=\int_1^2(u-1)\cdot u^5 \cdot \tfrac14\, \dee u\\
+&=\tfrac14\int_1^2(u^6-u^5)\,\dee u\\
+&=\tfrac14\left[\tfrac17u^7-\tfrac16u^6\right]_1^2\\
+&=\tfrac14\left[\tfrac{2^7}{7}-\tfrac{2^6}{6}-\tfrac17+\tfrac16\right]
+\end{align*}
+}
+\end{frame}
+%------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+\section{More Substitution Rule Examples}
+\begin{frame}
+Time permitting, more examples using the substitution rule
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\[\text{Evaluate }\int \sin x \cos x\, \dee x.\]
+
+\sonslide<2->{
+Let \su{$u=\sin x$}, \sdu{$\ \dee u=\cos x \ \dee x$}:
+\[\int\su{ \sin x} \,\sdu{ \cos x \ \dee x}=\int\su{}\sdu{\ \dee u}=\frac{1}{2}\su{}^2+C=\frac12\su{\sin}^2\su{x}+C\]
+\vfill
+Or, let \su{$u=\cos x$}, \sdu{$\dee u=-\sin x \ \dee x$}:
+\[\int\su{ \cos x} \,\sdu{ \,\sin x \ \dee x}=\sdu{-}\int\su{}\sdu{\ \dee u}=-\frac{1}{2}\su{}^2+C=-\frac12\su{\cos}^2\su{x}+C\]
+\vfil
+Recall $\sin^2 x + \cos^2 x = 1$ for all $x$, so $\frac12\sin^2 x = -\frac12\cos^2x+\frac12$. The two answers look different, but they only differ by a constant, which can be absorbed in the arbitrary constant $C$. If we rename the second $C$ to $C'$ so that the second answer is $-\frac12{\cos}^2x+C'$, then $C'=C+\frac{1}{2}$.
+}
+
+\QuestionBar<1>{1}{7}
+\AnswerBar<2>{1}{7}
+\end{frame}
+%------------------------------
+%------------------------------
+\checkframe{\label{note1.4a}
+\AnswerBar{1}{7}
+
+We can check that $\ds\int \sin x \cos x \ \dee x = \onslide<beamer>{\frac{1}{2}\sin^2 x +C}$ by differentiating.
+
+{\sonslide<2->{\begin{align*}
+\diff{}{x}\left\{\frac12\sin^2x+C\right\}&=\frac{2}{2}\sin x \cdot \cos x = \sin x \cos x
+\end{align*}
+Our answer works.}}\vfill
+
+We can check that $\ds\int \sin x \cos x \ \dee x = \onslide<beamer>{-\frac{1}{2}\cos^2 x +C}$ by differentiating.
+\sonslide<2->{\begin{align*}
+\diff{}{x}\left\{-\frac12\cos^2x+C\right\}&=-\frac{2}{2}\cos x \cdot (-\sin x) = \sin x \cos x
+\end{align*}
+This answer works too.}
+}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\[\text{Evaluate }\int \frac{\log x}{3x} \ \dee x.\]
+
+\sonslide<2->{
+Let \su{$u=\log x$}, \sdu{$\ \dee u=\frac1x \ \dee x$}:
+\begin{align*}
+\int \frac{\su{\log x}}{3}\cdot\sdu{ \frac1x \ \dee x}&=\frac13\int {\su{}}\ \sdu{\ \dee u}
+\\&=\frac16{\su{u}^2}+C
+\\&=\frac16{\su{\log}^2 \su{x}}+C\end{align*}
+}
+
+
+\AnswerYes<1>\QuestionBar<1>{2}{7}
+\AnswerBar<1>{2}{7}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%------------------------------
+\CheckFrame{
+\AnswerBar{2}{7}
+
+We can check that $\ds\int \frac{\log x}{3x} \ \dee x =\onslide<beamer>{ \frac16\log^2x +C$} by differentiating.}{
+\begin{align*}
+\diff{}{x}\left\{\frac16\log^2x+C\right\}&=\frac26\log x\cdot\frac1x=\frac{\log x}{3x}
+\end{align*}
+Our answer works.
+}
+
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+%------------------------------
+\begin{frame}[t]
+\AnswerYes<1>\QuestionBar<1>{3}{7}\QuestionBar<1>{4}{7}\NoSpace<1>
+\AnswerBar<2>{3}{7}
+\AnswerBar<3>{4}{7}
+
+\[\text{Evaluate }\int\frac{e^x}{e^x+15} \ \dee x.\]\vfill
+
+\sonly<2>{
+Let \su{$u=e^x+15$, $\sdu{\ \dee u=e^x\ \dee x}$}
+\[\int\frac{\sdu{e^x}}{\su{e^x+15}} \ \sdu{\dee x}=\int\frac{1}{\su{}} \ \sdu{}=\log|\su{}|+C=\log|\su{e^x+15}|+C\]
+In this case, since $e^x+15>0$, the absolute values on $|e^x+15|$ are optional.
+\vfill}
+
+
+\[\text{Evaluate }\int x^4(x^5+1)^8 \ \dee x.\]\vspace{1em}
+\sonly<3->{
+Let \su{$u=x^5+1$}, $\sdu{\ \dee u=5x^4\ \ \dee x}$. Then, \sdu{$x^4\ \dee x=\frac{1}{5}\ \dee u$}.
+
+\begin{align*}
+\int \sdu{x^4}(\su{x^5+1})^8 \sdu{\ \dee x}&=\int \sdu{\frac15}(\su{})^8 \sdu{\ \dee u}\\&=\frac{1}{5}\cdot\frac19\su{}^9+C=\frac{1}{45}\su{(x^5+1)}^9+C\end{align*}
+}
+
+\end{frame}
+%------------------------------
+\checkframe{
+\AnswerBar{3}{7}\AnswerBar{4}{7}
+
+We can check that $\ds\int \frac{e^x}{e^x+15} \ \dee x =\onslide<beamer>{ \log|e^x+15| +C}$ by differentiating.
+{\sonslide<2->{\begin{align*}
+\diff{}{x}\left\{\log|e^x+15| +C\right\}&=\frac{1}{e^x+15}\cdot e^x=\frac{e^x}{e^x+15}
+\end{align*}
+Our answer works.}}
+\vfill
+We can check that $\ds\int x^4(x^5+1)^8 \ \dee x =\onslide<beamer>{ \frac{1}{45}(x^5+1)^9 +C}$ by differentiating.
+\sonslide<2->{\begin{align*}
+\diff{}{x}\left\{\frac{1}{45}(x^5+1)^9 +C\right\}&=\frac{9}{45}(x^5+1)^8\cdot5x^4=(x^5+1)^8x^4
+\end{align*}
+Our answer works.
+}
+}
+
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>\QuestionBar<1>{5}{7}
+\AnswerBar<2>{5}{7}
+Evaluate $\ds\int_4^8 \frac{s}{s-3}\,\dee s$. Be careful to use correct notation.
+\vfill
+
+\sonslide<2->{Let $u=s-3$, $\sdu{\dee u=\dee s}$.\\
+Then $s=u+3,\ u(4)=1$ and $u(8)=5$.
+\begin{align*}
+\int_{4}^{8} \frac{s}{s-3}\,\sdu{\dee s}&=
+\int_{1}^{5}\frac{u+3}{u}\,\sdu{}\\
+&=
+\int_{1}^{5}\left(1+\frac3{u} \right)\,\sdu{}\\
+&=\left[u+3\log|u| \right]_{1}^{5}
+\\&=\left[5+3\log5 \right]-\left[1+3\log1 \right]\\
+&=4+3\log5
+\end{align*}\vfill}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>\QuestionBar<1>{6}{7}
+\AnswerBar<2>{6}{7}
+
+
+\[\text{Evaluate }\int x^9(x^5+1)^8 \ \dee x.\]
+
+\sonslide<2>{
+Let $u=x^5+1$, \sdu{$\dee u=5x^4\ \dee x$}.\\
+Then \sdu{$ x^4\ \dee x=\frac{1}{5}\,\dee u$}, $x^5=u-1$.
+\begin{align*}
+\int x^9&(x^5+1)^8 \ \dee x=\int\sdu{(x^4)}\cdot(x^5)\cdot (x^5+1)^8\sdu{\ \dee x}\\
+&=\int \sdu{ \left(\frac15\right)}\cdot(u-1)\cdot u^8\ \sdu{}=\frac15\int(u^9-u^8)\ \dee u\\
+&=\frac{1}{5}\left[ \frac{1}{10}u^{10}-\frac19u^9\right]+C\\&=\frac{1}{5}\left[ \frac{(x^5+1)^{10}}{10}-\frac{(x^5+1)^9}{9}\right]+C
+\end{align*}
+}
+
+
+\end{frame}
+%%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\CheckFrame{\AnswerBar{6}{7}
+We can check that $\ds\int x^9(x^5+1)^8 \ \dee x=\onslide<beamer>{\frac{1}{5}\left[ \frac{(x^5+1)^{10}}{10}-\frac{(x^5+1)^9}{9}\right]+C}$\\ by differentiating.}{
+\begin{align*}
+\diff{}{x}&\left\{ \frac{1}{5}\left[ \frac{(x^5+1)^{10}}{10}-\frac{(x^5+1)^9}{9}\right]+C\right\}
+\\&=\frac{1}{5}\left[ (x^5+1)^9\cdot5x^4-(x^5+1)^8\cdot5x^4\right]
+\\&= x^4(x^5+1)^9-x^4(x^5+1)^8 \\
+&=x^4(x^5+1)^8\big[(x^5+1)-1\big]\\
+&=x^4(x^5+1)^8[x^5]\\
+&=x^9(x^5+1)^8
+\end{align*}
+Our answer works.
+}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Particularly Tricky Substitution}
+\AnswerYes<1>\QuestionBar<1>{7}{7}
+\AnswerBar<2>{7}{7}
+
+
+\[\text{Evaluate }\int\frac{1}{e^x+e^{-x}}\ \dee x.\]
+\sonslide<2>{
+
+Let $\su{u=e^{x}}$, $\ \sdu{\dee u = e^x\,\dee x}$. Then $\sdu{\dee x=\frac{\dee u}{e^x}=\frac{\dee u}{u}}$.
+\begin{align*}
+\int\frac{1}{\su{e^x}+\su{e^{-x}}}\ \sdu{\dee x}
+&=\int\frac{1}{\su{}+\frac{1}{\su{}}}\ \sdu{\frac{\dee u}{u}}
+\\&=\int\frac{1}{\su{}^2+1}\ \sdu{}
+\\&=\arctan(\su{})+C\\
+&=\arctan(\su{e^x})+C
+\end{align*}
+}
+
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+\CheckFrame{\AnswerBar{7}{7}
+
+We can check that $\ds\int\frac{1}{e^x+e^{-x}}\ \dee x=\onslide<beamer>{\arctan(e^x)+C}$ by differentiating.}{
+\begin{align*}
+\diff{}{x}\left\{\arctan(e^x)+C \right\}&=\frac{1}{(e^x)^2+1}\cdot e^x
+\\&=\frac{e^x}{(e^x)^2+1}\\&=\frac{e^x}{(e^x)^2+1}\cdot\frac{e^{-x}}{e^{-x}}\\&=\frac{1}{e^x+e^{-x}}
+\end{align*}
+Our answer works.
+}
+
+%----------------------------------------------------------------------------------------

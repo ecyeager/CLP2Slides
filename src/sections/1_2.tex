@@ -1,0 +1,596 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsA{\ab,\aintro}
+ \end{frame}
+
+%--------------------------------------------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section[1.2 Basic Properties]{1.2 Basic Properties of the Definite Integral}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------------------------------------------
+\begin{frame}
+We defined the definite integral using a limit and a sum.
+\vfill
+\begin{block}{Definition}
+Let $a$ and $b$ be two real numbers and let $f(x)$ be a function that is defined for all $x$ between $a$ and $b$. Then we define $\Delta x = \frac{b-a}{N}$ and
+\[{\int_a^b} f(x) \,\dee x = \lim_{N \to \infty} \sum_{i=1}^N\, f({x_{i,N}^*})\cdot \Delta x\]
+when the limit exists and when the choice of $x_{i,N}^*$ in the $i^{\rm th}$ interval doesn't matter. 
+\end{block}
+\vfill
+Many of the operations that work nicely with sums and limits will also work nicely with integrals.
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{Adding (and Subtracting) Functions}
+\StatusBar{1}{6}
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{0}{6.2}{y}{0}{4}
+\draw[thick, C1] plot[domain=0:6,smooth](\x,{sin(\x r)+1.25}) node[right]{$f(x)$};
+\onslide<1-2|handout:0>{\draw[thick, M1] plot[domain=0:6,smooth](\x,{cos(\x*2 r)+1.25})node[right]{$g(x)$};}
+\onslide<2->{\draw[thick, W1] plot[domain=0:6,smooth](\x,{sin(\x r)+1.25+cos(\x*2 r)+1.25})node[right]{$f(x)+g(x)$};}
+
+\onslide<3|handout:1>{\filldraw[C1,fill opacity=0.5] (1,2.09) rectangle (.75,0)node[below,opacity=1]{$A=f(x)\cdot \Delta x$};}
+\onslide<4|handout:2>{\filldraw[fill opacity=0.5] (1,2.93) rectangle (.75,2.09)node[below,opacity=1,fill=white,yshift=-3mm]{$A=g(x)\cdot \Delta x$};}
+
+\onslide<5-|handout:3->{
+	\fill[W1,opacity=0.5] (0,1.25) --plot [domain=0:6,smooth](\x,{sin(\x r)+2.5+cos(2*\x r)})--plot[domain=6:0](\x,{sin(\x r)+1.25})--(0,1.25);
+	\fill[C1,opacity=0.5] (0,0)--plot[domain=0:6,smooth](\x,{sin(\x r)+1.25})|-cycle;
+\foreach \x in {0,0.25,...,5.75}{
+	\ADD{.125}{\x}{\mx}%midpoint
+	\SIN{\mx}{\sx}
+	\ADD{\sx}{1.25}{\fx}
+	\MULTIPLY{\mx}{2}{\xx}
+	\COS{\xx}{\cx}
+	\ADD{\cx}{1.25}{\gx}
+	\ADD{\fx}{\gx}{\fgx}
+	\draw[C1,fill=C1,fill opacity=0.5] (\x,0) rectangle (\x+.25,\fx);
+	\draw[M1,fill=M1,fill opacity=0.25] (\x,\fx) rectangle (\x+.25,\fgx);
+	}}
+\end{tikzpicture}
+\end{center}
+\onslide<5-|handout:3->{\[\int_a^b \big( f(x)\only<5|handout:-3>{+}\only<6|handout:4>{-}g(x) \big)\dee x = \int_a^b f(x)\,\dee x \only<5|handout:-3>{+}\only<6|handout:4>{-}\int_a^b g(x) \,\dee x \]}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}{Multiplying a Function by a Constant}
+\StatusBar{1}{4}
+\begin{center}
+\begin{tikzpicture}[yscale=0.8]
+\myaxis{x}{0}{7.2}{y}{2.5}{3}
+\draw[thick, C1] plot[domain=0:7,smooth](\x,{sin(\x r)+.25}) node[right]{$f(x)$};
+\draw[thick, W1] plot[domain=0:7,smooth](\x,{3*(sin(\x r)+.25)}) node[right]{$3\cdot f(x)$};
+
+\onslide<2-3|handout:1>{
+	\draw[C1,fill=C1,fill opacity=0.5] (1.375,1.25) rectangle (1.625,0);
+	\draw[C1](1.51,0) node[below]{$A=f(x) \cdot \Delta x$};
+	}
+\onslide<3|handout:2>{
+	\draw[W1,fill=W1,fill opacity=0.5] (1.375,3.75) rectangle (1.625,0);
+	\draw[W1](1.5,3.75) node[above]{$A=3\cdot f(x) \cdot \Delta x$};
+	}
+
+\end{tikzpicture}
+\end{center}
+\onslide<4-|handout:2>{\[\int_a^b  c\cdot f(x) ~\dee x = c\int_a^b f(x)~\dee x  \]}
+\end{frame}
+%--------------------------------------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}{Arithmetic of Integration}
+When $a$, $b$, and $c$ are real numbers, and the functions $f(x)$ and $g(x)$ are integrable on an interval containing $a$ and $b$:\vfill
+
+\begin{enumerate}[(a)]
+\item $\displaystyle\int_a^b [f(x)+g(x)]\, \dee x = \int_a^b f(x)\,  \dee x + \int_a^b g(x)\, \dee x$\vfill
+\item $\displaystyle\int_a^b [f(x)-g(x)]\, \dee x = \int_a^b f(x)\,  \dee x - \int_a^b g(x)\, \dee x$\vfill
+\item $\displaystyle \int_a^b c\cdot f(x)\, \dee x = c\int_a^b f(x)\,  \dee x$\quad when $c$ is constant
+\end{enumerate}
+
+\unote{Therorem~\eref{text}{thm:Intarith}: Arithmetic of Integration}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%-----------------------------------------------------------------------------------------
+\begin{frame}[t]{Arithmetic of Integration}
+\AnswerYes<1>\QuestionBar<1>{1}{1}\NoSpace<1>
+\AnswerBar<2>{1}{1}
+
+Suppose $\ds\int_{-1}^1f(x)~\dee x=-6$ and $\ds\int_{-1}^1g(x)~\dee{x}=10$.\vfill
+
+\begin{tikzpicture}
+\myaxis{x}{2.2}{2.2}{y}{1.}{1.25}
+\xcoord{-2}{-1} \xcoord{2}{1}
+\draw[very thick] plot[domain=-2:2,smooth](\x,{-cos(\x r)*0.5-0.25})node[above,yshift=2mm]{$f(x)$};
+\fill[color=W4, opacity=0.5] (-2,0)--plot[domain=-2:2,smooth](\x,{-cos(\x r)*0.5-0.25})|-cycle;
+\draw[W4!50!black] (.25,-.5) node{$-6$};
+
+\begin{scope}[xshift=5.5cm]
+\myaxis{x}{2.2}{2.2}{y}{1.}{1.25}
+\draw[very thick] (-2,0) to[out=45,in=135](0,1) to[out=-45, in=180] (2,.5)node[above]{$g(x)$};
+\fill[color=C4, opacity=0.5] (-2,0) to[out=45,in=135](0,1) to[out=-45, in=180] (2,.5)|-cycle;
+\draw[C1] (-.5,.5) node{$10$};
+\xcoord{-2}{-1} \xcoord{2}{1}
+\end{scope}
+\end{tikzpicture}
+
+\[
+\int_{-1}^{1}\left(2\,f(x)+g(x)\right)\dee x = \sonslide<2->{
+2\int_{-1}^1 f(x)\,\dee x + \int_{-1}^1 g(x)\, \dee x = 2(-6)+10=-2}\nsonslide<1>{\hspace{5cm}}\]
+\vfill
+\end{frame}
+
+%-----------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{Interval of Integration}
+\AnswerYes<1>
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{0}{6.2}{y}{0}{4}
+\draw[thick, W1] plot[domain=0:6,smooth](\x,{sin(\x r)+1.25+cos(\x*2 r)+1.25})node[right]{$f(x)$};
+\xcoord{3}{a}
+\onslide<2->{\draw[W1,thick,opacity=0.5] (3,0)--(3,3.6);}
+\end{tikzpicture}
+\end{center}
+\[\int_a^a f(x)~\dee x = \onslide<2-|handout:0>{0}\]
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%%----------------------------------------------------------------------------------------
+\begin{frame}{Interval of Integration}
+\StatusBar{1}{2}
+\AnswerYes<1>
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{0}{6}{y}{0}{4}
+\draw[thick, W1] plot[domain=0:6,smooth](\x,{sin(\x r)+2.25+cos(\x*2 r)})node[right]{$f(x)$};
+\xcoord{1}{a} \xcoord{5}{b} \xcoord{3}{c}
+
+\fill[W1,opacity=0.5] (1,0)--plot[domain=1:3,smooth](\x,{sin(\x r)+2.25+cos(\x*2 r)})|-cycle;
+\fill[C1,opacity=0.5] (3,0)--plot[domain=3:5,smooth](\x,{sin(\x r)+2.25+cos(\x*2 r)})|-cycle;
+\end{tikzpicture}
+\end{center}
+What rule do you think is being illustrated?
+\onslide<2|handout:0>{
+\[\int_a^b f(x)\,\dee x=\int_a^c f(x)\,\dee x+\int_c^b f(x)\,\dee x\]}
+
+\end{frame}
+
+%--------------------------------------------------------------------------------------------------------------------
+\begin{frame}[t]{What happens in $\int_a^b f(x)~\textup{\dee}{x}$ when $b<a?$}
+\StatusBar{1}{5}
+\centering
+\begin{tikzpicture}[yscale=0.5]
+\myaxis{x}{1}{7}{y}{1}{3}
+\draw[very thick] plot[domain=-1:7,smooth](\x,{1+2*sin(\x r)})node[right]{$y=f(x)$};
+\xcoord{1}{b} \draw(5,-.2)--(5,.2)node[above]{$a$};
+\fill[W1, opacity=0.5] (1,0)--plot[domain=1:3.67,smooth](\x,{1+2*sin(\x r)})--(3.67,0)--cycle;
+\fill[C4, opacity=0.5] (3.67,0)--plot[domain=3.67:5,smooth](\x,{1+2*sin(\x r)})--(5,0)--cycle;
+\onslide<3->{
+\foreach \x in {1.5,2,...,4.5}{\xcoord{\x}{}}
+}
+\onslide<4->{
+\draw[decorate,decoration={brace, amplitude=7pt,mirror}] (2,-.3)--(2.5,-.3)node[midway,yshift=-5mm]{$\Delta x$};}
+
+\onslide<5->{
+	\foreach \x in {1,1.5,...,3.5}{
+		\draw[fill=W1,fill opacity=0.5] (\x,0) rectangle ({\x+.5},{2*sin(\x r)+1});}
+	\foreach \x in {4,4.5}{
+		\draw[fill=C4, fill opacity=0.5] (\x,0) rectangle ({\x+.5},{2*sin(\x r)+1});
+		}}
+
+\end{tikzpicture}
+
+\vfill
+
+\onslide<2-|handout:0>{Choose a number of intervals, $n$.\\}
+\onslide<4-|handout:0>{The (signed) width of each interval is $\Delta x = \frac{b-a}{n}$, \alert{which is negative}}
+\vfill 
+
+\begin{align*}
+\int_a^b f(x)\,\dee x &= \lim_{n\to\infty}\sum_{i=1}^n f(x_{i,n}^*)\cdot\alert<-4>{\frac{b-a}{n}}\\
+\only<1>{\intertext{This is the definition of a definite integral \textit{whether or not} $a<b$.}}
+& \onslide<5-|handout:0>{= \lim_{n\to\infty}\sum_{i=1}^n f(x_{i,n}^*)\left(-\frac{a-b}{n}\right)=-\int_b^af(x)\,\dee x}
+\end{align*}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------------------------------------------
+\begin{frame}[t]{Property of Definite Integrals}
+\StatusBar{1}{2}
+\[\int_{\alert{a}}^b f(x)\,\dee x=-\int_b^{\alert{a}} f(x)\,\dee x\]
+\vfill
+
+As strictly a measure of area, not usually a super useful fact -- but helps later when we do arithmetic with integrals.
+\pause\vfill
+
+It's also useful that the definition works without having to worry about which limit of integration ($a$ or $b$) is larger.
+%\unote{Therorem~\eref{text}{thm:Intdomain}: Arithmetic for the Domain of Integration}
+\end{frame}
+%--------------------------------------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}{Arithmetic for Domain of Integration}
+When $a$, $b$, and $c$ are constants, and $f(x)$ is integrable over a domain containing all three:
+\vfill
+\begin{enumerate}[(a)]
+\item $\displaystyle\int_a^a f(x)\, \dee x=0$\\
+\hspace{3cm}\smash{\begin{tikzpicture}[yscale=0.1] \myaxis{}{0}{2.2}{}{0}{5}
+\draw[thick, W1] plot[domain=0:2,smooth](\x,{sin(\x r)+1.25+cos(\x*2 r)+1.25});
+\xcoord{1.5}{a}
+\draw[W1,thick,opacity=0.5] (1.5,0)--(1.5,2.7);\end{tikzpicture}}
+\vfill\vfill
+
+\item $\displaystyle\int_a^b f(x)\, \dee x=-\int_b^a f(x)\ \dee x$ \hspace{1cm} \textcolor{W1}{$\displaystyle  \Delta x = \frac{b-a}{n} = -\frac{a-b}{n}$}
+\vfill\vfill
+
+\item $\displaystyle\int_a^b f(x)\, \dee x = \int_a^{\textcolor{M4}c} f(x)\ \dee x + \int_{\textcolor{M4}c}^b f(x)\, \dee x$ for constant $\textcolor{M4}c$\\
+\hfill \begin{tikzpicture}[yscale=0.1]
+\myaxis{}{0}{6}{}{0}{4}
+\draw[thick, W1] plot[domain=0:6,smooth](\x,{sin(\x r)+2.25+cos(\x*2 r)});
+\xcoord{1}{a} \xcoord{5}{b} \xcoord{3}{c}
+
+\fill[W1,opacity=0.5] (1,0)--plot[domain=1:3,smooth](\x,{sin(\x r)+2.25+cos(\x*2 r)})|-cycle;
+\fill[C1,opacity=0.5] (3,0)--plot[domain=3:5,smooth](\x,{sin(\x r)+2.25+cos(\x*2 r)})|-cycle;
+\end{tikzpicture}
+
+\end{enumerate}
+
+\unote{Therorem~\eref{text}{thm:Intdomain}: Arithmetic for the Domain of Integration}
+\end{frame}
+%------------------------------------------------------------------------------------------------------------------------------------
+
+
+%-----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>\QuestionBar<1>{1}{2}\NoSpace<1>
+\AnswerBar<2>{1}{2}
+
+Suppose $\ds\int_{-1}^0f(x)\,\dee x=1$, $\ds\int_{0}^1f(x)\,\dee x=-3$, and $\ds\int_{-1}^1g(x)\,\dee x=10$.
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{2.2}{2.2}{y}{1}{1.4}
+\xcoord{-2}{-1} \xcoord{2}{1}
+\draw[very thick] (-2,0) to[out=45,in=135](0,0) to[out=-45, in=180] (2,-1) node[below]{$f(x)$};
+\fill[color=W4, opacity=0.5] (-2,0) to[out=45,in=135](0,0)--cycle;
+\draw[W4!50!black] (-1,.75) node{$1$};
+\fill[color=W3, opacity=0.5] (0,0) to[out=-45,in=180] (2,-1)|-cycle;
+\draw[W3!50!black] (1,.25) node{$-3$};
+
+\begin{scope}[xshift=5.5cm]
+\myaxis{x}{2.2}{2.2}{y}{1}{1.4}
+\draw[very thick] (-2,0) to[out=45,in=135](0,1) to[out=-45, in=180] (2,.5)node[above]{$g(x)$};
+\fill[color=C4, opacity=0.5] (-2,0) to[out=45,in=135](0,1) to[out=-45, in=180] (2,.5)|-cycle;
+\draw[C1] (-.5,.5) node{$10$};
+\xcoord{-2}{-1} \xcoord{2}{1}
+\end{scope}
+\end{tikzpicture}
+\end{center}
+%
+\begin{align*}
+\int_{-1}^{1}\left(2f(x)+g(x)\right)\dee x &=\nsonslide{\hspace{5cm}} \sonslide<2->{
+2\left[\int_{-1}^0 f(x)~\dee x+\int_{0}^1 f(x)~\dee x\right]+\int_{-1}^1 g(x)~\dee x\\
+&\color{spoilercolor}=2\left[1-3\right]+10=6
+}\end{align*}
+\end{frame}
+
+%-----------------------------------------------------------------------
+
+%-----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>\QuestionBar<1>{2}{2}\NoSpace<1>
+\AnswerBar<2>{2}{2}
+
+Suppose $\ds\int_{-1}^0f(x)\,\dee x=1$ and $\ds\int_{0}^1f(x)\,\dee x=-3$.
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{2.2}{2.2}{y}{1}{1.4}
+\xcoord{-2}{-1} \xcoord{2}{1}
+\draw[very thick] (-2,0) to[out=45,in=135](0,0) to[out=-45, in=180] (2,-1) node[below]{$f(x)$};
+\fill[color=W4, opacity=0.5] (-2,0) to[out=45,in=135](0,0)--cycle;
+\draw[W4!50!black] (-1,.75) node{$1$};
+\fill[color=W3, opacity=0.5] (0,0) to[out=-45,in=180] (2,-1)|-cycle;
+\draw[W3!50!black] (1,.25) node{$-3$};
+\end{tikzpicture}
+\end{center}
+
+\[
+\int_{-1}^{3}f(x)\,\dee x + \int_3^{0} f(x)\,\dee x = \sonslide<2->{\int_{-1}^{0}f(x)\,\dee x=1}\nsonly<1>{\hspace{6cm}}\]
+%
+\end{frame}
+
+%-----------------------------------------------------------------------
+%-----------------------------------------------------------------------
+
+%--------------------------------------------------------------------------------------------------------------------
+\section{1.2.1 Even and Odd Functions}
+%--------------------------------------------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------------------------------------------
+\begin{frame}[t]
+\label{note1.2a}
+\begin{block}{Even and Odd Functions}
+\StatusBar{1}{3}
+Let $f(x)$ be a function.
+\begin{itemize}
+\item We say $f(x)$ is \alert{even} when $f(x)=f(-x)$ for all $x$, and 
+\item we say $f(x)$ is \alert{odd} when $f(x)=-f(-x)$ for all $x$.
+\end{itemize}
+\end{block}
+%
+\begin{tikzpicture}
+\myaxis{x}{5}{5}{y}{2}{2}
+\draw[thick, C1] plot[domain=0:5,smooth](\x,{1.75*sin(\x r)});
+\onslide<2|handout:0>{\draw[thick,C2] plot[domain=0:5,smooth](-\x,{1.75*sin(\x r)});}
+\onslide<3|handout:0>{\draw[thick,C3] plot[domain=0:5,smooth](-\x,{-1.75*sin(\x r)});}
+\end{tikzpicture}
+%
+\unote{Definition~\eref{text}{def:INTevenodd} in CLP-2; Definition \eref{text1}{def:APPeven} and \eref{text1}{def:APPodd} in CLP-1}
+\end{frame}
+%--------------------------------------------------------------------------------------------------------------------%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{Integrals of Even Functions}
+\sStatusBar{1}{4}
+\AnswerYes<1,3>
+\begin{tikzpicture}
+\myaxis{x}{5}{5}{y}{2}{2}
+\draw[thick, C1] plot[domain=0:5](\x,{1.75*sin(\x r)});
+\draw[thick,C2] plot[domain=0:5](-\x,{1.75*sin(\x r)});
+
+\onslide<-2|handout;1>{\xcoord{1}{a} \xcoord{-1}{-a} }
+\xcoord{4}{b} \xcoord{-4}{-b}
+\onslide<-2|handout:1>{\fill[C1,opacity=0.2] (1,0) --plot [domain=1:4](\x,{1.75*sin(\x r)})|-cycle;}
+\onslide<3-|handout:2>{\fill[C1,opacity=0.2] (0,0) --plot [domain=0:4](\x,{1.75*sin(\x r)})|-cycle;
+\fill[C2,opacity=0.2] (0,0) --plot [domain=0:-4](\x,{-1.75*sin(\x r)})|-cycle;}
+\onslide<2|handout:0>{
+\fill[C2,opacity=0.2] (-1,0)-- plot [domain=-1:-4](\x,{-1.75*sin(\x r)})|-cycle;}
+\end{tikzpicture}
+Suppose $f(x)$ is \alert{even}. Then
+\only<-2|handout:1>{\[\int_a^b f(x)\, \dee x = \sonslide<2->{\int_{-b}^{-a} f(x)\, \dee x} \]}
+\only<3-|handout:2>{\[\int_{-b}^b f(x)\, \dee x = \sonslide<4->{2\int_0^b f(x)\, \dee x}\]}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{Integrals of Odd Functions}
+\AnswerYes<1>
+\StatusBar{1}{3}
+\begin{tikzpicture}
+\myaxis{x}{5}{5}{y}{2}{2}
+\draw[thick, C1] plot[domain=0:5](\x,{1.75*sin(\x r)});
+\draw[thick, C2] plot[domain=0:-5](\x,{1.75*sin(\x r)});
+\fill[C1,opacity=0.2] (0,0) --plot [domain=0:4](\x,{1.75*sin(\x r)})|-cycle;
+\fill[C2,opacity=0.2] (0,0)-- plot [domain=0:-4](\x,{1.75*sin(\x r)})|-cycle;
+\onslide<3-|handout:0>{
+	\fill[C1] (0,0)--plot[domain=0:3.14](\x,{1.75*sin(\x r)})--cycle; 
+	\draw[white] (1.6,1) node{$+$};
+	\fill[W1] (0,0)--plot[domain=0:-3.14](\x,{1.75*sin(\x r)})--cycle; 
+	\draw[white] (-1.6,-1) node{$-$};
+	\fill[C1] (-4,0)--plot[domain=-4:-3.14](\x,{1.75*sin(\x r)})--cycle; 
+	\draw[white] (-3.6,.25) node{$+$};
+	\fill[W1] (4,0)--plot[domain=4:3.14](\x,{1.75*sin(\x r)})--cycle; 
+	\draw[white] (3.6,-.25) node{$-$};
+	}
+ \nxcoord{4}{b} \xcoord{-4}{-b}
+\end{tikzpicture}
+Suppose $f(x)$ is \alert{odd}. Then
+\[\int_{-b}^b f(x)\ \dee x = \sonslide<2->{0} \]
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\begin{block}{Theorem~\eref{text}{thm:INTevenodd} (Even and Odd)}
+Let $a>0$.
+\begin{enumerate}[(a)]
+\item If $f(x)$ is an \alert{even} function, then
+\[\int_{-a}^a f(x)\, \dee x = 2\int_0^a f(x)\, \dee x\]
+\item If $f(x)$ is an \alert{odd} function, then
+\[\int_{-a}^a f(x)\, \dee x =0\]
+\end{enumerate}
+\end{block}
+
+\end{frame}
+
+%--------------------------------------------------------------------------------------------------------------------
+\section{1.2.2 (Optional) Inequalities}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}\label{note1.2b}
+\StatusBar{1}{3}
+\begin{block}{Integral Inequality}
+Let $a \le b$ be real numbers and let the functions $f(x)$ and $g(x)$ be integrable on the interval $a \le x \le b$.
+
+If $f(x) \le g(x)$ for all $a \le x \le b$, then
+\[\int_a^b f(x)\, \dee x \le \int_a^b g(x) \,\dee x\]
+\end{block}
+
+
+\begin{tikzpicture}[scale=0.9]
+\myaxis{x}{0}{10.2}{y}{0}{3.2}
+\draw[C1,thick] plot[domain=0:10 ,smooth](\x,{((\x-6)*(\x-6)-(\x-6)*(\x-6)*(\x-6)*(\x-6)/36)/4+1})node[right]{$g(x)$};
+\draw[W1,thick] plot[domain=0:10,smooth](\x,{((\x-6)*(\x-6)-20)/20+1}) node[right]{$f(x)$};
+\xcoord{1}{a} \xcoord{9}{b}
+\onslide<2>{
+	\fill[C1,opacity=0.3] (1,0)--plot[domain=1:9 ,smooth](\x,{((\x-6)*(\x-6)-(\x-6)*(\x-6)*(\x-6)*(\x-6)/36)/4+1})|-cycle;}
+\onslide<3>{
+	\fill[W1,opacity=0.3] (1,0)-- plot[domain=1:9,smooth](\x,{((\x-6)*(\x-6)-20)/20+1})|-cycle;
+	}
+\begin{scope}[opacity=0]%for spacing purposes
+\ycoord{1}{M}
+\end{scope}
+\end{tikzpicture}
+
+
+\unote{Theorem~\eref{text}{thm:INTineq}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\StatusBar{1}{4}
+\begin{block}{Integral Inequality}
+Let $a \le b$ and $m \leq M$ be real numbers and let the function $f(x)$ be integrable on the interval $a \le x \le b$.
+
+If $m \le f(x) \le M$ for all $a \le x \le b$ , then
+\[m(b-a)\leq\int_a^b f(x) \dee x \le M(b-a)\]
+\end{block}
+
+\begin{tikzpicture}[scale=0.9]
+\myaxis{x}{0}{10.2}{y}{0}{3.2}
+\draw[C1,thick] plot[domain=0:10 ,smooth](\x,{((\x-6)*(\x-6)-(\x-6)*(\x-6)*(\x-6)*(\x-6)/36)/5+1});
+\xcoord{1}{a} \xcoord{9}{b}
+\onslide<2->{
+	\fill[C1,opacity=0.3] (1,0)--plot[domain=1:9 ,smooth](\x,{((\x-6)*(\x-6)-(\x-6)*(\x-6)*(\x-6)*(\x-6)/36)/5+1})|-cycle;}
+\onslide<2>{	\only<beamer>{\draw (6,2)node[C1]{$\int_a^b f(x) \dee x$};}}
+\onslide<3>{
+	\ycoord{0.5}{m}
+	\draw[dashed] (0.2,.5)--(10,.5);
+	\fill[W1,opacity=0.3] (1,0) rectangle (9,0.5);
+	\only<beamer>{\draw (6,2)node[W1]{$\int_a^b m \dee x = m(b-a)$};}}
+\onslide<4>{
+	\ycoord{2.9}{M} 
+	\draw[dashed] (0.2,2.9)--(10,2.9);
+	\fill[C3,opacity=0.3] (1,0) rectangle (9,2.9);
+	\only<beamer>{\draw (6,2)node[C3]{$\int_a^b M \dee x = M(b-a)$};}}
+\end{tikzpicture}
+
+
+\unote{Theorem~\eref{text}{thm:INTineq}}
+\end{frame}
+%--------------------------------------------------------------------------------------------------------------------
+
+%--------------------------------------------------------------------------------------------------------------------
+
+%--------------------------------------------------------------------------------------------------------------------
+\begin{frame}[t]\label{note1.2c}
+
+\QuestionBar<1>{1}{2} \AnswerYes<1>\NoSpace<1>
+\AnswerBar<2->{1}{2}
+Find a lower bound $c$ and an upper bound $d$ such that
+\[c \leq \int_1^5 f(x)\, \dee x \le d\]
+ \begin{tikzpicture}[xscale=0.9]
+\myaxis{x}{0}{6}{y}{0}{2.5}
+\ycoord{2}{2}
+\ycoord{1.5}{1.5}
+\xcoord{1}{1} \xcoord{5}{5}
+ \draw[dashed] (0,2)--(6,2) (0,1.5)--(6,1.5);
+\draw[C1, thick] plot[domain=0:5.75,smooth](\x,{cos(\x*3 r)/4+1.75})node[right]{$f(x)$};
+\fill[C1,opacity=0.1] (1,0)--plot[domain=1:5,smooth](\x,{cos(\x*3 r)/4+1.75})|-cycle;
+\end{tikzpicture}
+
+\sonslide<2->{
+\[1.5\le f(x)\le 2 \implies \overbrace{1.5(5-1)}^{6} \le \int_1^5 f(x)\, \dee x \le \overbrace{2(5-1)}^{8} \]}
+\end{frame}
+%-------------------------------------------------------------
+\begin{frame}[t]
+\label{note1.2d}
+\sStatusBar{2}{3}
+\sStatusBar{4}{7}
+\QuestionBar<1>{2}{2}
+\sMoreSpace<1,3>
+\sNoSpace<2,4-6>\AnswerYes<2,4-6>
+Find a lower bound $c$ and an upper bound $d$ such that $d-c \leq 3$ and
+\[c \leq \int_0^6 f(x)\, \dee x \le d\]
+\vspace{-5mm}
+
+\begin{tikzpicture}
+\myaxis{x}{0}{8.5}{y}{0}{2.25}
+\ycoord{2}{2}
+\ycoord{1.5}{1.5}
+ \xcoord{5}{5}\xcoord{6}{6} \xcoord{8}{8}
+\draw[C1] plot[domain=0:7,smooth](\x,{cos(\x*3 r)/5+1.75-\x/4})node[below]{$f(x)$};
+\fill[C1,opacity=0.1] (0,0)-- plot[domain=0:6,smooth](\x,{cos(\x*3 r)/5+1.75-\x/4})|-cycle;
+ \sonslide<1,4->{\draw[W1,dashed] plot[domain=0:8,smooth](\x,{2-\x/4});}%upper
+\sonslide<1-3,7>{\draw[W1,dashed] plot[domain=0:6,smooth](\x,{1.5-\x/4});}%lower
+\nsonslide<1>{\draw[W1,dashed] plot[domain=0:8,smooth](\x,{2-\x/4});}%upper
+\nsonslide<1>{\draw[W1,dashed] plot[domain=0:6,smooth](\x,{1.5-\x/4});}%lower
+
+
+ \sonslide<3>{\fill[W5,opacity=0.75] (0,1.5)|-(6,0)--cycle;}
+ \sonslide<5-6>{\fill[W5,opacity=0.5] (0,2)|-(6,0)--(6,.5)--cycle;
+ \draw (6,.5)node[circle,fill,inner sep=1pt,label = above:$A$]{};
+  \ycoord{.5}{.5} \draw[dotted] (.2,.5)--(6,.5) ;}
+ \sonslide<6>{ \fill[pattern color=W4,pattern=crosshatch] (6,.5)|-(8,0)--cycle;}
+   
+\end{tikzpicture}\vfill
+
+
+\footnotesize
+\sonly<3>{The area under the curve is no smaller than the area of the highlighted triangle.
+	\begin{align*}\int_0^6 \text{(dashed line)}\,\dee x &= \frac12\cdot\frac32\cdot6=\alert{\frac92\leq \int_0^6 f(x)\, \dee x}
+	\end{align*}
+	}
+
+\sonly<5>{
+The area under the curve is not greater than the area under the solid yellow trapezoid.
+
+Because the dashed line has slope $-\frac{1}{4}$, the $y$--coordinate of point $A$ is      $\frac{1}{2}$. }
+
+\sonly<6>{We can compute the area of the trapezoid as the difference in the area of the triangle under the dotted line, and the green cross-hatched triangle.
+
+\[\int_0^6 f(x)~\dee x  \leq \int_0^6 \text{(dashed line)}~\dee x =\color{W1}\frac{1}{2}(8)(2)-\color{W4!50!black}\frac{1}{2}(2)\frac12\color{black}=\frac{15}{2}
+	\]}
+\sonly<7>{
+
+	\[\frac92 \leq \int_0^6 f(x)\, \dee x \le \frac{15}{2}\]
+	Note $\frac{15}{2}-\frac92=3$, as required.
+	
+(Many bounds of the integral are possible, but looser bounds won't satisfy $d-c=3$. )
+	}
+
+
+\end{frame}
+%--------------------------------------------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+
+ \begin{frame}{Absolute Values}
+ \StatusBar{1}{5}
+\quad$f(x) \leq |f(x)|$ for any $f(x)$\\
+\onslide<2->{\,$-f(x) \leq |f(x)|$ for any $f(x)$\\}
+
+ \begin{center}
+ \begin{tikzpicture}[yscale=0.8]
+ \myaxis{x}{0}{3.2}{y}{1}{1}
+\onslide<-2>{ \draw[very thick,C1] plot[domain=0:3,smooth](\x,{sin(\x*2.27 r)-\x/6});
+ \draw (1.25,1.2)node[C1]{$f(x)$};}
+ \onslide<3-|handout:0>{ \draw[very thick,C1] plot[domain=0:3,smooth](\x,{-sin(\x*2.27 r)+\x/6});
+ \draw (1.25,1.2)node[C1]{$-f(x)$};}
+ \begin{scope}[xshift=4cm] 
+ \myaxis{x}{0}{3.2}{y}{1}{1}
+ \draw[very thick,W1] plot[domain=0:3,smooth,samples=50](\x,{abs(sin(\x*2.27 r)-\x/6)});
+ \draw (1.25,1.2)[W1]node{$|f(x)|$};
+ \end{scope}
+ \end{tikzpicture}
+ \end{center}
+ \onslide<4-|handout:0>{
+ \[\int_a^b f(x)\, \dee x \leq \int_a^b |f(x)|\, \dee x \quad \text{and} \quad \int_a^b -f(x)\, \dee x \leq \int_a^b |f(x)|\, \dee x \]}
+ \onslide<5-|handout:1>{
+ 	\[\left| \int_a^b f(x) \dee x\right|  \leq \int_a^b |f(x)| \dee x\]
+	because $\left| \int_a^b f(x)\, \dee x\right|$  is either $ \int_a^b f(x)\, \dee x$ or $-\int_a^b f(x)\, \dee x$.}
+	
+\unote{Theorem~\eref{text}{thm:INTineq}, Inequalities for Integrals}
+ \end{frame}
+%----------------------------------------------------------------------------------------
+
+%--------------------------------------------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------------------------------------------
+

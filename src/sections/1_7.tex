@@ -1,0 +1,448 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsA{\ag,\atech}
+ \end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section{1.7: Integration by Parts}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}{Reverse the Product Rule}
+Product Rule:
+\[\diff{}{x}\big\{u(x)\cdot v(x)\big\}= u'(x)\cdot v(x) + u(x)\cdot v'(x)
+\]\pause \vfill
+Related fact:
+\begin{align*} 
+ \int\Big[  &u'(x)\cdot v(x) + u(x)\cdot v'(x)\Big] \dee x=u(x)\cdot v(x) +C
+\onslide<3->{\intertext{Rearrange:}
+\implies\int\Big[ & u'(x) v(x)\Big]\dee x+\int\Big[u(x) v'(x)\Big] \dee x=u(x) v(x) +C\\
+\implies\color{C3}\int\Big[&\color{C3} u(x)v'(x)\Big]\dee x=u(x)v (x) - \int \Big[v(x)u'(x) \Big]\dee x+C}
+\end{align*}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Integration by Parts}
+\AnswerYes<1>\QuestionBar<1>{1}{4}
+\AnswerBar<2>{1}{4}
+\[\int\Big[ u(x)v'(x)\Big]\dee x=u(x)v (x)- \int \Big[v(x)u'(x) \Big]\dee x\]
+Example: $\ds\int \textcolor{C2}x\textcolor{W1}{e^x} \dee x $\\
+\sonslide<2->{Let  $\textcolor{C2}{u(x)=x}$ and $\textcolor{W1}{v'(x)=e^x}.$ (We'll talk \textbf{later} about choosing these)\\
+Then $\textcolor{C2}{u'(x)=1}$ and $\textcolor{W1}{v(x)=e^x}$.
+	\begin{align*}
+	\int\Big[ \textcolor{C2}{u(x)}\textcolor{W1}{v'(x)}\Big]\dee x=\textcolor{C2}{u(x)}\textcolor{W1}{v (x)}&- \int \Big[\textcolor{W1}{v(x)}\textcolor{C2}{u'(x)} \Big]\dee x\\
+	\int\Big[ \textcolor{C2}{x}\textcolor{W1}{e^x}\Big]\dee x=\textcolor{C2}{x}(\textcolor{W1}{e^x})&- \int \Big[\textcolor{W1}{(e^x)}\textcolor{C2}{1} \Big]\dee x+C\\
+	\int xe^x=xe^x&-\int(e^x)\dee x+C\\
+	=xe^x&-e^x+C
+\end{align*}
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\CheckFrame{\AnswerBar{1}{4}
+In the previous slide, we evaluated
+\[\int xe^x \dee x = xe^x-e^x+C \]
+for some constant $C$. We can check that this is correct by differentiating.}{
+\begin{align*}
+\diff{}{x}\Big\{ xe^x-e^x+C\Big\}&=(xe^x+e^x)-e^x=xe^x
+\end{align*}
+\vfill
+We used the \emph{product rule} to differentiate. Remember integration by parts helps us to reverse the product rule.}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Integration by Parts (IBP): A Closer Look}
+	\begin{align*}
+	\int\Big[ \textcolor{C2}{u(x)}\textcolor{W1}{v'(x)}\Big]\dee x=\textcolor{C2}{u(x)}\textcolor{W1}{v (x)}&- \int \Big[\textcolor{W1}{v(x)}\textcolor{C2}{u'(x)} \Big]\dee x+C\\
+	\underbrace{\int \textcolor{C2}{x}\textcolor{W1}{e^x}\dee x}_{\text{How to integrate??}}
+	=\textcolor{C2}{x}(\textcolor{W1}{e^x})&- 
+\underbrace{\textcolor{C2}{1} \int \textcolor{W1}{e^x}\dee x}_{\text{Easy to integrate!}}+C
+	\end{align*}
+	\vfill
+ We start and end with an integral. IBP is only useful if the new integral is somehow an improvement.
+ \\
+\vfill
+We \textcolor{C2}{differentiate} the function we choose as $\textcolor{C2}{u(x)}$, and \textcolor{W1}{antidifferentiate} the function we choose as $\textcolor{W1}{v'(x)}$
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Choosing $u(x)$ and $v(x)$}
+\sQuestionBar<-5>{2}{4}
+\nsQuestionBar<1-2>{2}{4}
+\AnswerBar<6>{2}{4}
+\sStatusBar{1}{6}
+
+\begin{align*}
+\int\Big[ \textcolor{C2}{u(x)}\textcolor{W1}{v'(x)}\Big]\dee x&=\textcolor{C2}{u(x)}\textcolor{W1}{v (x)}- \int \Big[\textcolor{W1}{v(x)}\textcolor{C2}{u'(x)} \Big]\dee x+C
+\\
+\int\Big[x \sin x\Big]\dee x&=
+\end{align*}
+
+\IBP{x}{x}{1}{\tfrac{1}{2}x^2}{\sin x}{\cos x}{-\cos x}{2}
+\vfill 
+
+\sonslide<6->{Option A:
+\[\int \textcolor{C2}{x}\ \textcolor{W1}{\sin x}\ \dee x=\textcolor{C2}{x}\textcolor{W1}{(-\cos x)} - \int \textcolor{W1}{-\cos x}\ \dee x = -x\cos x + \sin x +C
+\]}
+
+\sonly<3-4>{\footnotesize Fine Print: We can choose \emph{any}  antiderivative of \textcolor{W1}{$v'(x)$} to be \textcolor{W1}{$v(x)$}. So, we omit ``$+C$."}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+\CheckFrame{\AnswerBar{2}{4}
+To check our work, we can calculate $\diff{}{x}\Big\{-x \cos x + \sin x +C \Big\}$. It should work out to be $x\sin x$.
+}{
+\begin{align*}
+\diff{}{x}\Big\{-x \cos x + \sin x +C \Big\}&=(-x)(-\sin x)+(\cos x)(-1)+\cos x = x\sin x
+\end{align*}
+Our answer works!}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Choosing $u(x)$ and $v(x)$}
+\sStatusBar{1}{6}
+\sQuestionBar<-5>{3}{4}
+\nsQuestionBar<1-2>{3}{4}
+\AnswerBar<6>{3}{4}
+
+\begin{align*}
+\int\Big[ \textcolor{C2}{u(x)}\textcolor{W1}{v'(x)}\Big]\dee x&=\textcolor{C2}{u(x)}\textcolor{W1}{v (x)}- \int \Big[\textcolor{W1}{v(x)}\textcolor{C2}{u'(x)} \Big]\dee x+C
+\\
+\int\Big[x^2\log x\Big]\dee x&=
+\end{align*}
+
+\IBP{x}{x^2}{2x}{\tfrac{1}{3}x^3}{\log x}{\tfrac{1}{x}}{??}{2}
+
+\vfill
+\sonslide<6->{
+Option B:
+\begin{align*}
+\int \textcolor{W1}{x^2}\textcolor{C2}{\log x}\, \dee x &= \textcolor{C2}{\log x}\cdot\textcolor{W1}{\frac13x^3}-\int \textcolor{W1}{\frac{1}{3}x^3}\cdot\textcolor{C2}{\frac1x}\ \dee x\\
+&=\frac13x^3\log x-\frac{1}{3}\int x^2\ \dee x = \frac13x^3\log x-\frac{1}{9}x^3+C\end{align*}}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+\CheckFrame{\AnswerBar{3}{4}
+To check our work, we can calculate $\diff{}{x}\Big\{ \frac13x^3\log x-\frac{1}{9}x^3+C \Big\}$. It should work out to be $x^2\log x$.}{
+\begin{align*}
+\diff{}{x}\left\{ \frac13x^3\log x-\frac{1}{9}x^3+C \right\}&=x^2\log x + \frac{1}{3}x^3\cdot\frac1x-\frac{3}{9}x^2\\
+&=x^2\log x
+\end{align*}
+Our answer works.}
+
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\sStatusBar{1}{6}
+\sQuestionBar<-5>{4}{4}
+\nsQuestionBar<1-2>{4}{4}
+\AnswerBar<6>{4}{4}
+\begin{align*}
+\int\Big[ \textcolor{C2}{u(x)}\textcolor{W1}{v'(x)}\Big]\dee x&=\textcolor{C2}{u(x)}\textcolor{W1}{v (x)}- \int \Big[\textcolor{W1}{v(x)}\textcolor{C2}{u'(x)} \Big]\dee x+C\\
+\int\Big[\tfrac12xe^{6x}\Big]\dee x&=\end{align*}
+
+\vfill
+\IBP{x}{\frac12x}{\frac12}{\frac14x^2}{e^{6x}}{6e^{6x}}{\frac16e^{6x}}{2}
+\vfill
+\sonslide<6->{
+	Option A:
+\begin{align*}\int \textcolor{C2}{\tfrac12x}\cdot\textcolor{W1}{e^{6x}}\ \dee x &= \textcolor{C2}{\frac12x}\cdot\textcolor{W1}{\frac16e^{6x}}-\int \textcolor{W1}{\frac{1}{6}e^{6x}}\cdot\textcolor{C2}{\frac12}\ \dee x
+\\&=\frac{1}{12}xe^{6x}- \frac{1}{12}\int e^{6x}\dee x=\frac{1}{12}xe^{6x}-\frac{1}{72}e^{6x}+C\end{align*}
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\CheckFrame{
+\AnswerBar{4}{4}
+We check that $\displaystyle\int\left[\frac12xe^{6x}\right]\dee x=\frac{1}{12}xe^{6x}-\frac{1}{72}e^{6x}+C$ by differentiating.}{
+\begin{align*}
+\diff{}{x}\left\{\frac{1}{12}xe^{6x}-\frac{1}{72}e^{6x}+C\right\}&=\frac{1}{12}x\cdot6e^{6x}+e^{6x}\cdot\frac1{12}-\frac{6}{72}e^{6x}\\
+&=\frac12xe^{6x}+\frac1{12}e^{6x}-\frac{1}{12}e^{6x}\\
+&=\frac12xe^{6x}
+\end{align*}
+Our answer works.}
+%----------------------------------------------------------------------------------------
+\begin{frame}{Mnemonic}
+\begin{align*}
+\int\Big[ \textcolor{C2}{u(x)}\textcolor{W1}{v'(x)}\Big]\dee x&=\textcolor{C2}{u(x)}\textcolor{W1}{v (x)}- \int \Big[\textcolor{W1}{v(x)}\textcolor{C2}{u'(x)} \Big]\dee x+C
+\\
+\int \textcolor{C2}{u}\textcolor{W1}{\ \dee v}&=\textcolor{C2}{u}\textcolor{W1}{v}- \int \textcolor{W1}{v}\textcolor{C2}{\ \dee u} +C
+\end{align*}
+We abbreviate:
+\begin{itemize}
+	\item\color{C2}$u(x) \rightarrow u$
+	\item\color{C2}$u'(x)\,\dee x \rightarrow \ \dee u$
+	\item\color{W1}$v(x) \rightarrow v$
+	\item\color{W1}$v'(x)\,\dee x \rightarrow  \dee v$
+	\end{itemize}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Choosing $u$, $ \textup{\dee} v$ in your head}
+\StatusBar{1}{5}
+Choose $u$ and $ \dee v$ to evaluate the integral below:
+\[ \int (3t+5)\cos(t/4)\dee t\]\pause\vfill
+Thoughts:\qquad $\displaystyle\int \textcolor{C2}u \, \textcolor{W1}{\dee v} = \textcolor{C2}{u}\textcolor{W1}{v}-\int \textcolor{W1}{v}\,\textcolor{C2}{\dee u}$\\
+\textcolor{C2}{$u$ gets differentiated}, and \textcolor{W1}{$ \dee v$ gets antidifferentiated}.\pause\vfill
+\only<beamer>{\begin{itemize}
+	\item If we differentiate OR antidifferentiate $\cos(t/4)$ we get almost the same thing (they only differ by a constant).\pause\vfill
+	\item If we differentiate $3t+5$, we get something simpler: a constant. If we antidifferentiate $3t+4$, we get something more complicated--a quadratic.
+	\end{itemize}\pause\vfill
+Simpler is better: \only<beamer>{we want to differentiate $3t+5$, which means we choose it to be \textcolor{C2}{$u$}. Then $ \textcolor{W1}{\dee v}=\textcolor{W1}{\cos(t/4)\dee t}$.}}\vfill
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]\AnswerSpace
+\only<1>{\MoreSpace}
+\only<1-2>{\QuestionBar{1}{3}}
+\only<3>{\QuestionBar{2}{3}}
+\only<4>{\QuestionBar{3}{3}\AnswerYes}
+\only<1-4>{ Evaluate, using IBP or Substitution 
+\begin{align*}
+\int \textcolor{C2}{u}\textcolor{W1}{\dee v}&=\textcolor{C2}{u}\textcolor{W1}{v}- \int \textcolor{W1}{v}\textcolor{C2}{\dee u} +C
+\end{align*}
+\begin{itemize}
+	\only<1,2>{\item $\displaystyle\int xe^{x^2}\dee x$ \vfill}
+	\only<1,3>{\item $\displaystyle\int x^2e^x\dee x$\vfill}
+	\only<1,4>{\item $\displaystyle\int e^{x+e^x}\dee x$\vfill}
+	\end{itemize}
+	\vfill\vfill
+}
+\sonly<5->{
+\foreach \x in {1,2,3}{\AnswerBar{\x}{3}}
+\begin{align*}
+\mbox{(sub)} \quad &\int xe^{x^2}\,\dee x = \int\frac12e^u \,\dee u = \frac12e^u+C =\frac12 e^{x^2}+C\\[1em]
+\mbox{(IBP)} \quad &\int \underbrace{x^2}_u\underbrace{e^x \dee x}_{\dee v} =x^2\cdot e^x-\int e^x\cdot 2x\, \dee x\\
+&=x^2e^x -2\int \underbrace{x}_u\underbrace{e^x\, \dee x}_{\dee v} = x^2e^x - 2\left[xe^x - \int e^x\, \dee x\right]\\
+&=x^2e^x -2x e^x+2e^x+C\\[1em]
+\mbox{(sub)}\quad&\int e^{x+e^x}\dee x=\int e^{e^x}  \cdot e^x\,  \dee x = \int e^u\, \dee u = e^u+C = e^{e^x}+C
+\end{align*}
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}{Definite Integration by Parts}
+
+Method 1: Antidifferentiate first, then plug in limits of integration.\\
+\vfill
+Method 2: Plug as you go.\\
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1-2>
+Evaluate $\displaystyle\int_1^e \log^2 x\,\dee x$\vfill
+
+\sonly<2>{Method 1:\\ \vfill
+	Let $u=\log^2 x $, $ \dee v=1\dee x$; $\ \dee u=2\log x \cdot \frac1x \dee x$, $v=x$
+\begin{align*}
+\int \log^2 x\, \dee x &=x\log^2 x - \int 2\log x\, \dee x
+\intertext{Now let $u=\log x$, $ \dee v=2\dee x$; $\ \dee u=\frac1x \dee x$, $v=2x$}
+=x\log^2 x &- \left[
+2x\log x-\int 2\dee x
+\right]=x\log^2x-2x\log x +2x+C\\
+\int_1^e \log^2 x\, \dee x &=\left[x\log^2x-2x\log x +2x+C\right]_1^e\\
+&=(e-2e+2e+C)-(0-0+2+C)=e-2
+\end{align*}
+}
+
+\sonly<3>{
+Method 2:\\ \vfill
+	Let $u=\log^2 x $, $ \dee v=1\dee x$; $\ \dee u=2\log x \cdot \frac1x \dee x$, $v=x$
+	\begin{align*}
+	\int_1^e \log^2 x\, \dee x &=\left[x\log^2x \right]_1^e - \int_1^e 2\log x\, \dee x=(e-0)-\int_1^e 2\log x\, \dee x
+	\intertext{Now let $u=\log x$, $ \dee v=2\,\dee x$; $\ \dee u=\frac1x \dee x$, $v=2x$}
+	=e &- \left[
+	\Big[2x\log x\Big]_1^e-\int_1^e 2\,\dee x
+	\right]
+	=e-(2e-0)+\big[2x\big]_1^e\\
+	&=e-2e+2e-2=e-2
+		\end{align*}}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\section{Special Techniques}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Special Technique: $v'(x)=1$}
+\AnswerYes<2>
+\sQuestionBar{1}{2}<-2>
+\nsQuestionBar{1}{2}<1>
+\AnswerBar{1}{2}<3>
+\begin{align*}
+\int \textcolor{C2}{u}\textcolor{W1}{\ \dee v}&=\textcolor{C2}{u}\textcolor{W1}{v}- \int \textcolor{W1}{v}\textcolor{C2}{\ \dee u} +C
+\end{align*}
+Evaluate $\displaystyle\int \log x\, \dee x$ using integration by parts. \\
+\sonslide<2-|handout:0>{
+Hint: $\log x = (\log x )(1)$.\\}
+\sonslide<3->{
+\begin{align*}
+\int \log x \,\dee x &=\int\underbrace{\log x}_{u} \cdot \underbrace{1 \,\dee x}_{ \dee v}\\
+&=\log x \cdot x - \int x\cdot\frac1x\, \dee x\\
+&=x\log x - \int 1\, \dee x = x\log x -x +C
+\end{align*}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\CheckFrame{\AnswerBar{1}{2}
+Let's check that $\ds\int \log x\, \dee x = x\log x - x +C$.}{
+\begin{align*}
+\diff{}{x}\Big\{x\log x -x+C\Big\}&=x\cdot\frac1x+\log x -1=1+\log x -1 = \log x
+\end{align*}
+So we have indeed found the antiderivative of $\log x.$}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<2>
+ \sQuestionBar<1-2>{2}{2}
+  \nsQuestionBar<1>{2}{2}
+\AnswerBar<3>{2}{2}
+
+\begin{align*}
+\int \textcolor{C2}{u}\textcolor{W1}{\ \dee v}&=\textcolor{C2}{u}\textcolor{W1}{v}- \int \textcolor{W1}{v}\textcolor{C2}{\ \dee u} +C
+\end{align*}
+Evaluate $\displaystyle\int \arctan x\, \dee x$ using integration by parts. \\
+\sonslide<2->{
+Hint: $\arctan x = (\arctan x )(1)$, and $\diff{}{x}\big\{\arctan x\big\} = \dfrac{1}{1+x^2}$\\ \pause\vfill
+\begin{align*}\int\underbrace{\arctan x}_{u} \cdot \underbrace{1\, \dee x}_{ \dee v}&=\arctan x \cdot x - \int x\cdot\frac{1}{1+x^2} \,\dee x
+\intertext{Set $s=1+x^2$, $\dee s=2x\,\dee x$.}
+&=x\arctan x - \frac{1}{2}\int \frac{1}{s}\,\dee s
+\\&=x\arctan x -\frac12 \log|1+x^2|+C\end{align*}
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\CheckFrame{ \AnswerBar{2}{2}
+Let's check that $\ds\int \arctan x\, \dee x = x\arctan x -\frac12 \log|1+x^2| +C$.}{
+\begin{align*}
+\diff{}{x}\left\{ x\arctan x - \frac12\log|1+x^2| +C\right\}&=
+x\cdot\frac{1}{1+x^2}+\arctan x - \frac12\cdot \frac{2x}{1+x^2}\\
+&=\frac{x}{1+x^2}+\arctan x - \frac{x}{1+x^2}\\
+&=\arctan x
+\end{align*}
+So we have indeed found the antiderivative of $\arctan x.$}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+Setting $ \dee v=1\,\dee x$ is a very specific technique. You'll probably only see it in situations integrating logarithms and inverse trigonometric functions.
+\vfill
+$\ds\int \log x\, \dee x$,\hfill $\ds\int \arcsin x\, \dee x$, \hfill $\ds\int \arccos x\, \dee x$, \hfill $\ds\int \arctan x \,\dee x$,\hfill etc.
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}<1-2>[label=IBPcircle]
+Evaluate 
+$\ds\int e^x \cos x\ \dee x$
+using integration by parts.\pause\\\vfill
+\only<1>{\QuestionBar{1}{3}\AnswerYes}
+\only<2>{\AnswerBar{1}{3}}
+Let \highlightbox<3|handout:0>{W5}{$u=e^x$} and \highlightbox<3|handout:0>{M5}{$\dee v = \cos x\ \dee x$.}  Then $\dee u = e^x \ \dee x$ and $v=\sin x$:
+\begin{align*}
+\color{C3}\int e^x \cos x\ \dee x&=e^x \sin x - \int e^x \sin x\  \dee x
+\intertext{Let \highlightbox<3|handout:0>{W5}{$u=e^x$} and \highlightbox<3|handout:0>{M5}{$\dee v = \sin x\ \dee x$}. Then $\dee u = e^x \ \dee x$ and $v=-\cos x$:}
+&=e^x \sin x -\left[-e^x \cos x- \int -e^x \cos x\ \dee x\right]\\
+&=e^x \sin x +e^x \cos x- \color{C3} \int e^x \cos x \ \dee x\\
+\color{C3}\int e^x \cos x \ \dee x&=e^x \sin x +e^x \cos x - \color{C3} \int e^x \cos x \ \dee x\\
+2\color{C3}\int e^x \cos x \ \dee x&=e^x \sin x  +e^x \cos x+C\\
+\color{C3}\int e^x \cos x \ \dee x&=\frac12\left(e^x \sin x  +e^x \cos x\right)+C
+\end{align*}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Integrating around in a circle}
+We can use this technique to antidifferentiate products of two functions that almost, but don't quite, stay the same under (anti)differentiation.
+\vfill
+Use integration by parts a number of times, ending up with an expression involving (a scalar multiple of) the original integral.
+\vfill
+
+To do this, \alert{be consistent} with your choice of $u$ and $\dee v$.
+\end{frame}
+%----------------------------------------------------------------------------------------
+\againframe<3|handout:0>{IBPcircle}
+%%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>
+\QuestionBar<1>{2}{3}
+\AnswerBar<2>{2}{3}
+Evaluate $\ds\int \cos(\log x)\,\dee x$.\\
+\sonslide<2->{
+Let $u=\cos(\log x)$, $ \dee v=\dee x$; then $\ \dee u=-\frac{\sin (\log x)}{x}\dee x$, $v=x$
+
+\begin{align*}
+\int \cos(\log x)\dee x&=x\cos(\log x)-\int \left(-\frac{\sin (\log x)}{x}\right)x\ \dee x\\
+&=x\cos(\log x)+\int \sin(\log x)\ \dee x
+\intertext{Let $u=\sin(\log x)$, $ \dee v=\dee x$; then $\ \dee u=\frac{\cos(\log x)}{x}$, $v=x$}
+&=x\cos(\log x)+x\sin(\log x)-\int {\cos(\log x)}\ \dee x\\
+\text{So,}\quad 2\int \cos(\log x)\ \dee x&=x\cos(\log x)+x\sin(\log x)\\
+\int \cos(\log x)\ \dee x&=\frac{x}{2}\left[\cos(\log x)+\sin(\log x)\right]+C
+\end{align*}
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\CheckFrame{
+\AnswerBar{2}{3}
+We check that $\ds\int \cos(\log x)\dee x=\frac{x}{2}\big[\cos(\log x)+\sin(\log x)\big]+C$ by differentiating.
+}{
+\begin{align*}
+\diff{}{x}&\left\{ \frac{x}{2}\big[\cos(\log x)+\sin(\log x)\big]+C\right\}\\
+&=
+\frac{x}{2}\left[ \frac{-\sin(\log x)}{x}+\frac{\cos(\log x)}{x}\right]+\frac12\big[\cos(\log x)+\sin(\log x)\big]\\
+&=-\frac12\sin(\log x)+\frac12\cos(\log x)+\frac12\cos(\log x)+\frac12\sin(\log x)\\
+&=\cos(\log x)
+\end{align*}
+Our answer works.}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>\QuestionBar<1>{3}{3}
+\AnswerBar<2>{3}{3}
+
+\AnswerSpace
+\vspace{1em}
+Evaluate $\ds\int e^{2x} \sin x\ \dee x$ using integration by parts.\\[1em]
+
+\sonly<2->{\small
+Let $u=e^{2x}$ and $\dee v = \sin x \ \dee x.$ Then $\dee u=2e^{2x} \ \dee x$ and $v=-\cos x$.
+
+\begin{align*}
+\textcolor{C3}{\int e^{2x}\sin x\ \dee x}&= e^{2x}(-\cos x ) - \int (-\cos x)2e^{2x}\ \dee x
+\\&=-e^{2x}\cos x + 2\int e^{2x}\cos x\ \dee x 
+\intertext{Let $u=e^{2x}$ and $ \dee v=\cos x\ \dee x$. Then $\ \dee u=2e^{2x}\ \dee x$ and $v=\sin x$}
+\textcolor{C3}{\int {e^{2x}} {\sin x\ \dee x} }&= -{e^{2x}}{\cos x} +2 \left[
+e^{2x}\sin x-
+\int
+2e^{2x}\sin x\  
+\dee x\right]\\
+&= -{e^{2x}}{\cos x} +2e^{2x}\sin x-4
+\textcolor{C3}{\int
+e^{2x}\sin x\  
+\dee x}\\
+5\textcolor{C3}{\int
+	e^{2x}\sin x\  
+	\dee x}&=-e^{2x}(\cos x -2\sin x)\\
+\textcolor{C3}{\int
+e^{2x}\sin x\  
+\dee x}&=\frac{e^{2x}}{5}(2\sin x - \cos x)+C
+\end{align*}
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\CheckFrame{\AnswerBar{3}{3}We can check our work by differentiating $\frac15e^{2x}[2\sin x - \cos x]+C$.\\ We should end up with $e^{2x}\sin x$.}{
+\begin{align*}
+\diff{}{x}&\left\{ \frac15e^{2x}(2\sin x - \cos x)+C\right\}=\frac15e^{2x}(2\cos x + \sin x)+\frac{2}{5}e^{2x}(2\sin x - \cos x)\\
+&=\frac{2}{5}e^{2x}\cos x +\frac{1}{5}e^{2x}\sin x +\frac{4}{5}e^{2x}\sin x - \frac{2}{5}e^{2x}\cos x\\
+&=e^{2x}\sin x
+\end{align*}
+Our answer, strange though it looks, is the correct antiderivative.}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+

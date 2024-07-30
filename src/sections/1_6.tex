@@ -1,0 +1,583 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsA{\af,\aapp}
+ \end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section{1.6: Volumes}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Quick Refresher: Volumes of Cylinders}
+\sStatusBar{1}{3}
+\AnswerYes<1-2>
+\begin{multicols}{2}
+\begin{tikzpicture}[yscale=0.9]
+\draw (0,0) arc (0:360:2cm and 4mm)--(0,-3)arc(0:-180:2cm and 4mm)--(-4,0);
+\shade[left color=C3, right color=C3, middle color=white]  (0,0) arc (0:-180:2cm and 4mm)--(-4,-3)arc(-180:0:2cm and 4mm)--cycle;
+\shade[top color=C3, bottom color=white] (0,0)arc (0:360:2cm and 4mm);
+\draw[thick] (-2,0)--(0,0)node[midway,above]{$r$};
+\draw[thick] (-2,-0.4)--(-2,-3.4)node[midway,right]{$h$};
+%for vertical alignment to match
+\draw[opacity=0] (-2,1.25)--(0,1.25)node[midway,above]{$R$}; 
+\end{tikzpicture}\\[1em]
+
+The volume of a cylinder with radius $r$ and height $h$ is:
+\sonslide<2->{
+ \[\pi r^2 h\]}
+
+\columnbreak\pause
+
+\begin{tikzpicture}[yscale=0.9]
+\draw (0,0) arc (0:360:2cm and 4mm)--(0,-3)arc(0:-180:2cm and 4mm)--(-4,0);
+\shade[left color=C3, right color=C3, middle color=white]  (0,0) arc (0:-180:2cm and 4mm)--(-4,-3)arc(-180:0:2cm and 4mm)--cycle;
+\shadedraw[thick,top color=C3, bottom color=white] (0,0)arc (0:360:2cm and 4mm);
+\draw[thick,W1,fill=black!75!C3] (-3,0) arc (-180:180:1 cm and 2mm);
+\draw[thick,|-|] (-2,1.25)--(-4,1.25)node[midway,above]{$R$}; 
+\draw[thick,W1,|-|] (-3,.75)--(-2,.75)node[midway,above]{$r$};
+\draw[thick] (-2,-0.4)--(-2,-3.4)node[midway,right]{$h$};
+\end{tikzpicture}
+
+The volume of a washer, with outer radius $R$, inner radius $r$, and height $h$ is: \\[1mm]
+\sonslide<3->{$\displaystyle\left(\pi R^2 h - \pi r^2 h\right) ~=~ \pi h \left(R^2-r^2\right)$}
+\end{multicols}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%%----------------------------------------------------------------------------------------
+\begin{frame}{Quick Refresher: Volumes of Cylinders}
+\sStatusBar{1}{2}
+\only<1>{\AnswerYes}
+More generally, if we have a shape of area $A$, and we extrude it into a solid of height $h$, the resulting solid has volume: \sonslide<2->{$A h$}
+\vfill
+\begin{tikzpicture}
+\draw[thick,C1,fill=C3,fill opacity=0.5] (0,0) arc (0:180:2cm)--(-3,-1)--(-2,0)--(-1,-1)--cycle;
+\draw[C1] (-2,1)node{$A$};
+\end{tikzpicture}
+\hfill
+\begin{tikzpicture}
+\draw[thick,C1,fill=C3,fill opacity=0.5] (0,0) arc (0:180:2cm and 10mm)--(-3,-.5)--(-2,0)--(-1,-.5)--cycle;
+\filldraw[thick,C1,fill=C3, fill opacity=0.75] (0,0)--(0,-1)--(-1,-1.5)--(-2,-1)--(-3,-1.5)--(-4,-1)--(-4,0)--(-3,-.5)--(-2,0)--(-1,-.5)--cycle;
+\draw[thick,C1] (-3,-1.5)--(-3,-.5) (-2,0)--(-2,-1) (-1,-1.5)--(-1,-.5);
+\draw[thick, C1,|-|] (-4.5,0)--(-4.5,-1)node[midway,left]{$h$};
+\end{tikzpicture}
+
+\end{frame}
+%%----------------------------------------------------------------------------------------
+%%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<10,12,14>
+\label<10>{note1.6c}
+\StatusBar{1}{8}
+Consider the volume, $V$, enclosed by rotating the curve $y=\sqrt x$, from $x=0$ to $x=4$, around the $x$-axis.\\[1em]
+
+\begin{tikzpicture}[yscale=0.8]
+\myaxis{x}{0}{5}{y}{0}{2}
+\draw[help lines,->] (0,0)--(-.25,-.25);
+\draw[thick,C1] plot [domain=0:2.2,smooth]({\x*\x},\x)node[right]{$y=\sqrt x$};
+
+\onslide<7->{
+	\shadedraw[thick, C1,bottom color=C3, top color=C3, middle color=white, fill opacity=0.5] (4,2) arc (90:270:3mm and 2cm)--plot[domain=2:0]({\x*\x},{-\x})--plot[domain=0:2]({\x*\x},\x)--cycle;%side of cone
+	\shadedraw[thick, C1, left color=white, right color=C3, fill opacity=0.5] (4,2)arc (90:450:3mm and 2cm);
+	}
+
+\foreach \sl[evaluate=\b using (4-\sl)/3] in {2,...,7}{
+	\onslide<\sl-7|handout:0>{
+	\begin{scope}
+	\clip (-1,-2) --(4,-2) arc (270:90:3mm and 2cm)-|cycle;%clip so rotated sqrt x ends at ellipse
+	\draw[C3] plot[domain=0:2]({\x*\x},{\x*\b});%multiply sqrt x by \b to make it look like it's rotating
+	\begin{scope}
+		\clip (-2,2*\b) rectangle (4,2);%end cap stops at the rotated function
+		\draw[C1,very thick] (4,2) arc(90:270:3mm and 2cm);%end cap, as far as the rotated sqrt x
+	\end{scope}
+	\end{scope}
+	}}
+
+%show one slice 
+\snshonslide{10-13}{10-11}{0}{ \xcoord{2}{x_i^*}}
+\snshonslide{14-}{12-}{3}{ \xcoord{2}{x}}
+ \onslide<10->{ 
+ \draw (1.9,1.38)arc(90:270:3mm and 1.38 cm) (2.1,1.45)arc(90:270:3mm and 1.45 cm);%front of slice
+ \draw[dashed](1.9,1.38)arc(90:-90:3mm and 1.38 cm) (2.1,1.45)arc(90:-90:3mm and 1.45 cm);%back of slice
+ }
+
+\begin{scope}[xshift=6cm]%separate the slice
+ \onslide<10->{
+\shadedraw[left color=white, right color=C3,fill opacity=0.5] (2.1,1.45)arc(90:450:3mm and 1.45 cm);%end cap
+\shadedraw[C1,fill opacity=0.5, top color=C3, bottom color=C3, middle color=white] (1.9,1.38)arc(90:270:3mm and 1.38 cm)--(2.1,-1.45)arc(270:90:3mm and 1.45 cm)--cycle;}%cross-section
+
+\snshonslide{11-13}{11}{0}{%r and h labels, Delta x
+	\draw[|-|] (2,1.75)--(2.2,1.75)node[above]{$\Delta x = \frac{4}{n}$};
+	\draw[|-|](2.75,0)--(2.75,1.41)node[midway,right]{$r=\sqrt{x_i^*}$};
+	}
+%r and h labels, dx
+\snshonslide{14-}{12-}{0}{
+	\draw[|-|] (2,1.75)--(2.2,1.75)node[above]{$\dee x$};
+	\draw[|-|](2.75,0)--(2.75,1.41)node[midway,right]{$r=\sqrt{x}$};
+	}
+
+
+\end{scope}
+ \onslide<9|handout:0>{ %slice approximation
+ 	\foreach \xstar in {.2,.4,...,3.8}{
+		\SQRT{\xstar}{\r}
+		\shadedraw[top color=W2!50, bottom color=W2!50, middle color=white] (\xstar,\r) arc (90:270:3mm and \r cm)--(\xstar+.2,-\r) arc(270:90:3 mm and \r cm)--cycle;%sides
+		\shadedraw[left color=white, right color=W2!50] (4,2) arc (90:450:3mm and 2 cm);%end cap
+		}}
+
+%marks that should stay on top
+ \xcoord{4}{4}
+  \onslide<-7|handout:0>{\draw[dashed] (4,.2)--(4,2);}
+ \draw[help lines,->](4,0)--(5,0);
+\end{tikzpicture}
+
+\begin{overlayarea}{\textwidth}{5cm}
+\only<9-11|handout:1>{We cut the solid into slices, and approximate the volume of each slice. \\}
+\snshonly{10-11}{10}{1}{
+Each thin slice is \textit{approximately} a cylinder.\\[1em]
+If we use $n$ slices, the width of each is: \sonslide<11>{$\frac{4}{n}$.}\\[1em]
+ The radius of the slice at $x=x_i^*$ is: \sonslide<11>{$\sqrt {x_i^*}$.}
+ }
+%
+
+\snshonly{12-13}{11}{2}{
+$V\displaystyle\approx \sum_{i=1}^n (\text{volume of each slice})
+	\sonslide<13->{=\sum_{i=1}^n \pi \left(\sqrt{x_i^*}\right)^2 \frac{4}{n}
+	=\sum_{i=1}^n \underbrace{\pi x_i^*}_{f(x_i^*)} \underbrace{\frac{4}{n}}_{\Delta x}}
+$\\
+\sonslide<13->{This is a Riemann sum for $ \ds\int_0^4 \pi x \ \dee x$.}}
+
+%
+\snshonly{14-}{12-}{3}{
+Informally, we think of one slice, at position $x$, as having thickness $\dee x$. So, we can write the volume of this slice as: \sonslide<15-|handout:0>{$\pi x\ \dee x$.}\\[1em]
+{Summing up} the volumes of slices from $x=0$ to $x=4$, our total volume is:
+\sonslide<15-|handout:0>{\[\int_0^4 \pi x\ \dee x =\left[\frac{\pi}{2}x^2\right]_0^4=8\pi\]}
+}
+\end{overlayarea}
+\end{frame}
+%%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\sStatusBar{1}{4}
+\AnswerYes<1-3>
+\begin{multicols}{2}
+\begin{tikzpicture}[xscale=0.8]
+\myaxis{x}{2.2}{2.2}{y}{0}{3.5}
+\draw[thick,C1] (0,0)--(2,3)node[right]{$y=\frac{h}{r}x$};
+\draw[C1] (2.78,2.5)node{$x=\frac{r}{h}y$};
+
+\only<beamer>{
+\onslide<2->{
+	\shadedraw[C1,thick,left color=C3, right color=C3,middle color=white,fill opacity=0.75] (-2,3)--(0,0)--(2,3)arc(0:-180:2cm and 4mm);
+	\shadedraw[C1,thick,top color=white, bottom color=C3, fill opacity=0.5] (2,3)arc(0:360:2cm and 4mm);	
+	}
+\onslide<3->{
+	\color{W1}
+	\draw (1,1.5) arc (0:-180:1 cm and 2mm)--
+	(-1,2) arc (-180:0:1 cm and 2mm)--cycle;
+	\draw[dashed] (1,2) arc (0:180:1cm and 2mm);
+	\ycoord{1.55}{y}
+	\xcoord{1}{\left(\frac{r}{h}\right)y}
+	\draw[|-|] (-1.75,1.5)--(-1.75,2)node[midway,left]{$\dee y$};
+	}	
+}%end only beamer
+
+\xcoord{2}{r} \ycoord{3}{h}
+\end{tikzpicture}
+\columnbreak
+
+Let $h$ and $r$ be positive constants.
+\begin{enumerate}[<+->]
+\item What familiar solid results from rotating the line segment from $(0,0)$ to $(r,h)$ around the $y$-axis?
+\item In the informal manner of the last example, describe the volume of a horizontal slice of the \iftoggle{spoiler}{cone}{solid} taken at height $y$.
+\item What is the volume of the entire \iftoggle{spoiler}{cone}{solid}?
+\end{enumerate}
+\end{multicols}
+
+\onslide<3-|handout:0>{Slice volume: \textcolor{W1}{$\pi \left(\frac{r}{h}y\right)^2  \dee y$}}\\
+\sonslide<4->{Cone volume: 
+$\ds\int_{0}^{h}\textcolor{W1}{\pi \left(\frac{r}{h}y\right)^2  \dee y}=
+\left[\frac{\pi r^2}{3h^2}y^3\right]_{y=0}^{y=h}
+=\frac{\pi r^2}{3h^2}(h^3-0) = \frac{\pi}{3}r^2h$}
+\label{note1.6a}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\label{note1.6b}
+\begin{block}{Observation}
+When we rotated around the \textcolor{C3}{horizontal} axis, the width of our cylindrical slices was \textcolor{C3}{$\dee x$}, and our integrand was written in terms of \textcolor{C3}{$x$}.\\[1em]
+
+When we rotated around the \textcolor{W1}{vertical} axis, the width of our cylindrical slices was \textcolor{W1}{$\dee y$}, and we integrated in terms of \textcolor{W1}{$y$}.
+
+\end{block}
+\begin{tikzpicture}[yscale=0.8]
+\myaxis{}{0.5}{4}{}{0}{0}
+\draw[C3, thick] plot[domain=0:1.73]({\x*\x},{\x})plot[domain=1.73:0]({\x*\x},{-\x}); %plots
+\shadedraw[C3,left color=white, right color=C3, fill opacity=0.5]  (3,1.73)arc(90:450:3mm and 1.73cm);%end cap
+\shade[top color=C3, bottom color=C3, middle color=white, fill opacity=0.5]  plot[domain=0:1.73]({\x*\x},{\x})arc (90:270:3mm and 1.73 cm)--plot[domain=1.73:0]({\x*\x},{-\x});%side
+
+\draw[fill=C1, fill opacity=0.5] (2,1.4) arc (90:270:3mm and 1.4 cm) -- (2.2,-1.4) arc (270:90:3mm and 1.4 cm) -- cycle ;
+\draw[dashed] (2.2,1.4 ) arc (90:-90:3mm and 1.4 cm);
+\draw[|-|] (2,-1.75)--(2.2,-1.75)node[midway,below]{$\dee x$};
+\begin{scope}[rotate=90, yshift=-7cm,xshift=-2cm]
+\myaxis{}{0.5}{4}{}{0}{0}
+\draw[W1, thick] plot[domain=0:1.73]({\x*\x},{\x})plot[domain=1.73:0]({\x*\x},{-\x}); %plots
+\shadedraw[W1,bottom color=white, top color=W1, fill opacity=0.5]  (3,1.73)arc(90:450:3mm and 1.73cm);%end cap
+\shade[left color=W1, right color=W1, middle color=white, fill opacity=0.5]  plot[domain=0:1.73]({\x*\x},{\x})arc (90:270:3mm and 1.73 cm)--plot[domain=1.73:0]({\x*\x},{-\x});%side
+
+\draw[fill=W2, fill opacity=0.5] (2,1.4) arc (90:270:3mm and 1.4 cm) -- (2.2,-1.4) arc (270:90:3mm and 1.4 cm) -- cycle ;
+\draw[dashed] (2.2,1.4 ) arc (90:-90:3mm and 1.4 cm);
+\draw[|-|] (2,-1.75)--(2.2,-1.75)node[midway,right]{$\dee y$};
+\end{scope}
+\end{tikzpicture}
+\vfill
+\parbox{.45\textwidth}{\raggedright\textcolor{C3}{Vertical} slices are\linebreak approximately cylinders}\hfill
+\parbox{.45\textwidth}{\raggedright\textcolor{W1}{Horizontal} slices are\linebreak approximately cylinders}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<-3>
+\sStatusBar{1}{4}
+\nsStatusBar{1}{3}
+\sMoreSpace<4>
+\nsMoreSpace<3>
+In this question, we will find the volume enclosed by rotating the curve $y=1-x^2$, from $x=-1$ to $x=2$, about the line $y=4$.
+\begin{multicols}{2}
+\begin{tikzpicture}[yscale=0.3]
+\myaxis{x}{1.5}{2.5}{y}{3.5}{11.5}
+\draw[dashed] (-1.75,4)--(2.75,4);\ycoord[fill=white]{4}{4} 
+\xcoord{-1}{-1} \xcoord{2}{2}
+\draw[C3,thick] plot[domain=-1:2](\x,{1-\x*\x});
+
+\only<beamer>{
+\onslide<2->{
+\shadedraw[C3, thick, top color=C3, bottom color=C3, middle color=white, fill opacity=0.5]plot[domain=-1:2](\x,{7+\x*\x})arc (90:270:3 mm and 7 cm)--plot[domain=2:-1](\x,{1-\x*\x})arc(270:90:3mm and 4cm); %side
+\shadedraw[C3, thick, left color=white, right color=C3, fill opacity=0.5](1.7,4) arc (180:540: 3 mm and 7 cm);
+}
+\onslide<3->{
+\filldraw[fill=C1, fill opacity=0.5] (.75,0.4375) arc (270:90:3mm and 3.56cm)--(1,7.56) arc (90:270:3mm and 3.56cm)--cycle;%side
+\filldraw[C1,fill=C3,fill opacity=0.5] (1,.4375) arc (-90:270:3mm and 3.56cm);
+}
+\sonslide<4->{
+\draw[|-|] (1,-1)--(.75,-1) node[midway, below]{$\dee x$};
+\draw[C1] (3,-7)node{Slice volume: $\pi \underbrace{\left(4-(1-x^2)\right)^2}_{\text{radius}^2} \dee x =\pi(3+x^2)^2 \dee x$};
+}
+}%end beamer-only
+\end{tikzpicture}
+\columnbreak
+
+\only<handout:1>{
+\begin{enumerate}
+\item Sketch the surface traced out by the rotating curve.
+\item Sketch a cylindrical slice. (Consider: will it be horizontal or vertical?)
+\item Give the volume of your slice. Use $\dee x$ or $\dee y$ for the width, as appropriate.
+\item Integrate (with the appropriate limits of integration) to find the volume of the solid.
+\end{enumerate}}\only<handout:2>{}%more space to write
+\end{multicols}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>
+To find the volume of the entire object, we ``add up" the slices from $x=-1$ to $x=2$ by integrating.
+\begin{align*}
+\int_{-1}^2 \pi(3+x^2)^2 \dee x&=\sonslide<2->{
+\pi \int_{-1}^2\left(9+6x^2+x^4\right)\dee x\\
+&=\pi\left[9x+2x^3+\frac15x^5\right]_{-1}^2\\
+&=\pi\left[\left(18+16+\frac{32}{5}\right)-\left(-9-2-\frac15\right)\right]\\
+&=\pi\left[\left(40+\frac25\right)+\left(11+\frac15\right)\right]\\
+&=51.6 \pi
+}
+\end{align*}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes
+\only<5>{\MoreSpace}
+\StatusBar{1}{5}
+Let $A$ be the area between the curve $y=\log x$ and the $x$-axis, from $(1,0)$ to $(e,1)$. In this question, we will consider the volume of the solid formed by rotating $A$ about the $y$-axis.
+\begin{multicols}{2}
+%for visibility, sketch y=3lnx i.e. x=exp(y/3)
+\begin{tikzpicture}[xscale=0.7]
+\myaxis{x}{3}{3}{y}{0}{3.2}
+\xcoord{1}{1} \xcoord{2.718}{e}
+\ycoord{3}{1}
+\onslide<1>{\draw[C3, thick] plot[domain=-0.5:3]({exp(\x/3)},\x);}
+
+\only<beamer>{
+\onslide<2->{\draw[C3,thick,fill=C3,fill opacity=0.2] (1,0)-- plot[domain=0:3]({exp(\x/3)},{\x})|-cycle;}%A
+\onslide<2>{\draw[C1] (2,1)node{$A$};}
+\onslide<3->{\draw[densely dotted,fill=C1,fill opacity=0.2] (2.718,2) rectangle (1.95,1.8);
+\draw[->] (.2,2) arc (0:330:3mm and 1mm);}
+\onslide<4->{%slice
+\begin{scope}[yshift=-2mm]
+\filldraw[fill=C1, fill opacity=0.5] (2.718,2) arc (0:-180: 2.718 cm and 3mm)--(-2.718,2.2) arc (-180:0:2.718 cm and 3mm);%outer cylinder
+\filldraw[fill=C1, fill opacity=0.5] (1.95,2) arc (0:-180: 1.95 cm and 2.7mm)--(-1.95,2.2) arc (-180:0:1.95 cm and 2.7mm)--cycle;%inner cylinder
+\filldraw[fill=C3, fill opacity=0.75] (2.718,2.2) arc (0:360: 2.718 cm and 3mm);%top
+\filldraw[fill=white] (1.95,2.2) arc (0:360: 1.95 cm and 2.5mm);%missing center
+\draw[help lines] (0,1.9)--(0,2.5);%replace axis in centre of washer
+\end{scope}
+}
+\onslide<5->{
+\draw[|-|,C1] (-3,2)--(-3,1.8) node[midway, left]{$\dee y$};
+}
+}%end beamer-only
+
+\end{tikzpicture}
+\columnbreak
+
+\only<handout:1>{
+\begin{enumerate}
+\item Sketch $A$.
+\item Sketch a washer-shaped slice of the solid. (Should it be horizontal or vertical?)
+\item Give the volume of your slice. Use $\dee x$ or $\dee y$ for the width, as appropriate.
+\item Integrate to find the volume of the entire solid.
+\end{enumerate}}\only<handout:2>{}%more space to write
+\end{multicols}\color{C1}
+\sonslide<5->{The outer radius is $e$, while the inner radius at height $y$ is $x=e^y$.\\
+Slice volume at height $y$: \quad $\pi \left(e^2-\left(e^y\right)^2\right)\dee y = \pi \left(e^2-e^{2y}\right)\dee y$}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>
+To find the volume of the entire object, we ``add up" the slices from $y=0$ to $y=1$ by integrating.
+
+ \sonslide<2->{Below we use the substitution rule with $u=2y$ and $\dee u = 2 \dee y$. With practice, you'll probably be able to do this substitution in your head, but we have written it out for clarity}
+\only<beamer>{\begin{align*}
+\int_0^1 \pi\left(e^2-e^{2y}\right) \dee y&=\sonslide<2->{
+\pi\int_{u(0)}^{u(1)}\left(e^2-e^{u}\right) \cdot \frac12 \dee u
+\\&=\frac{\pi}{2}\int_{0}^{2}\left(e^2-e^u\right)  \dee u
+\\
+&=\frac\pi2\left[e^2u-e^u~\right]_0^2\\
+&=\frac\pi2\left[\left(2e^2-e^2\right)-\left(0-1\right)\right]\\
+&=\frac{\pi}{2}\left[e^2+1\right]}
+\end{align*}}
+
+\vfill
+\only<handout>{\vspace{2cm}}
+\smash{\begin{tikzpicture}[xscale=0.6]
+\myaxis{x}{3}{3}{y}{0}{3.5}
+\xcoord{1}{1} \xcoord{2.718}{e}
+\ycoord{3}{1}
+\shadedraw[C1,left color=C1, right color=C1, middle color=white!75!C1,fill opacity=0.3] (2.718,3) arc(0:-180:2.718 cm and 3 mm)--plot[domain=3:0]({-exp(\x/3)},{\x}) arc(180:360:1cm and 1mm)--plot[domain=0:3]({exp(\x/3)},{\x});%inner side
+\shadedraw[C1,left color=C3, right color=C3, middle color=white,fill opacity=0.5] (2.718,3) arc(0:-180:2.718 cm and 3 mm)--(-2.718,0) arc (180:360:2.718 cm and 3mm)--cycle;%outer side
+\draw[C3] (2.718,3)arc(0:180:2.718 cm and 3mm);%back top curve
+\end{tikzpicture}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}
+So far, we've found the volume of solids formed by rotating a curve. 
+When a point rotates about a fixed centre, the result is a circle, so we could slice those solids up into pieces that are approximately cylinders.
+\vfill
+\begin{tikzpicture}[yscale=0.8]
+\myaxis{}{0.5}{4}{}{0}{0}
+\draw[C3, thick] plot[domain=0:1.73]({\x*\x},{\x})plot[domain=1.73:0]({\x*\x},{-\x}); %plots
+\shadedraw[C3,left color=white, right color=C3, fill opacity=0.5]  (3,1.73)arc(90:450:3mm and 1.73cm);%end cap
+\shade[top color=C3, bottom color=C3, middle color=white, fill opacity=0.5]  plot[domain=0:1.73]({\x*\x},{\x})arc (90:270:3mm and 1.73 cm)--plot[domain=1.73:0]({\x*\x},{-\x});%side
+
+\draw[fill=C1, fill opacity=0.5] (2,1.4) arc (90:270:3mm and 1.4 cm) -- (2.2,-1.4) arc (270:90:3mm and 1.4 cm) -- cycle ;
+\draw[dashed] (2.2,1.4 ) arc (90:-90:3mm and 1.4 cm);
+\draw[|-|] (2,-1.75)--(2.2,-1.75)node[midway,below]{$\dee x$};
+\begin{scope}[rotate=90, yshift=-7cm,xshift=-2cm]
+\myaxis{}{0.5}{4}{}{0}{0}
+\draw[W1, thick] plot[domain=0:1.73]({\x*\x},{\x})plot[domain=1.73:0]({\x*\x},{-\x}); %plots
+\shadedraw[W1,bottom color=white, top color=W1, fill opacity=0.5]  (3,1.73)arc(90:450:3mm and 1.73cm);%end cap
+\shade[left color=W1, right color=W1, middle color=white, fill opacity=0.5]  plot[domain=0:1.73]({\x*\x},{\x})arc (90:270:3mm and 1.73 cm)--plot[domain=1.73:0]({\x*\x},{-\x});%side
+
+\draw[fill=W2, fill opacity=0.5] (2,1.4) arc (90:270:3mm and 1.4 cm) -- (2.2,-1.4) arc (270:90:3mm and 1.4 cm) -- cycle ;
+\draw[dashed] (2.2,1.4 ) arc (90:-90:3mm and 1.4 cm);
+\draw[|-|] (2,-1.75)--(2.2,-1.75)node[midway,right]{$\dee y$};
+\end{scope}
+\end{tikzpicture}
+\vfill
+We can find the volumes of other shapes, as long as we can find the areas of their cross-sections.
+
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]
+\QuestionBar{1}{2}<-6>
+\AnswerBar{1}{2}<7>
+\sStatusBar{1}{7}
+\nsStatusBar{1}{6}
+\AnswerYes<6>
+The corner of a room is sealed off as follows:
+
+\onslide<2->{\alert<2-3|handout:0>{On both walls, a parabola of the form $z=(x-1)^2$ is drawn, where $z$ is the vertical axis and $x$ is the horizontal. They start one metre above the corner, and end one metre to the side of the corner.}}
+
+\onslide<4->{\alert<4|handout:0>{Taught ropes are strung \textit{horizontally} from one parabola to the other,} \alert<5|handout:0>{so the horizontal cross-sections are right triangles.}} \onslide<6->{\alert{How much volume is enclosed?}}
+\begin{multicols}{2}
+\begin{tikzpicture}
+\draw (0,0)--(0,2.5) node[above]{$z$} (0,0)--(2.5,0) (0,0)--(-1.6,-1.6);
+\onslide<2->{\draw[thick,C3] plot[domain=0:2](\x,{\x*\x/2-2*\x+2}); \ycoord{2}{1} \xcoord{2}{1}}
+\onslide<3->{\draw[thick,C3] plot[domain=0:-1.4]({\x},{\x*\x+3.83*\x+2}); }
+\onslide<4>{
+\foreach \x in {0.05,0.1,...,2}{
+	\MULTIPLY{\x}{\x}{\xx}
+	\DIVIDE{\xx}{2}{\fa}
+	\MULTIPLY{\x}{2}{\fb}
+	\SUBTRACT{\fa}{\fb}{\fc}
+	\ADD{\fc}{2}{\fy} %(x,fy) on the right wall
+	
+	\MULTIPLY{\x}{-0.7}{\gx}
+	\MULTIPLY{\gx}{\gx}{\gxgx}
+	\MULTIPLY{3.83}{\gx}{\ga}
+	\ADD{\gxgx}{\ga}{\gb}
+	\ADD{\gb}{2}{\gy} %(gx,gy) on the left wall
+	
+	\draw[W2,thick] (\x,\fy)--(\gx,\gy);
+	}}
+
+\onslide<5-|handout:0>{
+	\draw[C1,fill=C3,fill opacity=0.5] (-.35,.7925)--(.5,9/8)--(.5,.925)--(-.35,.59)--cycle;
+	\draw[C1,fill=C3,fill opacity=0.5] (-.35,.7925)--(0,9/8)--(.5,9/8)--cycle;
+	}
+\end{tikzpicture}\columnbreak
+
+
+\sonslide<7->{
+At height $z$, the cross-section is a right triangle. Its side length is the $x$-value on the parabola. Solving $z=(x-1)^2$ for $x$, we find $x=\sqrt{z}+1$.
+
+So, the area of a cross-section at height $z$ is $\frac12\left(\sqrt{z}+1\right)^2$. We call its width $\dee z$.
+
+All together, the enclosed volume is $\int_0^1 \frac12\left(z+2\sqrt z + 1\right)\dee z=\frac{17}{12}$ cubic metres.
+}
+\end{multicols}
+
+
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\sStatusBar{1}{7}
+\nsStatusBar{1}{6}
+\QuestionBar{2}{2}<-6>
+\AnswerBar{2}{2}<7>
+\AnswerYes<6>
+
+A pyramid with \alert<2|handout:0>{height $h$ metres} has a square base with \alert<3|handout:0>{side-length $b$ metres}. At an \alert<4|handout:0>{elevation of $y$ metres} above the base, $0 \le y \le h$, the \alert<5|handout:0>{cross-section of the pyramid is a square} with \alert<6|handout:0>{side-length $\frac{b}{h}\left(h-y\right)$}. What is the volume of the pyramid?
+
+\begin{multicols}{2}
+%base of pyramid has vectors <lx,ly> on left and <rx,ry> on right
+\COPY{-1.75}{\lx} \COPY{.75}{\ly}
+\COPY{1.25}{\rx} \COPY{.75}{\ry}
+\COPY{3.5}{\h} \DIVIDE{\h}{2}{\hh}
+\begin{tikzpicture}
+\draw[C3, dashed] (\rx,\ry)--(\rx+\lx,\ry+\ly)--(\lx,\ly) (\rx+\lx,\ry+\ly)--(0,\h);%back of pyramid
+
+\onslide<2->{\draw[|-|,xshift=-7mm] (\lx,\ry/2+\ly/2)--(\lx,\h)node[midway,left]{$h$};}%h
+\onslide<3->{\draw[|-|,xshift=2mm,yshift=-2mm] (0,0)--(\rx,\ry)node[midway,below]{$b$};}%b
+\color{W1}
+\onslide<4->{\draw[|-|,xshift=-3mm] (\lx,\ry/2+\ly/2)--(\lx,\h/2)node[midway,left]{$y$};}%y
+\onslide<5->{\filldraw[fill opacity=0.5,yshift=\hh cm,scale=0.5] (\lx,\ly)--(0,0)--(\rx,\ry)--(\rx,\ry-.4)--(0,-.4)--(\lx,\ly-.4)--cycle;%front of slice
+\filldraw[W2,fill opacity=0.5,yshift=\hh cm,scale=0.5] (\lx,\ly)--(\rx+\lx,\ry+\ly)--(\rx,\ry)--(0,0)--cycle;%top of slice
+}
+\onslide<6->{\draw[yshift=-4mm,xshift=1mm,scale=0.5,|-|] (0,\h)--(\rx,\ry+\h)node[right,xshift=1mm]{$\frac{b}{h}\left(h-y\right)$};}
+
+\draw[thick,C3] (\lx,\ly)--(0,0)--(\rx,\ry)--(0,\h)--cycle (0,0)--(0,\h);%front of pyramid
+\end{tikzpicture}
+\color{C1}\small
+
+\sonslide<7->{The area of the square cross-section at height $y$ is $\left[\frac{b}{h}\left(h-y\right)\right]^2 = \frac{b^2}{h^2}\left(h^2-2hy+y^2\right)$. \columnbreak
+
+If we give a horizontal slice width $\dee y$, then the slice volume is $\frac{b^2}{h^2}\left(h^2-2hy+y^2\right) \dee y $. So, the total volume of the pyramid is
+\begin{align*}
+&\int_0^h \frac{b^2}{h^2}\left(h^2-2hy+y^2\right) \dee y\\
+=&\frac{b^2}{h^2}\left[h^2y-hy^2+\frac13y^3\right]_{y=0}^{y=h}\\
+=&\frac{b^2}{h^2}\left[h^3-h^3+\frac13h^3\right]=\frac13b^2h
+\end{align*}}
+\end{multicols}
+\end{frame}
+%%----------------------------------------------------------------------------------------
+%%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Optional: Challenge Question}
+\AnswerYes
+A paddle fixed to the $x$-axis has two flat blades. One blade is in the shape of $\textcolor{W1}{f(x)=\frac83(x-1)(x-5)}$, from $x=1$ to $x=5$. The other blade is in the shape of $\textcolor{C3}{g(x)=x(6-x)}$, $0 \le x \le 6$. The paddle turns through a gelatinous fluid, scraping out a hollow cavity as it turns. What is the volume of this cavity?\\ You may leave your answer as an integral, or sum of integrals.
+
+\begin{tikzpicture}[yscale=0.2]
+\myaxis{x}{0}{7}{}{11}{10}
+\draw[thick,C3,fill=C3, fill opacity=0.3,smooth] plot[domain=0:6](\x,{\x*(6-\x)})--cycle;
+\draw[C3] (5,6)node[right]{$g(x)=x(6-x)$};
+\draw[thick,W1,fill=W2,fill opacity=0.3,smooth] plot[domain=1:5](\x,{8/3*(\x-1)*(\x-5)})--cycle;
+\draw[W1]  (4.5,-6)node[right]{$f(x)=\frac83(x-1)(x-5)$};
+\foreach \x in {1,5,6}{\draw(\x,1)--(\x,-1)node[below]{\x};}
+\draw[->] (6.75,0.4) arc (10:330:1mm and 10mm);
+\end{tikzpicture}
+\end{frame}
+%%----------------------------------------------------------------------------------------
+%%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\sStatusBar{1}{7}
+\nsStatusBar{1}{3}
+\sMoreSpace<2,5>
+\nsMoreSpace<2>
+\AnswerYes<3,6>
+The size of the cavity at a point $x$ along the paddle is determined by the \alert{larger} of $|\textcolor{W1}{f(x)}|$ and $|\textcolor{C3}{g(x)}|$.
+
+\snshonly{1-2,5}{1-2}{1-2}{\begin{tikzpicture}[yscale=0.2]
+\myaxis{x}{0}{7}{}{11}{10}
+\snshonslide{1}{1-2}{1}{\draw[C3] (5,6)node[right]{$g(x)=x(6-x)$};
+\draw[W1]  (4.5,-8.5)node[right]{$f(x)=\frac83(x-1)(x-5)$};}
+
+\snshonly{-4}{1}{1}{
+	\filldraw[thick,C3, fill opacity=0.3] plot[domain=0:6](\x,{\x*(6-\x)})--plot[domain=6:0](\x,{-\x*(6-\x)});
+	\filldraw[thick,W1,fill opacity=0.3] plot[domain=1:5](\x,{8/3*(\x-1)*(\x-5)})--plot[domain=5:1](\x,{-8/3*(\x-1)*(\x-5)});}
+\sonslide<2->{\draw[C3] (5,6)node[right]{$|g(x)|=x(6-x)$};
+\draw[W1](4,10)node[right]{$|f(x)|=-\frac83(x-1)(x-5)$};}
+\foreach \x in {1,5,6}{\draw(\x,1)--(\x,-1)node[below]{\x};}
+
+\sonslide<4-|handout:2>{ \foreach \x in {2,4}{\draw(\x,1)--(\x,-1)node[below]{\x};}}
+\snshonslide{5-}{2}{2}{
+	\shadedraw[thick,C3,top color=C3,bottom color=C3, middle color=white, fill opacity=0.5] plot[domain=0:2](\x,{\x*(6-\x)})arc(90:270:3mm and 8cm)--plot[domain=2:0](\x,{-\x*(6-\x)});
+	\shadedraw[thick,W1,top color=W2,bottom color=W2,middle color=white,fill opacity=0.5] (2,-8) arc (270:90:3mm and 8cm)-- plot[domain=2:4](\x,{-8/3*(\x-1)*(\x-5)})arc(90:270:3mm and 8cm)--plot[domain=4:2](\x,{8/3*(\x-1)*(\x-5)});
+	\shadedraw[thick,C3,top color=C3,bottom color=C3, middle color=white, fill opacity=0.5] (4,-8) arc (270:90:3mm and 8cm)-- plot[domain=4:6](\x,{\x*(6-\x)})--plot[domain=6:4](\x,{-\x*(6-\x)});
+	%shape cut up by region
+	\sonslide{\filldraw[C3, fill=C3, fill opacity=0.5] (1,5) arc (90:270:3mm and 5cm)--(1.2,-5) arc (270:90:3mm and 5cm)--cycle;%purple slice edge
+	\fill[C3, opacity=0.5] (1.2,5) arc (90:450:3mm and 5cm);%purple slice end cap
+	\filldraw[W1, fill=W1, fill opacity=0.5] (2.25,9.167) arc (90:270:3mm and 9.2 cm)--(2.45,-9.167) arc (270:90:3mm and 9.2cm)--cycle;%brown slice edge
+	\fill[W2, opacity=0.5] (2.45,9.176) arc (90:450:3mm and 9.2cm);%brown slice end cap
+	}}
+\end{tikzpicture}}
+
+\sonly<3-4|handout:2>{
+Let's find where $|f(x)|=|g(x)|$:\begin{align*}
+x(6-x)&=-\frac83(x-1)(x-5)\\
+\sonslide<4>{6x-x^2&=-\frac83\left(x^2-6x+5\right) =- \frac83x^2+16x-\frac{40}{3}
+\\ \frac53 x^2-10x+\frac{40}{3}&=0
+\\ x^2-6x+8&=0\\
+(x-2)(x-4)&=0\\
+x=2,\ x&=4}
+\end{align*}}
+
+\sonly<5->{The radius of a cylindrical slice is $|g(x)|=x(6-x)$ when $0<x<2$ and $4<x<6$, and the radius is $|f(x)|=-\frac83(x-1)(x-5)$ when $2<x<4$.}
+
+\sonly<7->{ $|f(x)|^2=[f(x)]^2$, so we can drop our absolute values in this step.
+\begin{align*}
+\text{Volume}&=\int_0^2 \pi\left(6x-x^2\right)^2\dee x + \int_2^4\pi\left(\frac{8}{3} \left(x^2-6x+5\right)\right)^2 \dee x\\&\qquad + \int_4^6\pi\left(6x-x^2\right)^2 \dee x
+\intertext{We could make our calculation slightly shorter by noting that the shape is symmetric to the left and right of $x=3$. }
+&=2\underbrace{\left[\int_0^2\pi\left(6x-x^2\right)^2 \dee x + \int_2^3 \pi\left(\frac{8}{3} \left(x^2-6x+5\right)\right)^2 \dee x\right]}_{\text{Volume of half the object, }0 \le x \le 3}
+\end{align*}	
+	}
+\end{frame}
+%%----------------------------------------------------------------------------------------
+%%----------------------------------------------------------------------------------------%----------------------------------------------------------------------------------------

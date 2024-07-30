@@ -1,0 +1,506 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsA{\ai,\atech}
+ \end{frame}
+%----------------------------------------------------------------------------------------
+
+\section{1.9 Trigonometric Substitution}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Warmup}
+\only<1>{\AnswerYes}\AnswerSpace
+Evaluate $\displaystyle\int_3^7\frac{1}{\sqrt{x^2+2x+1}}~\dee x$.\vfill
+
+\sonslide<2->{
+\begin{align*}
+\int_3^7\frac{1}{\sqrt{x^2+2x+1}}~\dee x&=\int_3^7\frac{1}{\sqrt{(x+1)^2}}~\dee x\\
+&=\int_3^7\frac{1}{|x+1|}~\dee x
+\intertext{When $3 \le x \le 7$, we have $|x+1|=x+1$.}
+&=\int_3^7\frac{1}{x+1}~\dee x\\
+&=\left[\log|x+1|\right]_3^7\\
+&=\log8-\log4=\log2
+\end{align*}
+\pause\color{W1}\vfill
+Idea: $\sqrt{(\text{something})^2}=|\text{something}|$. 
+We cancelled off the square root.
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+Evaluate $\displaystyle\int\frac{1}{\sqrt{x^2+1}}~\dee x$.
+
+\sonslide<2->{\vfill
+We still want to cancel off the square root, but $x^2+1$ is not obviously of the form $(\text{something})^2$.
+
+Let $\textcolor{M3}{x=\tan \theta}$, $\textcolor{C3}{\dee x=\sec^2\theta\, \dee \theta}$.
+\begin{align*}
+\int&\frac{1}{\sqrt{\textcolor{M3}x^2+1}}~\textcolor{C3}{\dee x}
+=\int\frac{1}{\sqrt{\textcolor{M3}\tan^2\textcolor{M3}\theta+1}}\,\textcolor{C3}{\sec^2\theta \dee \theta}
+=\int\frac{\sec^2\theta}{\sqrt{\sec^2\theta}}\dee \theta\\
+&=\int\frac{\sec^2\theta}{\sec\theta}\dee \theta=\int\sec \theta\, \dee \theta=\log|\sec \theta + \tan \theta|+C
+\intertext{We need to get these back in terms of $x$. From our substitution, we know $\tan\theta=x$. From simplifying our denominator, we also know $\sec \theta = \sqrt{x^2+1}$.}
+&=\log\left| \sqrt{x^2+1}+x\right|+C
+\end{align*}
+
+\color{W1}
+\vfill
+Same idea: $\sqrt{(\text{something})^2}=|\text{something}|$; cancel off the square root.
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\CheckFrame{
+Let's verify that $\displaystyle\int\frac{1}{\sqrt{x^2+1}}=\onslide<beamer>{\log\left| \sqrt{x^2+1}+x\right|+C}$.\\
+Seems improbable, right?}{
+\begin{align*}
+\diff{}{x}&\left[ \log\left| \sqrt{x^2+1}+x\right|+C\right]=\frac{1}{\sqrt{x^2+1}+x}\cdot\left( \frac{2x}{2\sqrt{x^2+1}}+1\right)\\
+&=\frac{x+\sqrt{x^2+1}}{(\sqrt{x^2+1}+x)\sqrt{x^2+1}}=\frac{1}{\sqrt{x^2+1}}
+\end{align*}
+So, our answer works! }
+
+%----------------------------------------------------------------------------------------
+\begin{frame}{Method (one standard case)}
+\StatusBar{1}{9}
+\begin{itemize}[<+->]
+\item An integrand has the form: \textcolor{W1}{$\sqrt{\text{quadratic}}$}, and we'd like to cancel off the square root.
+\vfill
+\item So, we need to write our quadratic expression as a perfect square. Choose a helpful substitution:
+\vfill
+\begin{itemize}
+\item \textcolor{M3}{$x=\sin\theta$}, $1-\sin^2\theta=\cos^2 \theta$ changes \textcolor{W1}{$\sqrt{1-x^2}$} into \onslide<+-|handout:0>{ \textcolor{W1}{$\sqrt{\cos^2\theta}=|\cos \theta|$}}
+\vfill
+\item \textcolor{M3}{$x=\tan\theta$}, $1+\tan^2\theta=\sec^2 \theta$ changes \textcolor{W1}{$\sqrt{1+x^2}$} into  \onslide<+-|handout:0>{\textcolor{W1}{$\sqrt{\sec^2\theta}=|\sec \theta|$}}
+\vfill
+\item \textcolor{M3}{$x=\sec\theta$}, $\sec^2\theta-1=\tan^2 \theta$ changes \textcolor{W1}{$\sqrt{x^2-1}$} into \onslide<+-|handout:0>{\textcolor{W1}{$\sqrt{\tan^2\theta}=|\tan\theta|$}}
+%\vfill
+%\item Fine print: you may assume for this method that $\sqrt{\cos^2\theta}=\cos\theta$, 
+%$\sqrt{\sec^2\theta}=\sec\theta$, and $\sqrt{\tan^2\theta}=\tan\theta$.
+\end{itemize}
+\vfill
+\item After integrating, convert back to the original variable\\ (possibly using a triangle--more details later)
+\end{itemize}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Focus on the Algebra}
+\AnswerYes<1-3>
+\nsNoSpace<1>
+\textcolor{W2}{$1-\sin^2\theta=\cos^2\theta $ \hfill $1+\tan^2\theta=\sec^2\theta $ \hfill $
+\sec^2\theta-1=\tan^2\theta $}\vfill
+
+
+\onslide<+->{Choose a trigonometric substitution that will allow the square root to cancel out of the following expressions:}
+\begin{itemize}
+	\item $\sqrt{x^2-1}$\\
+	\sonslide<+->{Let $\textcolor{M3}{x=\sec \theta}$, so $\sqrt{\textcolor{M3}x^2-1}$ becomes $\sqrt {\textcolor{M3}\sec^2\textcolor{M3} \theta - 1} = \sqrt{\tan^2 \theta} = |\tan\theta|$}
+	\vfill 
+	
+	\item $\sqrt{x^2+1}$\\
+	\sonslide<+->{Let $\textcolor{M3}{x=\tan\theta}$, so $\sqrt{\textcolor{M3}x^2+1}$ becomes 
+	$\sqrt{\textcolor{M3}\tan^2 \textcolor{M3}\theta + 1}=\sqrt{\sec^2 \theta} = |\sec\theta|$}
+	\vfill
+	
+	\item $\sqrt{1-x^2}$\\
+	\sonslide<+->{Let $\textcolor{M3}{x=\sin \theta}$ so $\sqrt{1-\textcolor{M3}x^2}$ becomes 
+	$\sqrt{1-\textcolor{M3}\sin^2\textcolor{M3} \theta} = \sqrt{\cos^2 \theta} = |\cos \theta|$\\
+	(Alternately, $x=\cos \theta$ works as well)}
+	\vfill
+\end{itemize}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Focus on the Algebra}
+\AnswerYes<1-2>
+\sNoSpace<1-2>
+\nsNoSpace<1>
+\textcolor{W2}{$1-\sin^2\theta=\cos^2\theta $ \hfill $1+\tan^2\theta=\sec^2\theta $ \hfill $
+\sec^2\theta-1=\tan^2\theta $}\vfill
+
+
+\onslide<+->{Choose a trigonometric substitution that will allow the square root to cancel out of the following expressions:}
+\begin{itemize}
+\item $\sqrt{x^2+7}$\\
+	\sonslide<+->{Adjust a given identity by multiplying both sides by 7: $7\tan^2 \theta + 7 = 7\sec^2 \theta$. Now we see we want $\textcolor{M3}{x^2 = 7\tan^2 \theta}$. That is, $x=\sqrt{7}\tan \theta$:\\
+	$\sqrt{\textcolor{M3}{x^2}+7}=\sqrt{\textcolor{M3}{7\tan^2\theta}+7}=\sqrt{7(\sec^2\theta)} = \sqrt{7}\ |\sec\theta|$}
+	\vfill 
+	
+\item $\sqrt{3-2x^2}$\\
+	\sonslide<+->{
+	Adjust a given identity by multiplying both sides by 3: $3-3\sin^2\theta=3\cos^2\theta$. Now we see we want 
+	$\textcolor{M3}{2x^2=3\sin^2\theta}$, so $x=\sqrt{\frac32}\sin\theta$:\\
+	 $\sqrt{3-\textcolor{M3}{2x^2}} = \sqrt{3-\textcolor{M3}{2\left(\frac32\sin^2\theta\right)}}=\sqrt{3-3\sin^2\theta}=\sqrt{3\cos^2\theta}=\sqrt{3}\ |\cos\theta|$
+	}
+	\vfill
+\end{itemize}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Closer look at absolute values \hfill \hyperlink{EndOfAbsValueDiscussion}{\beamerskipbutton{skip closer look}}}
+\only<1>{\AnswerYes\NoSpace\label{note1.9a}}\AnswerSpace
+Consider the substitution $\textcolor{M3}{x=\sin \theta}$, $\textcolor{C3}{\dee x = \cos \theta \ \dee \theta}$ for the integral:
+\[\int_0^1 \sqrt{1-x^2}\ \dee x\]
+
+When $x=0$ (lower limit of integration), what is $\theta$?\\
+When $x=1$ (upper limit of integration), what is $\theta$? 
+
+\sonly<2->{\vfill\small
+	If $x=0$, then $\sin \theta = 0$, but there are infinitely many values of $\theta$ that could make this true. To use the substitution $x=\sin\theta$, we need the function $x=\sin \theta$ to be invertible. That way, we can unambiguously convert between $x$ and $\theta$. With that in mind, we'll actually set $\theta = \arcsin x$. Now $\theta$ is restricted to the interval $-\frac{\pi}{2} \le \theta \le \frac{\pi}{2}$.
+	
+\begin{align*}\int_{\textcolor{M3}0}^{\textcolor{M3}1} \sqrt{1-\textcolor{M3}x^2}\ \textcolor{C3}{\dee x} &= \int_{\textcolor{M3}{\arcsin 0}}^{\textcolor{M3}{\arcsin 1}} \sqrt{1-\textcolor{M3}{\sin}^2\textcolor{M3}{\theta}}\,\textcolor{C3}{\cos \theta\ \dee \theta} = \int_0^\frac{\pi}{2}\sqrt{\cos^2\theta}\cdot\cos \theta \ \dee \theta\\
+&=\int_0^{\frac{\pi}{2}}|\cos \theta| \cdot \cos \theta\ \dee \theta
+\end{align*}
+For $0 \le \theta \le \frac{\pi}{2}$, we have $\cos \theta \ge 0$, so $|\cos \theta|=\cos \theta$.
+	}
+\end{frame}	
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Closer look at absolute values\hfill \hyperlink{EndOfAbsValueDiscussion}{\beamerskipbutton{skip closer look}}}
+\StatusBar{1}{5}
+More generally, suppose $a$ is a positive constant and we use the substitution $x= a \sin \theta$ for the term $\sqrt{a^2-x^2}$.\pause
+\begin{itemize}[<+-|handout:0>]\color{spoilercolor}
+\item $\theta = \arcsin\left(\frac{x}{a}\right)$, so $-\frac{\pi}{2}\le \theta \le \frac{\pi}{2}$
+\item $\sqrt{a^2-x^2}=\sqrt{a^2-a^2\sin^2\theta}=\sqrt{a^2\cos^2\theta}=a|\cos\theta|$
+\item On the interval $-\frac{\pi}{2} \le \theta \le \frac{\pi}{2}$, $\cos\theta \ge 0$, so $|\cos \theta|=\cos\theta$
+\begin{center}
+\begin{tikzpicture}
+\myaxis{\theta}{3.5}{3.5}{y}{1}{1.25}
+\draw[C1,thick] plot[smooth,domain=-3.25:3.25](\x,{cos(\x r)});
+\xcoord{1.57}{\frac{\pi}{2}}
+\xcoord{-1.57}{-\frac{\pi}{2}}
+\end{tikzpicture}
+\end{center}
+\item So, in general, when we use the substitution $x=\sin\theta$ with trigonometric substitution, we can expect $|\cos \theta| = \cos \theta$.
+\end{itemize}
+\end{frame}	
+%%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Closer look at absolute values\hfill \hyperlink{EndOfAbsValueDiscussion}{\beamerskipbutton{skip closer look}}}
+\StatusBar{1}{5}
+Now, consider the substitution $x=a\tan \theta$ for $\sqrt{a^2+x^2}$, where $a$ is a positive constant.\pause
+\begin{itemize}[<+-|handout:0>]\color{spoilercolor}
+\item $\theta = \arctan\left(\frac{x}{a}\right)$, so $-\frac{\pi}{2}\le \theta \le \frac{\pi}{2}$
+\item $\sqrt{a^2+x^2}=\sqrt{a^2+a^2\tan^2\theta}=\sqrt{a^2\sec^2\theta}=\frac{a}{|\cos \theta|}$
+\item On the interval $-\frac{\pi}{2} \le \theta \le \frac{\pi}{2}$, $\cos\theta \ge 0$, so $|\cos \theta|=\cos\theta$ and $|\sec \theta| = \sec \theta$.
+\begin{center}
+\begin{tikzpicture}
+\myaxis{\theta}{3.5}{3.5}{y}{1}{1.25}
+\draw[C1,thick] plot[smooth,domain=-3.25:3.25](\x,{cos(\x r)});
+\xcoord{1.57}{\frac{\pi}{2}}
+\xcoord{-1.57}{-\frac{\pi}{2}}
+\end{tikzpicture}
+\end{center}
+\item So, in general, when we use the substitution $x=\tan\theta$ with trigonometric substitution, we can expect $|\sec \theta| = \sec \theta$.
+\end{itemize}
+\end{frame}
+%%----------------------------------------------------------------------------------------%%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Closer look at absolute values\hfill \hyperlink{EndOfAbsValueDiscussion}{\beamerskipbutton{skip closer look}}}
+\StatusBar{1}{6}
+Finally, consider the substitution $x=a\sec \theta$ for $\sqrt{x^2-a^2}$, where $a$ is a positive constant.\pause
+\begin{itemize}[<+-|handout:0>]\color{spoilercolor}
+\item $\sec \theta = \frac{x}{a}$, so $\cos \theta=\frac{a}{x}$, so $\theta= \arccos\left(\frac{a}{x}\right)$. Then $0 \le \theta \le \pi$
+\item $\sqrt{x^2-a^2}=\sqrt{a^2\sec^2\theta-a^2}=\sqrt{a^2\tan^2\theta}=a|\tan\theta|$
+\item Now this case gets slightly more complicated than the others:
+\begin{itemize}
+\item For $\sqrt{x^2-a^2}$ to be defined, we need $x^2\ge a^2$. I.e. $x\ge a$ or $x\le -a$.
+\item When $x\ge a$, we have $0 \le \theta <\frac{\pi}{2}$, $\tan\theta \ge 0$, so $|\tan \theta|=\tan\theta$.
+\item When $x\le -a$, we have $\frac{\pi}{2}< \theta \le \pi$, $\tan\theta<0$, so $|\tan \theta|=-\tan\theta$.
+\begin{tikzpicture}[scale=0.7]
+\myaxis{\theta}{0}{3.3}{y}{1.5}{1.25}
+\draw[C1,very thick] plot[smooth,domain=0:1.05](\x,{tan(\x r)});
+\draw[W1,very thick] plot[smooth,domain=2.1:3.14](\x,{tan(\x r)});
+\draw(1.5,-1.75)node[below,C1]{$y=\tan\theta$};
+\xcoord{1.57}{\frac{\pi}{2}}
+\xcoord{3.14}{\pi}
+%
+\begin{scope}[xshift=5cm]
+\myaxis{\theta}{0}{3.5}{y}{0}{1.25}
+\draw[C3,very thick] plot[smooth,domain=0:1.05](\x,{abs(tan(\x r))});
+\draw[C3,very thick] plot[smooth,domain=2.1:3.14](\x,{abs(tan(\x r))});
+\draw (1.57,-1.75)node[C3,below]{$y=\sqrt{\tan^2\theta}=|\tan\theta|$};
+\xcoord{1.57}{\frac{\pi}{2}}
+\xcoord{3.14}{\pi}
+\end{scope}
+\end{tikzpicture}
+\end{itemize}
+\end{itemize}
+\end{frame}
+%%----------------------------------------------------------------------------------------
+
+\begin{frame}[t,label=EndOfAbsValueDiscussion]{Absolute Values}
+From now on, we will assume:
+\begin{itemize}
+\item With the substitution $x=a \sin \theta$ for $\sqrt{a^2-x^2}$,~ $|\cos \theta|=\cos \theta$
+\item With the substitution $x=a \tan \theta$ for $\sqrt{a^2+x^2}$,~ $|\sec \theta|=\sec \theta$
+\end{itemize}
+\end{frame}
+%%----------------------------------------------------------------------------------------
+%%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\only<1>{
+\MoreSpace
+\begin{block}{Identities}
+\begin{align*}
+1-\sin^2 \theta & = \cos^2 \theta & \sin(2\theta)&=2\sin\theta\cos\theta\\
+1+\tan^2\theta & = \sec^2 \theta & \sin^2 \theta &= \frac{1-\cos(2\theta)}{2}\\
+\sec^2\theta-1&=\tan^2\theta & \cos^2\theta &= \frac{1+\cos(2\theta)}{2}
+\end{align*}
+\end{block}}
+\only<2>{\AnswerYes}
+Evaluate $\ds\int_0^1(1+x^2)^{-3/2}~\dee x$
+
+\sonslide<3->{Let $\textcolor{M3}{x=\tan\theta}$, $\textcolor{C3}{\dee x = \sec^2 \theta\ \dee \theta}$.
+When $x=0$, then $\theta = \arctan{0}=0$; when $x=1$, then $\theta = \arctan 1 = \frac{\pi}{4}$.
+	\begin{align*}
+	\int_{\textcolor{M3}0}^{\textcolor{M3}1}(1+\textcolor{M3}x^2)^{-3/2}~\textcolor{C3}{\dee x}
+	&=\int_{{\color{M3}\theta=0}}^{\color{M3}\theta=\pi/4} \frac{1}{\sqrt{1+\textcolor{M3}\tan^2\textcolor{M3}\theta}^3}\color{C3}\sec^2\theta \ \dee \theta\\
+	&=\int_0^{\pi/4}\frac{\sec^2 \theta}{\sqrt{\sec^2\theta}^3}\dee\theta
+	=\int_0^{\pi/4} \frac{\sec^2\theta}{|\sec \theta|^3}\dee\theta\\
+	&=\int_0^{\pi/4} \frac{1}{|\sec \theta|}\ \dee \theta
+	=\int_0^{\pi/4} |\cos \theta|\ \dee \theta
+	\intertext{Given our previous investigation,}
+	&=\int_0^{\pi/4} \cos \theta\ \dee\theta=\big[\sin \theta\big]_0^{\pi/4}\\
+	&=\sin\frac{\pi}{4}-\sin 0 = \frac{1}{\sqrt 2}
+	\end{align*}
+	}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+
+\begin{frame}[t]
+\only<1>{
+\MoreSpace
+\begin{block}{Identities}
+\begin{align*}
+1-\sin^2 \theta & = \cos^2 \theta & \sin(2\theta)&=\cos\theta\\
+1+\tan^2\theta & = \sec^2 \theta & \sin^2 \theta &= \frac{1-\cos(2\theta)}{2}\\
+\sec^2\theta-1&=\tan^2\theta & \cos^2\theta &= \frac{1+\cos(2\theta)}{2}
+\end{align*}
+\end{block}}
+\only<2>{\AnswerYes}
+Evaluate $\ds\int \sqrt{1-4x^2}~\dee x$
+
+\color{C1} 
+\sonly<3>{Under the square root, we have ``one minus a term with a variable," which matches the identity $1-\sin^2\theta$. So, we want $4x^2$ to become $\sin^2 \theta$. That is, $\textcolor{M3}{x=\frac12\sin\theta}$. Then $\textcolor{C3}{\dee x = \frac12\cos \theta \ \dee \theta}$.
+\begin{align*}
+\int \sqrt{1-4\textcolor{M3}x^2}~\color{C3}\dee x
+&=\int \sqrt{1-4\left(\textcolor{M3}{\frac12\sin\theta}\right)^2}\cdot\textcolor{C3}{\frac12 \cos \theta \ \dee \theta}\\
+&=\frac12\int\sqrt{1-\sin^2\theta}\cdot\cos\theta \dee \theta
+=\frac12\int\sqrt{\cos^2\theta}\cdot\cos\theta \dee \theta\\
+&=\frac12\int|\cos \theta|\cdot\cos\theta \ \dee \theta
+=\frac12\int\cos^2\theta \ \dee \theta\\
+&=\frac12\int\left(\frac{1+\cos(2\theta)}{2}\right)\dee\theta=\frac14\int\big(1+\cos(2\theta)\big)\dee\theta\\
+&=\frac14\left[\theta+\frac12\sin(2\theta)\right]+C=\frac14\left[\theta+\sin\theta\cos\theta\right]+C
+\end{align*}
+It remains to convert $\theta$ back into $x$.
+	}
+\sonly<4>{\small
+The substitution $x=\frac12\sin\theta$ tells us $\sin\theta=2x$. This in turn gives us $\theta = \arcsin(2x)$. We should still convert $\cos \theta$ back into terms of $x$. You might notice in the calculation we did that $\sqrt{1-4x^2}$ turned into $\cos\theta$, so $\cos\theta=\sqrt{1-4x^2}$. \vfill
+
+Alternately, to find $\cos\theta$ in terms of $x$, we can use a triangle. From $\sin\theta = 2x$, and the understanding that $\sin\theta$ is the ratio $\frac{\text{opposite}}{\text{hypotenuse}}$ for a right triangle with angle $\theta$, we can set up a triangle whose opposite side has length $2x$, and hypotenuse has length $1$.
+\begin{multicols}{2}
+\TrigTri{\theta}{\sqrt{1-4x^2}}{2x}{1}
+
+The Pythagorean theorem tells us the side adjacent to $\theta$ has length $\sqrt{1-4x^2}$. So $\cos\theta = \frac{\text{adjacent}}{\text{hypotenuse}}=\sqrt{1-4x^2}$.
+\end{multicols}
+ $\int\sqrt{1-4x^2}\ \dee x =
+  \frac14\Big(\underbrace{\arcsin(2x)}_{\theta}+\underbrace{2x\sqrt{1-4x^2}}_{\sin\theta \cos \theta}\Big)+C$
+}
+\end{frame}
+%%----------------------------------------------------------------------------------------
+
+\CheckFrame{
+In the last example, we computed
+\[\int\sqrt{1-4x^2}\ \dee x = \onslide<beamer>{\frac14\big(\arcsin(2x)+2x\sqrt{1-4x^2}\big)+C.}\]
+To check, we differentiate.
+}{
+\begin{align*}
+\diff{}{x}&\left\{\frac14\big(\arcsin(2x)+2x\sqrt{1-4x^2}\big)+C \right\}\\
+=&\frac14\left( \frac{2}{\sqrt{1-(2x)^2}}+2x\frac{-8x}{2\sqrt{1-4x^2}}+2\sqrt{1-4x^2} \right)\\
+=&\frac14\left(\frac{2}{\sqrt{1-4x^2}}-\frac{8x^2}{\sqrt{1-4x^2}}+\frac{2(1-4x^2)}{\sqrt{1-4x^2}}\right)\\
+&=\frac14\left(\frac{2-8x^2+2-8x^2}{\sqrt{1-4x^2}}\right)=\frac{1-4x^2}{\sqrt{1-4x^2}}=\sqrt{1-4x^2}\qquad \checkmark
+\end{align*}}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+
+\begin{frame}[t]
+\only<1>{
+\MoreSpace
+\begin{block}{Identities}
+\begin{align*}
+1-\sin^2 \theta & = \cos^2 \theta & \sin(2\theta)&=\cos\theta\\
+1+\tan^2\theta & = \sec^2 \theta & \sin^2 \theta &= \frac{1-\cos(2\theta)}{2}\\
+\sec^2\theta-1&=\tan^2\theta & \cos^2\theta &= \frac{1+\cos(2\theta)}{2}
+\end{align*}
+\end{block}}
+\only<2>{\AnswerYes}
+\only<1-2>{Evaluate $\ds\int \frac{1}{\sqrt{x^2-1}}~\dee x$}
+
+
+\sonly<3>{We use the substitution $\textcolor{M3}{x=\sec \theta}$, $\textcolor{C3}{\dee x = \sec \theta \tan \theta \ \dee \theta}$.
+
+To make the substitution work, we're actually taking $\theta = \arccos\left(\frac1x\right)$, and so $0 \le \theta \le \pi$.\\
+Note that the integrand exists on the intervals $x<-1$ and $x>1$. 
+\begin{itemize}\color{C1}
+\item When $x>1$,  then $0 < \frac{1}{x} <1$, so $0<\arccos{\left(\frac1x\right)}<\frac{\pi}{2}$.\\
+That is, $0 < \theta < \frac{\pi}{2}$, so $|\tan\theta|=\tan\theta$.
+\item When $x<-1$,  then $-1 < \frac{1}{x} <0$, so $\frac{\pi}{2}<\arccos{\left(\frac1x\right)}<\pi$.\\
+That is, $\frac{\pi}{2}<\theta<\pi$, so $|\tan \theta|=-\tan\theta$.
+\end{itemize}
+
+\begin{align*}
+\int\frac{1}{\sqrt{\textcolor{M3}x^2-1}}\textcolor{C3}{\dee x}
+ & = \int\frac{1}{\sqrt{\textcolor{M3}\sec^2\textcolor{M3}\theta-1}}\cdot\textcolor{C3}{\sec\theta\tan\theta \ \dee \theta}=\int\frac{\sec \theta \tan \theta}{\sqrt{\tan^2\theta}}\dee\theta\\
+&=\int\sec\theta\left(\frac{\tan\theta}{|\tan\theta|}\right)\dee\theta=\begin{cases}
+\int\sec \theta \ \dee \theta & 0<\theta<\frac{\pi}{2}\\
+-\int\sec \theta \ \dee \theta & \frac{\pi}{2}<\theta<\pi
+\end{cases}\\
+&=\begin{cases}
+\log|\sec \theta + \tan \theta|+C & 0<\theta<\frac{\pi}{2}\\
+-\log|\sec \theta + \tan \theta|+C & \frac{\pi}{2}<\theta<\pi
+\end{cases}
+\end{align*}
+	}
+\sonly<4>{
+Our substitution tells us $\sec\theta = x$. We saw from the denominator of our integrand that $\sqrt{x^2-1}=|\tan \theta|$.
+\begin{itemize}\color{spoilercolor}
+\item When $0 < \theta < \frac{\pi}{2}$, $\tan\theta=|\tan\theta|=\sqrt{x^2-1}$
+\item When $\frac{\pi}{2} < \theta < \pi$, $\tan\theta=-|\tan\theta|=-\sqrt{x^2-1}$
+\end{itemize}
+\[
+\int\frac{1}{\sqrt{x^2-1}}\dee x = \begin{cases}
+\log|x+ \sqrt{x^2-1}|+C & x>1\\
+-\log|x -\sqrt{x^2-1}|+C & x<-1\\
+\end{cases}
+\]
+Although the two branches look different, they are actually equivalent. Remember $-\log(A) =\log\left(A^{-1}\right)  =\log\left(\frac1A\right) $:
+\begin{align*}
+-\log|x-\sqrt{x^2-1}|&=\log\left| \frac{1}{x-\sqrt{x^2-1}}\right|=\log\left| \frac{1}{x-\sqrt{x^2-1}}\cdot\frac{x+\sqrt{x^2-1}}{x+\sqrt{x^2-1}}\right|\\
+&=\log\left|\frac{x+\sqrt{x^2-1}}{x^2-x^2+1} \right|=\log\left|x+\sqrt{x^2-1}\right|
+\end{align*}
+So,
+\[\int\frac{1}{\sqrt{x^2-1}}\dee x = \log\left|x+\sqrt{x^2-1}\right|+C\]
+}
+\end{frame}
+%%----------------------------------------------------------------------------------------
+\CheckFrame{Let's check our result, $\ds\int\frac{1}{\sqrt{x^2-1}}\dee x =\onslide<beamer>{ \log\left|x+\sqrt{x^2-1}\right|+C.}$}{
+\begin{align*}
+&\diff{}{x}\left\{\log\left|x+\sqrt{x^2-1}\right|+C\right\}=\frac{1+\frac{2x}{2\sqrt{x^2-1}}}{x+\sqrt{x^2-1}}
+=\frac{1+\frac{x}{\sqrt{x^2-1}}}{x+\sqrt{x^2-1}}\\
+&=\frac{1+\frac{x}{\sqrt{x^2-1}}}{x+\sqrt{x^2-1}}\left(\frac{\sqrt{x^2-1}}{\sqrt{x^2-1}}\right)
+=\frac{(\sqrt{x^2-1}+x)}{\left(x+\sqrt{x^2-1}\right)\sqrt{x^2-1}}\\
+&=\frac{1}{\sqrt{x^2-1}}
+\end{align*}
+So, our answer works.}
+%%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\section{Completing the Square}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Completing the Square}
+\label{note1.9b}
+\sStatusBar{1}{4}
+Choose a trigonometric substitution to simplify $\sqrt{3-x^2+2x}$.\\[1em]
+
+Identities have two ``parts" that turn into one part:
+ \begin{itemize}\color{W2}
+\item $1-\sin^2\theta=\cos^2\theta$ \hspace{1cm}\sonslide<3->{$4-4\sin^2\theta=4\cos^2\theta$}
+\item $1+\tan^2\theta=\sec^2\theta$
+\item $\sec^2\theta-1=\tan^2\theta$
+\end{itemize}
+But our quadratic expression has \textit{three} parts.\\
+\pause
+Fact: \quad $3-x^2+2x=4-(x-1)^2$\hfill~
+
+\sonslide<4->{
+\begin{align*}
+\sqrt{3-x^2+2x}&=\sqrt{4-(x-1)^2} \\
+\intertext{We want $(x-1)^2=4\sin^2\theta$, \quad so let $\textcolor{M3}{(x-1)=2\sin\theta}$}
+&=\sqrt{4-4\sin^2\theta}=\sqrt{4\cos^2\theta}=2\cos\theta
+\end{align*}
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Completing the Square}
+\StatusBar{1}{7}
+\AnswerYes<2,4,6>
+\nsAnswerYes<2,4,6>
+{\color{W1}\begin{align*}
+(x+b)^2&=x^2+2bx+b^2\\
+c-(x+b)^2&=(c-b^2)-x^2-2bx\\
+\end{align*}}
+Write $3-x^2+2x$ in the form $c-(x+b)^2$ for constants $b$, $c$.\pause\vfill
+\begin{enumerate}[<+->]
+	\item Find $b$:  \qquad\onslide<+-|handout:0>{\color{spoilercolor}$-2bx=2x$, so $b=-1$}\vfill
+	\item Solve for $c$: \qquad\onslide<+-|handout:0>{\color{spoilercolor} $3=c-b^2=c-1$, so $c=4$}\vfill
+	\item All together: \qquad\onslide<+-|handout:0>{\color{spoilercolor}  $3-x^2+2x=4-(x-1)^2$}\vfill
+\end{enumerate}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>
+\sMoreSpace<2>
+\nsMoreSpace<1>
+
+Evaluate $\displaystyle\int\frac{x^2-6x+9}{\sqrt{6x-x^2}}~\dee x$.\\[1em]
+
+ Identities have two ``parts" that turn into one part:
+ \begin{itemize}\color{W2}
+\item $1-\sin^2\theta=\cos^2\theta$
+\item $1+\tan^2\theta=\sec^2\theta$
+\item $\sec^2\theta-1=\tan^2\theta$
+\end{itemize}
+One of those parts is a constant, and one is squared.
+
+\sonslide<2->{
+Write $\textcolor{W1}{6x-x^2}$ as $\textcolor{W1}{c-(x+b)^2}$. \\ 
+\begin{align*}
+\color{W2}c-(x+b)^2&=\color{W2}(c-b^2)-x^2-2bx\\
+6x&=-2bx \implies b=-3\\
+0&=c-b^2=c-9 \implies c=9\\
+\color{W1}6x-x^2&=\color{W1}9-(x-3)^2
+\end{align*}
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerSpace\only<1>{\AnswerYes}
+Evaluate $\displaystyle\int\frac{x^2-6x+9}{\sqrt{6x-x^2}}~\dee x ~=~\int\frac{(x-3)^2}{\sqrt{9-(x-3)^2}}\dee x$.\\[1em]
+\sonslide<2->{
+We use the identity $9-9\sin^2\theta = 9\cos^2\theta$.\\
+ We want $(x-3)^2=9\sin^2\theta$, so take $\textcolor{M3}{(x-3)=3\sin\theta}$, $\textcolor{C3}{\dee x = 3\cos \theta\ \dee\theta}$.
+\begin{align*}
+\int\frac{\textcolor{M3}{(x-3)^2}}{\sqrt{9-\textcolor{M3}{(x-3)^2}}}\textcolor{C3}{\dee x}
+&=\int\frac{\textcolor{M3}{9\sin^2\theta}}{\sqrt{9-\textcolor{M3}{9\sin^2\theta}}}\,\textcolor{C3}{3\cos\theta\ \dee \theta}\\
+&=\int\frac{9\sin^2\theta}{\sqrt{9\cos^2\theta}}\,3\cos\theta\ \dee \theta=\int9\sin^2\theta\ \dee \theta\\
+&=\frac{9}{2}\int(1-\cos2\theta)\ \dee \theta=\frac92\left(\theta-\frac12\sin 2\theta \right)+C\\
+&=\frac{9}{2}\left( \theta-\sin\theta\cos\theta\right)+C\\
+\smash{\TrigTri{\theta}{\sqrt{6x-x^2}}{x-3}{3}}\quad
+&=\frac92\left( \arcsin\left( \frac{x-3}{3}\right)-\frac{x-3}{3}\cdot\frac{\sqrt{6x-x^2}}{3}\right)+C
+\end{align*}
+}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+\CheckFrame{
+Let's verify that $\ds\int\frac{x^2-6x+9}{\sqrt{6x-x^2}}=\onslide<beamer>{\frac92\left( \arcsin\left( \frac{x-3}{3}\right)-\frac{x-3}{3}\cdot\frac{\sqrt{6x-x^2}}{3}\right)+C:$}}{
+\begin{align*}
+\diff{}{x}&\left\{ \frac92\left( \arcsin\left( \frac{x-3}{3}\right)-\frac{x-3}{3}\cdot\frac{\sqrt{6x-x^2}}{3}\right)+C\right\}\\
+&=  \frac92\left( \frac{1/3}{\sqrt{1-\left( \frac{x-3}{3}\right)^2}}-\frac{x-3}{3}\cdot\frac{3-x}{3\sqrt{6x-x^2}}-\frac19\sqrt{6x-x^2}\right)\\
+&=  \frac92\left( \frac{9}{9\sqrt{6x-x^2}}-\frac{6x-x^2-9}{9\sqrt{6x-x^2}}-\frac{6x-x^2}{9\sqrt{6x-x^2}}\right)
+\\&=   \frac{9-6x+x^2}{\sqrt{6x-x^2}}\end{align*}
+So, our answer works.
+}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+

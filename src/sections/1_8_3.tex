@@ -1,0 +1,66 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsA{\ah,\atech}
+ \end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\section{1.8.3 Optional -- integrating  $\sec x$, $\csc x$, $\sec^3 x$, and $\csc^3 x$.}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]\AnswerSpace
+\label{note1.8.3a}
+\begin{block}{Evaluating $\int \tan^m x \sec^n ~\dee x$}
+To evaluate $\int \tan^m x \sec^n ~\dee x$, we can use:
+\begin{itemize}
+	\item $u=\sec x$ if $m$ is odd and $n \ge 1$
+	\item $u=\tan x$ if $n$ is even and $n \ge 2$
+	\item $u=\cos x$ if $m$ is odd
+	\item $u=\tan x$ if $m$ is even and $n=0$\\ (after using $\tan^2 x = \sec^2 x - 1$, maybe several times)
+\end{itemize} 
+\end{block}
+Remaining case: $n$ odd and $m$ is even.\vfill\pause
+
+The general remaining case is known, but complicated. Instead of treating it exhaustively, we'll show examples of two methods.
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{$\int\sec x\ \textup{\dee} x$}
+\AnswerSpace
+\only<1>{\AnswerYes}
+We saw a way of integrating secant with the following trick:
+\begin{align*}\int \sec x \ \dee x &= \int\sec x\left(\frac{\sec x+ \tan x}{\sec x +\tan x}\right) \dee x
+= \int\frac{\sec^2 x + \sec x \tan x}{\sec x + \tan x}\dee x\\ &= \int\frac{1}{u}\dee u\quad
+\text{with }u=\sec x + \tan x
+\end{align*} 
+Another trick: this time let $u=\sin x $, $\dee u = \cos x \ \dee x$:\pause
+\begin{align*}
+\int \sec x \ \dee x &=\int\frac{1}{\cos x}\dee x =\int\frac{\cos x}{\cos^2 x}\dee x\\
+&=\int\frac{1}{1-\sin^2 x}\cos x \ \dee x=\int\frac{1}{1-u^2}\dee u
+\end{align*}
+The integrand $\frac{1}{1-u^2}$ is a rational function of $u$ (i.e. a ratio of two polynomials). There is a procedure, called Partial Fractions, that can be used to evaluate all integrals of rational functions. We will learn it in Section 1.10.
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{$\int \sec^3 x\ \textup{\dee}x$}
+\AnswerSpace
+\only<1>{\AnswerYes}
+
+We can integrate around in a circle (with integration by parts) to evaluate $\int \sec^3 x \ \dee x$. Let $u= \sec x $, $\dee v = \sec^2 x\ \dee x$. Then $\dee u=\sec x \tan x\ \dee x$ and $v=\tan x$.\pause
+\begin{align*}
+\textcolor{C3}{\int \sec^3 x \ \dee x}&=\sec x \tan x-\int\sec x \tan^2 x \ \dee x\\
+&=\sec x \tan x-\int\sec x \left(\sec^2 x-1\right)  \dee x\\
+&=\sec x \tan x-\int\sec^3 x\ \dee x+\int \sec x \ \dee x\\
+&=\sec x \tan x-\textcolor{C3}{\int\sec^3 x\ \dee x}+\log| \sec x + \tan x|+C'\\
+2\int \sec^3 x \ \dee x &=\sec x \tan x+\log| \sec x + \tan x|+C'\\
+\int \sec^3 x \ \dee x &=\frac12\left(\sec x \tan x+\log| \sec x + \tan x|\right)+C
+\end{align*}
+with $C=C'/2$.
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------

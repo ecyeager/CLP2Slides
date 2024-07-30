@@ -1,0 +1,128 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsC{\cd}
+ \end{frame}
+%%----------------------------------------------------------------------------------------
+%%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section{3.4 Absolute and Conditional Convergence}
+%---------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Four Series}
+\only<1>{\AnswerYes}
+\AnswerSpace
+Let $a_n = \left(-\frac{2}{3}\right)^n$. Do the following series converge or diverge?
+\[\sum_{n=0}^\infty a_n \hspace{2cm} \sum_{n=0}^\infty |a_n|\]
+\sonslide<2->{\[ \text{converge} \hspace{2cm} \text{converge}\]}
+\vfill
+Let $b_n = \frac{(-1)^n}{n}$. Do the following series converge or diverge?
+\[\sum_{n=1}^\infty b_n \hspace{2cm} \sum_{n=1}^\infty |b_n|\]
+\sonslide<2->{\[ \text{converge} \hspace{2cm} \text{diverge}\]}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+The series
+\[\sum_{n=0}^\infty \left(-\frac23\right)^n\]
+is called \alert{absolutely convergent}, because the series converges and if we replace the terms being added by their absolute values, that series \textit{still} converges.
+
+\vfill
+
+The series
+\[\sum_{n=0}^\infty\frac{(-1)^n}{n}\]
+is called \alert{conditionally convergent}, because the series converges, but  if we replace the terms being added by their absolute values, that series \textit{diverges}.
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\unote{Definition~\eref{text}{def:SRabsCond} and Theorem~\eref{text}{thm:SRabs}}
+
+\begin{block}{Absolute and conditional convergence}
+\begin{enumerate}[(a)]
+\item A series $\sum\limits_{n=1}^\infty a_n$ is said to \textbf{converge absolutely}
+if the series\linebreak $\sum\limits_{n=1}^\infty |a_n|$ converges.
+\item If $\sum\limits_{n=1}^\infty a_n$ converges but
+$\sum\limits_{n=1}^\infty |a_n|$
+diverges we say that\linebreak $\sum\limits_{n=1}^\infty a_n$ is \textbf{conditionally convergent}.
+\end{enumerate}
+
+\end{block}
+\vfill
+\begin{block}{Theorem}
+If the series $\sum\limits_{n=1}^\infty |a_n|$ converges then the
+series $\sum\limits_{n=1}^\infty a_n$ also converges. That is,
+absolute convergence implies convergence.\end{block}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\newcommand{\converges}{\textcolor{M3}{converges}}
+\newcommand{\diverges}{\textcolor{W1}{diverges}}
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\StatusBar{1}{6}
+\centering
+\begin{tabular}{|c|c|c|}\hline
+\vphantom{\LARGE $\dfrac12$}
+If $\sum a_n$ ... & and $\sum |a_n|$ ... &then we say $\sum a_n$ is ...\\ \hline \hline
+%
+\vphantom{\LARGE $\dfrac12$}
+\onslide<2->{\converges} & \onslide<2->{\converges} & \onslide<3-|handout:0>{\color{spoilercolor} absolutely convergent}\\\hline
+%
+\vphantom{\LARGE $\dfrac12$}
+\onslide<3->{\converges} & \onslide<3->{\diverges} & \onslide<4-|handout:0>{\color{spoilercolor} conditionally convergent}\\ \hline
+%
+\vphantom{\LARGE $\dfrac12$}
+\onslide<4->{\diverges} & \onslide<4->{\diverges} & \onslide<5-|handout:0>{\color{spoilercolor} divergent}\\ \hline
+%
+\vphantom{\LARGE $\dfrac12$}
+\onslide<5->{\diverges} & \onslide<5->{\converges} & \onslide<6-|handout:0>{\alert{not possible!}}\\ \hline
+\end{tabular}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\only<1>{\AnswerYes\QuestionBar{1}{2}}\AnswerSpace
+\unote{Example~\eref{text}{eg:SRabsCondB}}
+Does the series
+\[\sum_{n=1}^\infty \frac{(-1)^n}{n^2}\]
+converge or diverge?\vfill
+
+\AnswerBar<2->{1}{2}
+\sonslide<2->{
+\begin{Ldescription}
+\item[\color{C1}Alternating series test:] Let $a_n=\frac{1}{n^2}$. Note $a_n$ has positive, decreasing terms, approaching 0 as $n$ grows. Then $\sum\limits_{n=1}^\infty \frac{(-1)^n}{n^2}$ converges by the alternating series test.
+\item[\color{C1}Absolute convergence implies convergence:] The series
+ $\sum\limits_{n=1}^\infty\left| \frac{(-1)^n}{n^2}\right|$ is the same as the $p$-series 
+ $\sum\limits_{n=1}^\infty \frac{1}{n^2}$, which converges by the $p$-test. Then $\sum\limits_{n=1}^\infty \frac{(-1)^n}{n^2}$  converges absolutely, therefore it converges.
+\end{Ldescription}
+}
+\end{frame}
+
+
+
+%---------------------------------------------------------------------------------------
+\begin{frame}[t]
+\only<1>{\AnswerYes\QuestionBar{2}{2}}\AnswerSpace
+Does the series
+\[\sum_{n=1}^\infty \frac{\sin(n)}{n^2}\]
+converge or diverge?\\[1em]
+\vfill
+
+\AnswerBar<2->{2}{2}
+\sonslide<2->{
+
+The terms of this series are sometimes positive and sometimes negative, but they do not strictly alternate, so the alternating series test does not apply.
+
+Note that $\sum\limits_{n=1}^\infty \frac{1}{n^2}$ is a convergent series, and $\frac{|\sin n |}{n^2} \leq \frac{1}{n^2}$ for all $n$. Then by the comparison test, $\sum\limits_{n=1}^\infty \frac{|\sin n |}{n^2}$ converges.
+
+
+Then $\sum\limits_{n=1}^\infty \frac{\sin(n)}{n^2}$ converges absolutely, hence it converges.
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+

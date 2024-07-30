@@ -1,0 +1,203 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsB{\bb}
+ \end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section{2.2 Averages}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\StatusBar{1}{6}
+\begin{center}
+\begin{tikzpicture}[xscale=1.5]
+\myaxis{x}{0}{5}{y}{0}{3}
+\draw[thick] plot[smooth,domain=0:5](\x,{\x/2+sin(\x r)+1});
+
+\onslide<2|handout:0>{\foreach \n in {1,...,5}{
+	\SUBTRACT{\n}{.5}{\x}
+	\SIN{\x}{\sx}
+	\DIVIDE{\x}{2}{\hx}
+	\ADD{\hx}{\sx}{\xa}
+	\ADD{\xa}{1}{\y}
+	\draw(\x,\y)node[vertex]{};
+	\xcoord{\x}{x_{\n}}
+	}}
+\onslide<3|handout:0>{\foreach \n in {1,...,15}{
+	\DIVIDE{\n}{3}{\xx}
+	\SUBTRACT{\xx}{.15}{\x}
+	\SIN{\x}{\sx}
+	\DIVIDE{\x}{2}{\hx}
+	\ADD{\hx}{\sx}{\xa}
+	\ADD{\xa}{1}{\y}
+	\draw(\x,\y)node[vertex]{};
+	\xcoord{\x}{x_{\n}}
+	}}
+\onslide<4->{\foreach \n in {1,...,30}{
+	\DIVIDE{\n}{6}{\xx}
+	\SUBTRACT{\xx}{.075}{\x}
+	\SIN{\x}{\sx}
+	\DIVIDE{\x}{2}{\hx}
+	\ADD{\hx}{\sx}{\xa}
+	\ADD{\xa}{1}{\y}
+	\draw(\x,\y)node[vertex]{};
+	\xcoord{\x}{}
+	}
+	\xcoord{0.09}{x_1}
+	\xcoord{4.925}{x_n}}
+\end{tikzpicture}
+\end{center}\color{spoilercolor}
+\only<2|handout:0>{\[\text{Average}\approx\frac{f(x_1)+\cdots +f(x_5)}{5}\]}
+\only<3|handout:0>{\[\text{Average}\approx\frac{f(x_1)+\cdots +f(x_{15})}{15}\]}
+\color{black}
+\only<4->{\begin{align*}
+	\text{Average}&\approx\frac{f(x_1)+\cdots +f(x_{n})}{n}\\
+	\onslide<5->{\text{Average}&=\lim_{n \to \infty}\left[\frac{1}{n}\sum_{i=1}^nf(x_i)\right]}
+	\onslide<6->{=\lim_{n \to \infty}\left[\frac{(b-a)}{(b-a)n}\sum_{i=1}^nf(x_i)\right]
+	\\&=\lim_{n \to \infty}\left[\frac{1}{b-a}\sum_{i=1}^n f(x_i) \Delta x\right]
+	=\frac{1}{b-a}\int_a^bf(x)\dee x}
+	\end{align*}
+	}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\MoreSpace<2>
+\QuestionBar<2-3>{1}{2}
+\AnswerBar<4->{1}{2}
+\AnswerYes<3>
+\only<-2>{\begin{block}{Average}
+Let $f(x)$ be an integrable function defined on the interval
+$a\le x\le b$. The average value of $f$ on that interval is
+\begin{align*}
+f_{\text{ave}}
+=\frac{1}{b-a}\int_a^b f(x)\ \dee{x}
+\end{align*}
+\end{block}}\pause
+The temperature in a certain city at time $t$ (measured in hours past midnight) is given by
+\[T(t)=t-\frac{t^2}{30}\]
+What was the average temperature of one day (from $t=0$ to $t=24$)? 
+
+\sonslide<4->{
+	\begin{align*}
+	\text{Average}&=\frac{1}{24}\int_0^{24}\left[t-\frac{t^2}{30}\right] \dee t\\
+	&=
+	\frac1{24}\left[ \frac{t^2}{2}-\frac{t^3}{90} \right]_0^{24}\\
+	&=\frac{1}{24}\left[ \frac{24^2}{2}-\frac{24^3}{90} \right]\\
+	&=\frac{28}{5}=5.6
+	\end{align*}
+	}
+\unote{Definition~\eref{text}{def:AVaverage}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerBar{1}{2}
+Let's check that our answer makes some intuitive sense.
+\begin{center}
+\begin{tikzpicture}
+\myaxis{t}{0}{8.2}{y}{0}{4.2}
+\draw[dotted] (0,0) grid (8,4);
+\draw[thick] plot[domain=0:24,xscale=1/3,smooth,yscale=1/2](\x,{\x-\x*\x/30});
+\ycoord{4}{8}
+\ycoord{3}{6}
+\ycoord{2}{4}
+\ycoord{1}{2}
+\foreach\x in {1,...,8}{\MULTIPLY{\x}{3}{\t} \xcoord{\x}{\t}}
+\draw[thick,C3](0,2.8)--(8,2.8)node[right]{\only<beamer>{5.6}};
+\end{tikzpicture}
+\end{center}
+\pause
+Since the temperature is always between 0 and 8, we expect the average to be between 0 and 8
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerBar{1}{2}
+\StatusBar{1}{3}
+Let's also recall the motivation for our definition
+\begin{center}
+\begin{tikzpicture}
+\myaxis{t}{0}{8.2}{y}{0}{4.2}
+\draw[dotted] (0,0) grid (8,4);
+\draw[thick] plot[domain=0:24,xscale=1/3,smooth,yscale=1/2](\x,{\x-\x*\x/30});
+\ycoord{4}{8}
+\ycoord{3}{6}
+\ycoord{2}{4}
+\ycoord{1}{2}
+\foreach\x[evaluate=\t using int(3*\x)] in {1,...,8}{ \xcoord{\x}{\t}}
+
+\foreach \n[evaluate=\average using 1] in {8,24,1440}{
+	\onslide<+|handout:0>{
+		\ifnum \n<100
+		\foreach \i[	
+			evaluate = \t using 24/\n*\i,
+			evaluate = \y using \t-\t*\t/30
+			] in {1,...,\n}{
+			\draw (\t/3,\y/2)node[vertex]{};}%draw vertices
+		\else
+			\draw[ultra thick,densely dotted] plot[domain=0:24,xscale=1/3,smooth,yscale=1/2](\x,{\x-\x*\x/30});
+		\fi
+		%show average
+		\ifnum \n=8\COPY{5.85}{\average}\fi
+		\ifnum \n=24\COPY{5.694}{\average}\fi
+		\ifnum \n=1440\COPY{5.602}{\average}\fi
+		\draw[thick,C3](0,\average/2)--(8,\average/2)node[right]{\average};
+		}
+	}
+
+
+\end{tikzpicture}
+\end{center}
+\only<1|handout:0>{Average temperature, measured every three hours }
+\only<2|handout:0>{Average temperature, measured every hour}
+\only<3|handout:0>{Average temperature, measured every minute}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\QuestionBar{2}{2}<1>
+\AnswerYes<1>
+\AnswerBar<2>{2}{2}
+Find the average value of the function $f(x) = \dfrac{e^x}{e^{2x}+1}$ over the interval $\left[0,\frac{\log 3}{2}\right]$.
+
+\begin{multicols}{2}
+\begin{tikzpicture}[scale=2]
+\myaxis{x}{0}{1.2}{y}{0}{.75}
+\draw(.55,0.1)--(.55,-.1)node[below]{$\frac{\log3}{2}$};
+\draw[thick,C1] plot[domain=0:1](\x,{exp(\x)/(exp(2*\x)+1)});
+\end{tikzpicture}
+\columnbreak
+
+\sonslide<2->{
+Let $u(x)=e^x$. Then $u(0)=1$ and $u\left(\frac{\log 3}{2}\right)=e^{\frac{\log 3}{2}}=3^{1/2}=\sqrt3$.
+\begin{align*}
+&\frac{1}{\frac{\log 3}{2}-0}\cdot \int_0^{\frac{\log 3}{2}}\frac{e^x}{e^{2x}+1}\ \dee x\\ &=\frac{2}{\log 3}\int_{1}^{\sqrt 3}\frac{1}{u^2+1}\dee u\\
+&=\frac{2}{\log 3}\left[\arctan(\sqrt 3)-\arctan(1)\right]\\
+&=\frac{2}{\log 3}\left[\frac{\pi}{3}-\frac{\pi}{4}\right]=\frac{\pi}{6\log 3}\approx 0.477
+\end{align*}
+}
+\end{multicols}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Average Velocity}
+\AnswerYes<1>
+
+Let $x(t)$ be the position at time $t$ of a car moving along the $x$-axis.
+The velocity of the car at time $t$ is the derivative $v(t)=x'(t)$.
+The average velocity of the car over the time interval $a\le t\le b$ is:
+\sonslide<2->{
+\[v_{\text{ave}} = \frac{1}{b-a}\int_a^b v(t)\,\dee{t}=\frac{1}{b-a}\int_a^b x'(t)\,\dee{t}=\frac{x(b)-x(a)}{b-a}\]
+\vfill
+That is: $\dfrac{\text{change in distance}}{\text{change in time}}$
+
+\vfill
+Notice that this is exactly the formula we used way back at the start of your
+\alert{differential} calculus class to help introduce the idea of the derivative. Of
+course this is a very circuitous way to get to this formula --- but it is reassuring that
+we get the same answer.
+}
+\unote{Example~\eref{text}{eg:AVvelocity}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+

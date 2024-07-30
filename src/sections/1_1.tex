@@ -1,0 +1,1422 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsA{\aa,\aintro}
+ \end{frame}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+\section{Introduction}
+
+%----------------------------------------------------------------------------------------
+
+
+  \label{note1.1a}
+ \begin{frame}[t]
+ \StatusBar{1}{4}
+ 
+ Calculus is build on two operations: \alert{differentiation} and \alert{integration}.
+ \vfill
+ \begin{description}
+ \item[Differentiation]$ $
+ \begin{itemize}
+ \item Slope of a line
+ \item Rate of change \pause
+ \item Optimization
+ \item Numerical Approximations
+ \end{itemize}
+ \pause\vfill
+ \item[Integration]$ $
+  \begin{itemize}
+ \item Area under a curve
+ \item ``Reverse" of differentiation
+ \pause
+ \item Solving differential equations
+ \item Calculate net change from rate of change
+ \item Volume of solids
+ \item Work (in the physics sense)
+ \end{itemize}
+ \end{description}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%Approximate area using rectangles: just enough to motivate 
+ \begin{frame}[t]
+ \StatusBar{1}{12}
+ Approximate the area of the shaded region using rectangles.
+ \begin{center}
+ \begin{tikzpicture}
+ \myaxis{x}{0}{5.5}{y}{0}{3}
+ \draw[ultra thick,C2] plot[domain=0:5.5](\x,{exp(\x/5)}) node[right]{$y=e^x$};
+ \filldraw[C2,fill opacity=0.1,fill =C2] (1,0) plot[domain=0:5](\x,{exp(\x/5)}) |-(0,0)--cycle;
+ \xcoord{5}{1}
+ 
+ \only<beamer>{
+ \color{spoilercolor}
+ %coordinate ticks on axes
+ \onslide<2-9>{\ycoord{2.72}{e} \ycoord{1}{1}}
+ \onslide<7-9>{\xcoord{2.5}{\frac12} \ycoord{1.65}{e^{1/2}}}
+ %rectangles
+ \onslide<3-6>{\filldraw[C1,fill opacity=0.1,pattern=north west lines] (0,0) rectangle (5,2.72);}
+\onslide<5-6>{\filldraw[W1,fill opacity=0.1,pattern=north east lines] (0,0) rectangle (5,1);
+	}
+ \onslide<8-9>{
+ 	\filldraw[C1,fill opacity=0.1,pattern=north west lines] (0,0) rectangle (2.5,1.65)  (2.5,0)rectangle (5,2.72);
+	}
+ \onslide<9>{
+ 	\filldraw[W1,fill opacity=0.1,pattern=north east lines] (0,0) rectangle (2.5,1)  (2.5,0)rectangle (5,1.65);
+	}
+\onslide<10->{
+	\foreach \x in {0,0.5,...,4.5}{
+		\DIVIDE{\x}{5}{\xx}
+		\EXP{\xx}{\y}
+		\filldraw[C1, fill opacity=0.1] (\x,0) rectangle (\x+0.5,\y);
+	}
+	\foreach \x in {1,...,9}{
+		\DIVIDE{\x}{2}{\xx}
+		\xcoord{\xx}{\frac{\x}{10}}
+		}
+	\xcoord{0}{0}
+}
+
+% bounds
+\onslide<4-9>{
+	\draw (2.5,-2)node{Area};}
+\onslide<4-6>{
+	\draw (3,-2)node[right]{$\leq e$};}
+\onslide<6-6>{
+	\draw (2,-2)node[left]{$1 \leq $};}
+\onslide<8-9>{
+	\draw (3,-2)node[right]{$\leq \left(\frac12e^{1/2}+\frac12e\right)$};}
+\onslide<9>{
+	\draw (2,-2)node[left]{$\left(\frac12+\frac12e^{1/2}\right) \leq $};}
+\onslide<11->{
+	\draw (2.5,-2)node{Area $\approx \frac{1}{10}(1) + \frac{1}{10}\left(e^{1/10}\right)
+	 + \frac{1}{10}\left(e^{2/10}\right)
+	  + \frac{1}{10}\left(e^{3/10}\right)
+	       + \cdots
+	        + \frac{1}{10}\left(e^{9/10}\right)$};}
+}%end beamer-only section
+ \end{tikzpicture}
+ \end{center}
+ \vfill
+\onslide<12->{We're going to be doing a lot of adding.}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\section{1.1.3  Sum Notation}
+
+%----------------------------------------------------------------------------------------
+%\begin{frame}
+%We're going to be doing a lot of adding.
+%\end{frame}
+%---------------------------------------------------------------------------------------
+%---------------------------------------------------------------------------------------
+
+%---------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}{Summation (Sigma) Notation}
+\[\sum_{\alert<3|handout:0>{i}=\alert<2|handout:0>{a}}^{\alert<2|handout:0>{b}} \alert<4|handout:0>{f(i)}\]\pause
+\begin{itemize}[<+-| alert@+>] 
+\item $a,b$ (integers with $a\le b$) ``bounds"
+\item $i$ ``index:" integer which runs from $a$ to $b$
+\item $f(i)$ ``summands:" compute for every $i$, add
+\end{itemize}
+\onslide<+->{ \[\sum\limits_{i=a}^b f(i) = f(a) + f(a+1) + f(a+2)+\cdots + f(b)\]}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Sigma Notation}
+\QuestionBar<1>{1}{3}
+ \only<1>{\AnswerYes}
+\AnswerBar<2>{1}{3}
+
+\[\text{Expand }\sum_{i=2}^4 (2i+5).\]
+
+\sonslide<2->{
+\begin{align*}
+\sum_{i=2}^4 (2i+5)&= \underbrace{(2\cdot2+5)}_{i=2}+\underbrace{(2\cdot3+5)}_{i=3}+\underbrace{(2\cdot4+5)}_{i=4}\\
+&=9+11+13=33
+ \end{align*}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Sigma Notation}
+\AnswerYes<1>
+  \QuestionBar<1>{2}{3}
+\AnswerBar<2>{2}{3}
+
+\[\text{Expand } \sum_{i=1}^4 (i+(i-1)^2).\]
+
+\sonslide<2->{
+\begin{align*}
+&= \underbrace{(1+0^2)}_{i=1}+\underbrace{(2+1^2)}_{i=2}+\underbrace{(3+2^2)}_{i=3}+\underbrace{(4+3^2)}_{i=4}\\
+&=1+3+7+13=24
+ \end{align*}
+  }
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\QuestionBar<1>{3}{3}\AnswerYes<1>
+\AnswerBar<2>{3}{3}
+
+Write the following expressions in sigma notation:\vfill
+\begin{itemize}
+\item $3+4+5+6+7$\\
+\sonslide<2->{$\ds\sum_{i=3}^7i$\quad and \quad $\ds\sum_{i=1}^5(i+2)$ are two options (others are possible)}\vfill
+\item $8+8+8+8+8$\\
+\sonslide<2->{$\ds\sum_{i=1}^5 8$\quad is one way (others are possible)}\vfill
+\item $1+(-2)+4+(-8)+16$\\
+\sonslide<2->{ $\ds\sum_{i=0}^4 (-2)^i$\quad is one way (others are possible)}\vfill
+\end{itemize}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%---------------------------------------------------------------------------------------
+%---------------------------------------------------------------------------------------
+
+%---------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+\begin{frame}{Arithmetic of Summation Notation}
+Let $c$ be a constant.\vfill
+\begin{itemize}
+\item Adding constants: $\sum\limits_{i=1}^{10}c=\pause \onslide<handout:2>{10c}$\pause\vfill
+\item Factoring constants: $\sum\limits_{i=1}^{10}5(i^2)=\pause \onslide<handout:2>{5\sum\limits_{i=1}^{10}(i^2)}$\pause\vfill
+\item Addition is Commutative: $\sum\limits_{i=1}^{10} (i+i^2)=\pause \onslide<handout:2>{\left(\sum\limits_{i=1}^{10}i\right)+\left(\sum\limits_{i=1}^{10}i^2\right)}$
+\end{itemize}
+\unote{Theorem \eref{text}{thm:INTsummationArith}: Arithmetic of Summation Notation}
+\end{frame}
+%--------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\newcommand{\sumlist}{Let $n \ge 1$ be an integer, $a$ be a real number, and $r \neq 1$.
+\begin{align*}
+\sum_{i=0}^n ar^i &= a+ar+ar^2+\cdots +ar^n & =~& a\frac{1-r^{n+1}}{1-r} \\
+\sum_{i=1}^n i &= 1+2+\cdots+n&=~&\frac{n(n+1)}{2}\\
+%\sum_{i=1}^n 1 &= 1+1+\cdots+1&=~&n\\
+\sum_{i=1}^n i^2 &= 1^2+2^2+\cdots+n^2&=~&\frac{n(n+1)(2n+1)}{6}\\
+\sum_{i=1}^n i^3 &= 1^3+2^3+\cdots+n^3&=~&\frac{n^2(n+1)^2}{4}
+\end{align*}
+}
+%----------------------------------------------------------------------------------------
+\begin{frame}{Common Sums}
+\label{note1.1b}
+\sumlist
+
+
+\unote{Theorem~\eref{text}{thm:INTspecialSums}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\QuestionBar<1>{1}{2}\NoSpace<1>
+\AnswerBar<2>{1}{2}
+{\color{W2} \footnotesize \sumlist}
+Simplify:
+$\ds\sum_{i=1}^{13}(i^2+i^3)\sonly<2->{~=\sum_{i=1}^{13}i^2+\sum_{i=1}^{13}i^3=\frac{13(14)(27)}{6}+\frac{13^2(14^2)}{4}}$
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\QuestionBar<1>{2}{2}\NoSpace<1>
+\AnswerBar<2>{2}{2}
+{\color{W2} \footnotesize \sumlist}
+Simplify:
+$\ds\sum_{i=1}^{50}(1-i^2)\sonly<2->{~=\ds\sum_{i=1}^{50}1-\sum_{i=1}^{50}i^2=50-\frac{50(51)(101)}{6}}$
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]{(Optional) Proof of a Common Sum}
+\AnswerYes
+\sStatusBar{1}{5}
+Here is a derivation of \ $\ds\sum\limits_{i=0}^n r^i=\frac{1-r^{n+1}}{1-r}$:
+
+
+\sonslide<2->{\begin{align*}
+A&=1+\xxcancel<4->{ r}+\xxcancel<4->{r^2}+\cdots +\xxcancel<4->{r^{n-1}}+\xxcancel<4->{r^n} \\
+\sonslide<3->{rA&=\phantom{1+}\text{\ } \xxcancel<4->{r}+\xxcancel<4->{r^2}+\cdots+\xxcancel<4->{r^{n-1}}+\xxcancel<4->{r^n}+r^{n+1}\\
+}
+\sonslide<4->{\text{subtract \hspace{1cm}  }A-rA&=1\phantom{\ +r+r^2+\cdots+r^{n-1}+r^n\  }-r^{n+1}\\
+}
+\sonslide<5->{\text{divide across \hspace{1cm}  }A&= \frac{1-r^{n+1}}{1-r}}
+\end{align*}}
+\vfill
+
+\end{frame}
+%--------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}{(Optional) Proof of Another Common Sum}
+\[\sum\limits_{i=1}^{10} i=1+2+3+4+5+6+7+8+9+10=\sonslide<3->{\color{W1}\frac{10\cdot11}{2}}\]
+
+\begin{center}
+\begin{tikzpicture}
+\color{W1}
+\foreach \x in {1,...,10}{
+	\DIVIDE{\x}{2}{\xx}
+	\ADD{\xx}{.5}{\xy}
+	\draw[fill,fill opacity=0.5] (\xx,0) rectangle (\xy,\xx);
+	\draw (\xx,.1) node[right]{$\x$};}
+\foreach \x in {1,1.5,...,4.5}{\draw[dotted] (\x,\x-.5) rectangle(5.5,\x);}%gridlines
+
+%upper half
+\onslide<2->{
+\begin{scope}[yscale=-1,xscale=-1,yshift=-5cm,xshift=-5.5cm]
+\color{M5}
+
+\foreach \x in {1,...,10}{
+	\DIVIDE{\x}{2}{\xx}
+	\ADD{\xx}{.5}{\xy}
+	\draw[fill,fill opacity=0.5] (\xx,0) rectangle (\xy,\xx);
+	\draw (\xx,0.1) node[left]{$\x$};}
+\foreach \x in {1,1.5,...,4.5}{\draw[dotted] (\x,\x-.5) rectangle(5.5,\x);}%gridlines
+\end{scope}
+}
+\end{tikzpicture}
+\end{center}
+\end{frame}
+%--------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}{(Optional) Proof of a Common Sum}
+\[\sum\limits_{i=1}^{n} i=1+2+3+\cdots+n=\sonslide<3->{\color{W1}\frac{n\cdot(n+1)}{2}}\]
+
+\begin{center}
+\begin{tikzpicture}
+\color{W1}
+\foreach \x in {1,...,10}{
+	\DIVIDE{\x}{2}{\xx}
+	\ADD{\xx}{.5}{\xy}
+	\draw[fill,fill opacity=0.5] (\xx,0) rectangle (\xy,\xx);}
+\foreach \x in {1,1.5,...,4.5}{\draw[dotted] (\x,\x-.5) rectangle(5.5,\x);}%gridlines
+
+%upper half
+\onslide<2->{
+\begin{scope}[yscale=-1,xscale=-1,yshift=-5cm,xshift=-5.5cm]
+\color{M5}
+
+\foreach \x in {1,...,10}{
+	\DIVIDE{\x}{2}{\xx}
+	\ADD{\xx}{.5}{\xy}
+	\draw[fill,fill opacity=0.5] (\xx,0) rectangle (\xy,\xx);}
+\foreach \x in {1,1.5,...,4.5}{\draw[dotted] (\x,\x-.5) rectangle(5.5,\x);}%gridlines
+\end{scope}
+}
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+%--------------------
+
+
+%--------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%---------------------------------------------------------------------------------------
+
+\section{1.1.4 Definition of the Definite Integral}
+%---------------------------------------------------------------------------------------
+%---------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+The purpose of these sums is to describe areas.
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\begin{block}{Notation}
+The symbol
+\[\int_{\alert<3|handout:0>{a}}^{\alert<3|handout:0>{b}} \alert<2|handout:0>{f(x)}\ \alert<4|handout:0>{\dee x}\] is read ``the definite integral of the function $f(x)$ from $a$ to $b$."
+\end{block}\pause
+\begin{itemize}[<+-|alert@+>]
+\item $f(x)$: integrand
+\item $a$ and $b$: limits of integration
+\item $\dee x$: differential
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+If $f(x) \geq 0$ and $a \leq b$, one interpretation of 
+\[\int_a^b f(x)\, \dee x\]
+is ``\textcolor{W1}{the area of the region bounded above by $y=f(x)$, below by $y=0$, to the left by $x=a$, and to the right by $x=b$}."
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{1}{6}{y}{1}{3}
+\draw[very thick] plot[domain=-1:6,smooth](\x,{1.5+sin(\x r)})node[right]{$y=f(x)$};
+\xcoord{1}{a} \xcoord{5}{b}
+\onslide<2>{
+\fill[W1, opacity=0.5] (1,0)--plot[domain=1:5,smooth](\x,{1.5+sin(\x r)})--(5,0)--cycle;
+}
+\end{tikzpicture}
+\end{center}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+If \sout{$f(x) \geq 0$ and} $a \leq b$, one interpretation of 
+\[\int_a^b f(x)\,\dee x\]
+is the \alert{signed} area of the region between $y=f(x)$ and $y=0$, from $x=a$ to $x=b$. Area \textcolor{W1}{above} the axis is \textcolor{W1}{positive}, and area \textcolor{C4}{below} it is \textcolor{C4}{negative}.
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{1}{6}{y}{1}{3}
+%same positive example: nothing changes
+\onslide<1-2|handout:0>{\draw[very thick] plot[domain=-1:6,smooth](\x,{1.5+sin(\x r)})node[right]{$y=f(x)$};
+\xcoord{1}{a} \xcoord{5}{b}}
+\onslide<2|handout:0>{
+\fill[W1, opacity=0.5] (1,0)--plot[domain=1:5,smooth](\x,{1.5+sin(\x r)})--(5,0)--cycle;
+}
+\onslide<3->{\draw[very thick] plot[domain=-1:6,smooth](\x,{1+2*sin(\x r)})node[right]{$y=f(x)$};
+\xcoord{1}{a} \nxcoord{5}{b}}
+\onslide<4>{
+\fill[W1, opacity=0.5] (1,0)--plot[domain=1:3.67,smooth](\x,{1+2*sin(\x r)})--cycle;
+\fill[C4, opacity=0.5] (3.67,0)--plot[domain=3.67:5,smooth](\x,{1+2*sin(\x r)})|-cycle;
+}
+%new signed example
+\end{tikzpicture}
+\end{center}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+ \begin{frame}[t]{Riemann Sums}
+ A \alert{Riemann sum} approximates the area under a curve by cutting it into equal-width segments, and approximating each segment as a rectangle.
+
+ \begin{center}
+ \begin{tikzpicture}
+\myaxis{x}{1}{6}{y}{1}{3}
+\draw[very thick] plot[domain=-1:6,smooth](\x,{1.5+sin(\x r)})node[right]{$y=f(x)$};
+\xcoord{1}{a} \xcoord{5}{b}
+\fill[W1, opacity=0.25] (1,0)--plot[domain=1:5,smooth](\x,{1.5+sin(\x r)})--(5,0)--cycle;
+\foreach \x in {1.5,2,...,5}{
+	\SIN{\x}{\sx}
+	\ADD{1.5}{\sx}{\y}
+	\onslide<2->{\draw (\x,0)--(\x,\y);}
+	\SUBTRACT{\x}{.25}{\mp}
+	\SIN{\mp}{\sm}
+	\ADD{\sm}{1.5}{\my}
+	\onslide<3->{\fill[opacity=0.5,W1] (\x-0.5,0) rectangle (\x,\my);}
+	}
+\end{tikzpicture}
+
+ \end{center}
+\onslide<4->{There are different ways to choose the height of each rectangle.}
+\end{frame}
+%%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}{Types of Riemann Sums (RS)}
+\centering
+\begin{multicols}{3}
+\begin{tikzpicture}[yscale=2]
+\myaxis{}{0}{2}{}{0}{1.5}
+\draw[thick] plot[domain=0:1.4]({\x*\x},{\x});
+\fill[W1, fill opacity=0.25] (.5,0)-- plot[domain=0.5:1.5]({\x},{sqrt(\x)})--(1.5,0)--(.5,0);
+\xcoord{.5}{}
+\xcoord{1.5}{}
+%left RS
+\color{C1}
+\onslide<2-|handout:0>{\draw (.5,.7) node[vertex]{}--(-.2,.7) node[left]{$h$};}
+\onslide<3-|handout:0>{\draw[fill, fill opacity=0.5] (.5,0) rectangle (1.5,.7);}
+\end{tikzpicture}\\[10pt]
+
+Left RS
+
+\columnbreak
+\begin{tikzpicture}[yscale=2]
+\myaxis{}{0}{2}{}{0}{1.5}
+\draw[thick] plot[domain=0:1.4]({\x*\x},{\x});
+\fill[W1, fill opacity=0.25] (.5,0)-- plot[domain=0.5:1.5]({\x},{sqrt(\x)})--(1.5,0)--(.5,0);
+\xcoord{.5}{}
+\xcoord{1.5}{}
+%right RS
+\color{C1}
+\onslide<4-|handout:0>{\draw (1.5,1.2) node[vertex]{}--(-.2,1.2) node[left]{$h$};}
+\onslide<5-|handout:0>{\draw[fill, fill opacity=0.5] (.5,0) rectangle (1.5,1.2);}
+\end{tikzpicture}\\[10pt]
+
+Right RS
+
+\columnbreak
+\begin{tikzpicture}[yscale=2]
+\myaxis{}{0}{2}{}{0}{1.5}
+\draw[thick] plot[domain=0:1.4]({\x*\x},{\x});
+\fill[W1, fill opacity=0.25] (.5,0)-- plot[domain=0.5:1.5]({\x},{sqrt(\x)})--(1.5,0)--(.5,0);
+\xcoord{.5}{}
+\xcoord{1.5}{}
+%MP RS
+\color{C1}
+\onslide<6-|handout:0>{\xcoord{1}{}}
+\onslide<7-|handout:0>{\draw (1,1) node[vertex]{}--(-.2,1) node[left]{$h$};}
+\onslide<8-|handout:0>{\draw[fill, fill opacity=0.5] (.5,0) rectangle (1.5,1);}
+\end{tikzpicture}\\[10pt]
+
+Midpoint RS
+
+\end{multicols}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%%----------------------------------------------------------------------------------------
+%%----------------------------------------------------------------------------------------
+%%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]
+\begin{QuestionSet}
+%----------------------------------------------------------------------------------------
+\SetQuestion{\AnswerYes
+Approximate $\int_2^4\log(x)\, \dee x$ using a \alert{right Riemann sum} with $n=4$ rectangles.  For now, do not use sigma notation.
+
+\begin{center}
+\begin{tikzpicture}[xscale=1.25]
+\myaxis{x}{0}{5}{y}{0}{2}
+\draw[thick, W1] plot[domain=0.75:5,smooth](\x,{ln(\x)})node[right]{$y=\log x$};
+\xcoord{2}{2} \xcoord{4}{4}
+\end{tikzpicture}
+\end{center}
+} %end question 1
+%----------------------------------------------------------------------------------------
+\SetAnswer{Approximate $\ds\int_2^4\log(x)\, \dee x$ using a \alert{right Riemann sum} with $n=4$ rectangles.  For now, do not use sigma notation.
+
+\begin{center}
+\begin{tikzpicture}[xscale=1.25]
+\myaxis{x}{0}{5}{y}{0}{2}
+\draw[thick, W1] plot[domain=.75:5,smooth](\x,{ln(\x)})node[right]{$y=\log x$};
+\xcoord{2}{2} \xcoord{4}{4}
+	\xcoord{2.5}{\frac52}
+	\xcoord{3}{3}
+	\xcoord{3.5}{\frac72}
+	\draw[fill=C2,fill opacity=0.2] (2,0) rectangle (2.5,0.916);
+	\draw[fill=C2,fill opacity=0.2] (2.5,0) rectangle (3,1.1);
+	\draw[fill=C2,fill opacity=0.2] (3,0) rectangle (3.5,1.25);
+	\draw[fill=C2,fill opacity=0.2] (3.5,0) rectangle (4,1.39);
+\node at (2.5,-1) {$x_1^*$};
+\node at (3.0,-1) {$x_2^*$};
+\node at (3.5,-1) {$x_3^*$};
+\node at (4.0,-1) {$x_4^*$};
+\end{tikzpicture}
+\end{center}
+	\begin{itemize}\color{spoilercolor}
+	\item Width of each rectangle: $\frac{4-2}{4}=\frac12$
+	\item Heights taken at right endpoints of rectangles:\\ $x_1^*=\frac52$, $x_2^*=3$, $x_3^*=\frac72$, $x_4^*=4$
+	\end{itemize}
+\[\int_2^4\log(x)\ \dee x \approx \frac12\log\left(\frac52\right)+\frac12\log\left(3\right)+\frac12\log\left(\frac72\right)+\frac12\log\left(4\right)\]
+} %end answer 1
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\SetQuestion{\AnswerYes
+Approximate $\ds\int_{-1}^0~ e^x\, \dee x$ using a \alert{left Riemann sum} with $n=3$ rectangles.  For now, do not use sigma notation.
+
+\begin{center}
+\begin{tikzpicture}[xscale=5,yscale=1.8]
+\myaxis{x}{1.1}{0}{y}{0}{1.1}
+\draw[thick, W1] plot[domain=-1.1:0.1,smooth](\x,{exp(\x)})node[right]{$y=e^ x$};
+\xcoord{-1}{-1} \xcoord{0}{0}
+\end{tikzpicture}
+\end{center}
+} %end question 2
+%----------------------------------------------------------------------------------------
+\SetAnswer{Approximate $\ds\int_{-1}^0~ e^x\, \dee x$ using a \alert{left Riemann sum} with $n=3$ rectangles.  For now, do not use sigma notation.
+
+\begin{center}
+\begin{tikzpicture}[xscale=5,yscale=1.8]
+\myaxis{x}{1.1}{0}{y}{0}{1.1}
+\draw[thick, W1] plot[domain=-1.1:0.1,smooth](\x,{exp(\x)})node[right]{$y=e^ x$};
+\xcoord{-1}{-1} \xcoord{0}{0} \xcoord{-.667}{-\frac23}	\xcoord{-.333}{-\frac13}
+	\draw[fill=C2,fill opacity=0.2] (-1,0) rectangle (-.667,0.37);
+	\draw[fill=C2,fill opacity=0.2] (-.667,0) rectangle (-.333,0.513);
+	\draw[fill=C2,fill opacity=0.2] (-.333,0) rectangle (0,0.72);
+\node at (-1.05,-0.6) {$x_1^*$};
+\node at (-0.7167,-0.6) {$x_2^*$};
+\node at (-0.3833,-0.6) {$x_3^*$};
+\end{tikzpicture}
+\end{center}
+
+	\begin{itemize}\color{spoilercolor}
+	\item Width of each rectangle: $\frac{0-(-1)}{3}=\frac13$
+	\item Heights taken at left endpoints of rectangles:\\ $x_1^*=-1$, $x_2^*=-\frac23$, $x_3^*=-\frac13$
+	\end{itemize}
+\[\int_{-1}^0~ e^x\ \dee x\approx \frac13e^{-1}+\frac13e^{-2/3}+\frac13e^{-1/3}\]
+}%end answer 2
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\SetQuestion{\AnswerYes
+Approximate $\ds\int_{0}^{\sqrt{\pi} }~ \sin\left(x^2\right) \dee x$ using a \alert{midpoint Riemann sum} with $n=5$ rectangles. For now, do not use sigma notation.
+
+\begin{center}
+\begin{tikzpicture}[xscale=5,yscale=1.7]
+\myaxis{x}{0}{2}{y}{0}{1}
+\draw[thick, W1] plot[domain=0:1.9,smooth](\x,{sin(\x*\x r)})node[right]{$y=\sin(x^2)$};
+ \xcoord{0}{0} \xcoord{1.77}{\sqrt{\pi}}
+
+\end{tikzpicture}
+\end{center}
+}%\end SetQuestion 3
+%----------------------------------------------------------------------------------------
+\SetAnswer{
+Approximate $\int_{0}^{\sqrt{\pi} }~ \sin\left(x^2\right) \dee x$ using a \alert{midpoint Riemann sum} with $n=5$ rectangles. For now, do not use sigma notation.
+
+\begin{center}
+\begin{tikzpicture}[xscale=5,yscale=1.7]
+\myaxis{x}{0}{2}{y}{0}{1}
+\draw[thick, W1] plot[domain=0:1.9,smooth](\x,{sin(\x*\x r)})node[right]{$y=\sin(x^2)$};
+ \xcoord{0}{0} \xcoord{1.77}{\sqrt{\pi}}
+
+	\foreach \i in {1,...,5}{
+		\MULTIPLY{\i}{0.3545}{\x}%endpoint
+		\SUBTRACT{\x}{0.177}{\xx}%midpoint x-value
+		\MULTIPLY{\i}{2}{\a}
+		\SUBTRACT{\a}{1}{\j}%midpoint coefficient
+		\MULTIPLY{\xx}{\xx}{\xxx}
+		\SIN{\xxx}{\y}%midpoint height
+		\draw[fill=C2,fill opacity=0.2](\x,0) rectangle (\x-.3545,\y);
+		\ifnum \j=1
+		\draw[C2,dashed](\xx,\y)--(\xx,-0.05)node[below]{$\frac{\sqrt{\pi}}{10}$};
+		\else
+		\draw[C2,dashed](\xx,\y)--(\xx,-0.05)node[below]{$\frac{\j\sqrt{\pi}}{10}$};
+		\fi
+		\ifnum \i = 1
+		\draw (\x,0)--(\x,-0.25)node[below]{$\frac{\sqrt{\pi}}{5}$};
+		\else	\ifnum \i=5
+		\else \draw (\x,0)--(\x,-0.25)node[below]{$\frac{\i\sqrt{\pi}}{5}$};
+		\fi\fi
+
+	
+	\draw[fill=C2,fill opacity=0.2] (0,0) rectangle (0,0.72);
+	}
+\node at (0.1772,-0.55) {$x_1^*$};
+\node at (0.5317,-0.55) {$x_2^*$};
+\node at (0.8862,-0.55) {$x_3^*$};
+\node at (1.2407,-0.55) {$x_4^*$};
+\node at (1.5952,-0.55) {$x_5^*$};
+\end{tikzpicture}
+\end{center}
+
+
+	\begin{itemize}\color{spoilercolor}
+	\item Width of each rectangle: $\frac{\sqrt \pi - 0 }{5}=\frac{\sqrt {\pi}}5$
+	\item Heights taken at midpoints of rectangles:\\ $x_1^*=\frac{\sqrt{\pi}}{10}$ \foreach \j in {2,3,4,5}{\MULTIPLY{\j}{2}{\a} \SUBTRACT{\a}{1}{\num}
+		, $x_{\j}^* = \frac{\num\sqrt{\pi}}{10}$ }
+	\end{itemize}
+
+\small
+\[
+\frac{\sqrt{\pi}}{5}\left[\sin\left(\frac{{\pi}}{100}\right)
+\foreach \i in {2,3,4,5}{\MULTIPLY{\i}{2}{\a} \SUBTRACT{\a}{1}{\b}\MULTIPLY{\b}{\b}{\num}
+	+\sin\left(\frac{\num{\pi}}{100}\right)}
+\right]
+\]
+	
+}%end SetAnswer 3
+%%%there is one more question after this
+\stepcounter{questionset}
+\end{QuestionSet}
+\end{frame}
+%%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------
+\begin{frame}[t]
+\QuestionBar<1>{4}{4}
+\sStatusBar{1}{24}
+Approximate $\ds\int_1^{17} \sqrt{x}~\dee x$ using a \alert{midpoint Riemann sum} with 8 rectangles. Write the result in sigma notation.
+\begin{center}
+\begin{tikzpicture}[xscale=1.1,yscale=0.9]
+\myaxis{x}{0}{9}{y}{0}{3.2}
+\draw[thick, W1] plot[domain=0:3.](\x*\x,\x);
+\sonslide<1-2>{\draw[W1] (8.5,3.5)node{$y=\sqrt{x}$};}
+
+\sonslide<+>{}%\pause causes problems with \statusbar
+\sonslide<+->{\xcoord{.5}{1} \xcoord{8.5}{17}}% function, bounds
+\sonslide<+->{\fill[W1, opacity=0.1] (0.5,0)--plot[domain=.707:2.915](\x*\x,\x) |-cycle;}% region shaded
+\sonslide<+->{\foreach \x in {1,3,...,17}{\DIVIDE{\x}{2}{\xx}\SQRT{\xx}{\y}\draw(\xx,0)--(\xx,\y); \xcoord{\xx}{\x}}} %x_i and rectangle sides
+\sonslide<+->{\foreach \x in {2,4,...,16}{\DIVIDE{\x}{2}{\xx}\SQRT{\xx}{\y}
+	 \draw[C1](\xx,\y)node[vertex,label=above:{\footnotesize$(\x,\sqrt{\x})$}]{};
+	 }} %midpoint heights
+\sonslide<+->{\foreach \x in {1,...,8}{	
+	\SQRT{\x}{\y}
+	\ifodd \x  \filldraw[C1,pattern = north west lines] (\x-0.5,0) rectangle (\x+0.5,\y); \else  \filldraw[C1,pattern = north east lines] (\x-0.5,0) rectangle (\x+.5,\y);\fi
+	}}%rectangles
+%highlight first three while details are filled in below
+\foreach \rec[evaluate=\reca using int(\rec*3+4), evaluate=\recb using int(\reca+2), evaluate=\y using \rec^.5] in {1,2,3}{
+	\sonslide<\reca - \recb>{
+	\fill[M4, opacity=0.5](\rec-0.5,0) rectangle (\rec+0.5,\y);}
+	}
+
+\end{tikzpicture}
+\end{center}
+
+\sonly<7-22>{
+\begin{tabular}{|*{8}{p{2cm}|}}
+\sonly<7-16>{First}\sonly<17->{$i=1$} & \sonly<10-17>{Second} \sonly<18->{$i=2$}& \sonly<13-18>{Third}\sonly<19->{$i=3$} &\sonly<16-19>{ $\cdots$}\sonly<20->{$i$}\\\hline
+\sonly<8->{Base: 2} &\sonly<11->{Base: 2} &\sonly<14->{Base: 2} &\sonly<16-20>{$\cdots$}\sonly<21->{Base: 2} \\[-1mm]
+\sonly<9->{Height: $\sqrt{2}$} &\sonly<12->{ Height: $\sqrt4$} &\sonly<15->{ Height: $\sqrt6$} &\sonly<16-21>{ $\cdots$ }\sonly<22->{Height: $\sqrt{2i}$}
+\end{tabular}}
+\sonly<23->{The $i$th rectangle has base 2 and height $\sqrt{2i}$, so}
+\sonslide<24->{\[\text{area} \approx \sum_{i=1}^82\sqrt{2i}\]}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+
+\begin{frame}[t]
+\label{note1.1c}
+\StatusBar{1}{9}
+\[ \sum_{i=1}^8 2\sqrt{2i}=\foreach\i in {1,...,7}{\MULTIPLY{\i}{2}{\x}\ADD{\i}{1}{\j}\alert<\j|handout:0>{\underbrace{2\sqrt{\x}}_{i=\i}}+}\alert<9|handout:0>{\underbrace{2\sqrt{16}}_{i=8}}\]
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{0}{9}{y}{0}{3.2}
+\draw[thick, W1] plot[domain=0:3.](\x*\x,\x);
+\draw[W1] (8.5,3.5)node{$y=\sqrt{x}$};
+\foreach \x in {1,...,17}{\ifodd \x \xcoord{\x/2}{\x} \else \nxcoord[W2]{\x/2}{\x} \fi}
+\foreach \x in {1,3,...,17}{\DIVIDE{\x}{2}{\xx}\SQRT{\xx}{\y}\draw(\xx,0)--(\xx,\y); %x_i and rectangle sides
+}
+\foreach \i in {1,...,8}{
+	\ADD{\i}{1}{\j}
+	\SQRT{\i}{\y}
+	\MULTIPLY{\i}{2}{\x}
+	\onslide<\j->{\draw[fill=gray, fill opacity=0.1] (\i-0.5,0) rectangle (\i+0.5,\y);}
+	\onslide<\j|handout:0>{\fill[M4, opacity=0.5] (\i-0.5,0) rectangle (\i+0.5,\y); 
+		\draw (\i,-1)node{\alert{Base: 2}};
+		\draw (\i,-1.5)node{\alert{Height: $\sqrt{\x}$}};
+		\ycoord{\y}{\sqrt{\x}}
+		\draw[dashed] (0,\y)--(\i,\y);}
+	}
+\end{tikzpicture}
+\end{center}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\unote{Definition~\eref{text}{def:INTthreeRiemannSums}}
+\StatusBar{1}{5}
+\begin{block}{Riemann sum with $n$ rectangles}
+\[\int_a^b f(x)\, \dee x \approx \sum_{i=1}^n \Delta x\cdot f(x_{i,n}^*)\]
+where \alert<2|handout:0>{$\Delta x = \frac{b-a}{n}$} and  $x_{i,n}^*$ is an $x$-value in the $i$th rectangle.
+\end{block}
+\vfill
+\centering
+$\displaystyle \sum_{i=1}^n \Delta x\cdot f(x_{i,n}^*) = \foreach \i in {1,2,3}{
+	\ADD{\i}{2}{\j}
+	\alert<\j|handout:0>{\Delta x \cdot f\left(x_{\i,n}^*\right)}+}~\cdots~ +\alert<2|handout:0>{ \Delta x} \cdot f\left(x_{n,n}^*\right)$
+
+
+\begin{tikzpicture}
+\myaxis{x}{0}{7.2}{y}{0}{2.2}
+\draw[thick, W1] plot[domain=0:7](\x,{8/7*\x*(1-\x/7)});
+\xcoord{1}{a} \xcoord{6}{b}
+\foreach \i[
+	evaluate=\j using int(\i+2),%slide overlay
+	evaluate=\y using (\i+.5)*(6.5-\i)*8/49%find y-value of rectangle
+	]
+	 in {1,...,6}{
+	\ifnum \i<6 \only<2|handout:0>{
+	\draw[<->](\i+.1,-.1)--(\i+0.9,-.1)node[midway,below]{\footnotesize $\Delta x$};} %Delta x
+	\draw (\i,0) rectangle (\i+1,\y);
+	\ifnum \i<4 %highlight first three rectangles
+	\onslide<\j|handout:0>{\fill[M4,opacity=0.5] (\i,0) rectangle (\i+1,\y);
+	\draw[dashed] (\i+.5,\y)--(-0.2,\y)node[left]{$f(x_{\i,n}^*)$};
+	\xcoord{\i+.5}{x_{\i,n}^*}
+	\draw (\i+.5,\y+.5)node{\i};}
+	\fi
+	\fi
+	}
+
+\end{tikzpicture}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\sStatusBar{1}{14}
+\nsStatusBar{1}{11}
+\unote{Definition~\eref{text}{def:INTthreeRiemannSums}}
+\begin{block}{\textbf{Right} Riemann sum with $n$ rectangles}
+\[\int_a^b f(x)\dee x \approx \sum_{i=1}^n \Delta x\cdot f\left(
+	\iftoggle{spoiler}{\alert{\sonly<-13>{x_{i,n}^*}\sonly<14->{a+i\Delta x}}}{\hspace{2cm}}\right)\]
+where $\Delta x = \frac{b-a}{n}$ and  $\alert<beamer>{x_{i,n}^*}=$\sonslide<13-|handout:0>{\alert{$a+i \Delta x$}}
+\end{block}
+\vfill
+\centering
+
+\begin{tikzpicture}[xscale=1.2]
+\myaxis{x}{0.5}{7}{}{0}{0}
+\draw[thick] plot [domain=-0.5:7,smooth](\x,{1.25-cos(\x/2 r)});
+\xcoord{0}{a}
+
+\foreach \i in {1,2,3}{
+	\DIVIDE{\i}{2}{\a}
+	\COS{\a}{\b}
+	\SUBTRACT{1.25}{\b}{\y}
+	\onslide<+->{
+	\draw[<->] (\i-0.9,-.1)--(\i-0.1,-.1)node[midway,fill=white]{\tiny $\Delta x$};
+	\xcoord{\i}{}
+	\fill[M4,opacity=0.5] (\i-1,0) --plot [domain=\i-1:\i,smooth](\x,{1.25-cos(\x/2 r)})|-cycle;
+	\draw (\i-.5,\y)node[above]{\i};
+	}
+	\onslide<+->{
+	\draw[fill=C1, fill opacity=0.1] (\i-1,0) rectangle (\i,\y);
+	\xcoord{\i}{x_{\i,n}^*}
+	}
+	\onslide<+-|handout:0>{
+	\POWER{-1}{\i}{\p}
+	\DIVIDE{\p}{6}{\pp}%stagger every other, vertically
+	\draw[<-,dashed,W1] (\i,-1)--(\i,-1.6+\pp)node[below]{\footnotesize \alert{$a+ \i\Delta x$}};}
+	}
+	
+\onslide<10->{
+	\draw[<->] (6-0.9,-.1)--(6-0.1,-.1)node[midway,fill=white]{\tiny $\Delta x$};
+	\xcoord{6}{} \xcoord{5}{}
+	\fill[M4,opacity=0.5] (5,0) --plot [domain=5:6,smooth](\x,{1.25-cos(\x/2 r)})|-cycle;
+	\draw (5.5,2.23)node[above]{$i$};
+	}
+\onslide<11->{
+	\xcoord{6}{x_{i,n}^*}
+	\draw[fill=C1,fill opacity=0.1] (5,0) rectangle (6,2.23);
+	}
+\sonslide<12-|handout:0>{
+	\draw[<-,dashed,W1] (6,-1)--(6,-1.6)node[below]{\footnotesize \alert{$a+ i\Delta x$}};
+	}
+\end{tikzpicture}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}{Types of Riemann Sums (RS)}
+\sStatusBar{1}{3}
+What height would you choose for the $i$th rectangle?
+
+\begin{center}\begin{multicols}{3}
+\begin{tikzpicture}[yscale=2]
+\myaxis{}{0}{2}{}{0}{1.5}
+\draw[thick] plot[domain=0:1.4]({\x*\x},{\x});
+\fill[W1, fill opacity=0.25] (.5,0)-- plot[domain=0.5:1.5]({\x},{sqrt(\x)})--(1.5,0)--(.5,0);
+\draw (1,1.4)node{$i$};
+\draw[<->] (.6,-.1)--(1.4,-.1)node[midway,fill=white]{\tiny $\Delta x$};
+\draw[fill=C1, fill opacity=0.1] (.5,0) rectangle (1.5,1.22);
+%right RS
+\xcoord[W2]{1.5}{a+ i\Delta x}
+\end{tikzpicture}\\[10pt]
+
+Right RS
+
+\columnbreak
+
+\begin{tikzpicture}[yscale=2]
+\myaxis{}{0}{2}{}{0}{1.5}
+\draw[thick] plot[domain=0:1.4]({\x*\x},{\x});
+\fill[W1, fill opacity=0.25] (.5,0)-- plot[domain=0.5:1.5]({\x},{sqrt(\x)})--(1.5,0)--(.5,0);
+\draw (1,1.4)node{$i$};
+\draw[<->] (.6,-.1)--(1.4,-.1)node[midway,fill=white]{\tiny $\Delta x$};
+\draw[fill=C1, fill opacity=0.1] (.5,0) rectangle (1.5,0.707);
+%left RS
+\sonslide<2-|handout:0>{\xcoord[W2]{0.5}{a+ (i-1)\Delta x}}
+\onslide<0|handout:0>{\xcoord{1}{1}}%for spacing when spoilers are false
+\end{tikzpicture}\\[10pt]
+
+Left RS
+
+\columnbreak
+
+
+
+\begin{tikzpicture}[yscale=2]
+\myaxis{}{0}{2}{}{0}{1.5}
+\draw[thick] plot[domain=0:1.4]({\x*\x},{\x});
+\fill[W1, fill opacity=0.25] (.5,0)-- plot[domain=0.5:1.5]({\x},{sqrt(\x)})--(1.5,0)--(.5,0);
+\draw (1,1.4)node{$i$};
+\draw[<->] (.6,-.1)--(1.4,-.1)node[midway,fill=white]{\tiny $\Delta x$};
+\draw[fill=C1, fill opacity=0.1] (.5,0) rectangle (1.5,1);
+%MP RS
+\sonslide<3-|handout:0>{\xcoord[W2]{1.}{a+ \left(i-\frac12\right)\Delta x}}
+\onslide<0|handout:0>{\xcoord{0}{1}}%for spacing when spoilers are false
+\end{tikzpicture}\\[10pt]
+
+Midpoint RS
+
+\end{multicols}\end{center}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\unote{Definition~\eref{text}{def:INTthreeRiemannSums}}
+\begin{block}{Riemann sums with $n$ rectangles. Let $\Delta x = \frac{b-a}{n}$}
+The \alert{right} Riemann sum approximation of $\int_a^b f(x) ~\dee x$ is:
+\[\sum_{i=1}^n \Delta x\cdot f\left(a+i\Delta x\right)\]
+
+The \alert{left} Riemann sum approximation of $\int_a^b f(x) ~\dee x$ is:
+\[\sum_{i=1}^n \Delta x\cdot f\left(a+(i-1)\Delta x\right)\]
+
+The \alert{midpoint} Riemann sum approximation of $\int_a^b f(x) ~\dee x$ is:
+\[ \sum_{i=1}^n \Delta x\cdot f\left(a+\left(i-\frac12\right)\Delta x\right)\]
+\end{block}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\QuestionBar<1>{1}{2}\AnswerYes<1>
+\AnswerBar<2>{1}{2}
+\begin{block}{Riemann sums with $n$ rectangles: Let $\Delta x = \frac{b-a}{n}$}
+The \alert{right} Riemann sum approximation of $\int_a^b f(x) ~\dee x$ is:
+\[\sum_{i=1}^n \Delta x\cdot f\left(a+i\Delta x\right)\]
+\end{block}
+
+Give a right Riemann Sum for the area under the curve $y=x^2-x$ from $a=1$ to $b=6$ using $n=1000$ intervals.
+\vfill
+\sonslide<2>{\[\sum_{n=1}^{1000} \frac{5}{1000}\left[ \left(1+\frac{5}{1000}i \right)^2-\left(1+\frac{5}{1000}i\right) \right] \]}
+\end{frame}
+%--------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\QuestionBar<1>{2}{2}\AnswerYes<1>
+\AnswerBar<2>{2}{2}
+
+\begin{block}{Riemann sums with $n$ rectangles: Let $\Delta x = \frac{b-a}{n}$}
+The \alert{midpoint} Riemann sum approximation of $\int_a^b f(x) ~\dee x$ is:
+\[ \sum_{i=1}^n \Delta x\cdot f\left(a+\left(i-\frac12\right)\Delta x\right)\]
+\end{block}
+
+Give a midpoint Riemann Sum for the area under the curve $y=5x-x^2$ from $a=6$ to $b=9$ using $n=1000$ intervals.
+\vfill
+\sonslide<2>{
+\[\sum\limits_{n=1}^{1000} \frac{3}{1000}\left[ 5\left(\textcolor{C2}{6+\frac{3}{1000}(i-1/2) }\right)-\left(\textcolor{C2}{6+\frac{3}{1000}(i-1/2)}\right)^2 \right] \]}
+\end{frame}
+%------------------------------------------------------------------------------------
+\begin{frame}[t]{Evaluating Riemann Sums \hfill \hyperlink{1.1.4}{\beamerskipbutton{skip Riemann evaluations}}}
+\QuestionBar<1>{1}{2}
+\AnswerBar<2->{1}{2}
+\AnswerYes<1-2>
+
+\alert{ $\sum\limits_{i=1}^n i=\frac{n(n+1)}{2}$\hfill
+$\sum\limits_{i=1}^n i^2=\frac{n(n+1)(2n+1)}{6}$\hfill
+$\sum\limits_{i=1}^n i^3=\frac{n^2(n+1)^2}{4}$}
+\\
+\iftoggle{spoiler}{\vfill}{\vspace{2em}}
+Give the right Riemann sum of $f(x)=x^2$ from $a=0$ to $b=10$, $n=100$:\color{C1}
+\begin{align*}
+\color{black}\sum\limits_{i=1}^n \Delta x \cdot f\left(a+i\Delta x \right)&=
+\sonslide<2->{\sum_{i=1}^{100} \frac{10}{100}\cdot\left( 0+\frac{10}{100}i \right)^2\\}
+\sonslide<3->{
+&=\sum_{i=1}^{100} \frac{1}{10}\cdot\left(\frac{1}{10}i \right)^2
+=\frac{1}{10}\sum_{i=1}^{100} \frac{1}{100}i^2\\&=\frac{1}{1000}\alert{\sum_{i=1}^{100} i^2}
+=\frac{1}{1000}\alert{\frac{100(101)(201)}{6}}=\frac{101\cdot201}{60}
+}
+\end{align*}
+\vfill
+\end{frame}
+%--------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}
+
+\begin{center}
+	\begin{tikzpicture}[yscale=0.65,xscale=0.95]
+	\draw[gray] (10,0)-|(0,10);
+	\draw plot[domain=0:10](\x,\x*\x/10)node[right]{$f(x)=x^2$};
+	\foreach \x in {1,...,100}{
+		\DIVIDE{\x}{10}{\xstar}
+		\MULTIPLY{\xstar}{\xstar}{\height}
+		\DIVIDE{\height}{10}{\height}
+		\draw[M4,fill=M3, fill opacity=0.5] (\xstar-0.1,0)rectangle(\xstar,\height);
+	}
+	\draw (3,5)node{$\sum\limits_{i=1}^{100} \frac{1}{10}\cdot\left(\frac{1}{10}i \right)^2=338.35$};
+	\xcoord{10}{10}
+	\end{tikzpicture}
+\end{center}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Evaluating Riemann Sums in Sigma Notation}
+\QuestionBar{2}{2}<1>
+\AnswerBar<2->{2}{2}
+\AnswerYes<1-2>
+
+\alert{ $\sum\limits_{i=1}^n i=\frac{n(n+1)}{2}$\hfill
+$\sum\limits_{i=1}^n i^2=\frac{n(n+1)(2n+1)}{6}$\hfill
+$\sum\limits_{i=1}^n i^3=\frac{n^2(n+1)^2}{4}$}
+\iftoggle{spoiler}{\vfill}{\vspace{2em}}
+
+Give the right Riemann sum of $f(x)=x^3$ from $a=0$ to $b=5$, $n=100$:
+
+\begin{align*}\sonslide<2->{\sum\limits_{i=1}^n \Delta x \cdot f\left(a+i\Delta x \right)&=
+\sum_{i=1}^{100} \frac{5}{100}\cdot\left( 0+\frac{5}{100}i \right)^3\\}
+\sonslide<3->{
+&=\sum_{i=1}^{100} \frac{1}{20}\cdot\left(\frac{1}{20}i \right)^3
+=\frac{1}{20}\sum_{i=1}^{100} \frac{1}{20^3}i^3\\&=\frac{1}{20^4}\alert{\sum_{i=1}^{100} i^3}
+=\frac{1}{20^4}\alert{\frac{100^2(101^2)}{4}}=\frac{101^2}{64}
+}
+\end{align*}
+\vfill
+\end{frame}
+%--------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+
+\begin{center}
+	\begin{tikzpicture}[yscale=0.05,xscale=2]
+	\draw[gray] (5,0)-|(0,125);
+	\draw plot[domain=0:5](\x,\x*\x*\x)node[right]{$f(x)=x^3$};
+	\foreach \x in {1,...,100}{
+		\DIVIDE{\x}{20}{\xstar}
+		\MULTIPLY{\xstar}{\xstar}{\height}
+		\MULTIPLY{\height}{\xstar}{\height}
+		\draw[M4,fill=M3, fill opacity=0.5] (\xstar-0.05,0)rectangle(\xstar,\height);
+	}
+	\draw (2,60) node{$\sum\limits_{i=1}^{100} \frac{1}{20}\cdot\left(\frac{1}{20}i \right)^3=\frac{101^2}{64} \approx 159.39 $};
+	\xcoord{5}{5}
+	\end{tikzpicture}
+\end{center}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\StatusBar{1}{4}
+\begin{block}{Definition}
+Let $a$ and $b$ be two real numbers and let $f(x)$ be a function that is defined for all $x$ between $a$ and $b$. Then we define $\Delta x = \frac{b-a}{N}$ and
+\[\alert<2>{\int_a^b} f(x)\, \alert<3>{\dee x} = \alert<4|handout:0>{\lim_{N \to \infty}} \alert<2>{\sum_{i=1}^N} f(\alert<4|handout:0>{x_{i,N}^*})\cdot \alert<3>{\Delta x}\]
+when the limit exists and when the choice of $x_{i,N}^*$ in the $i^{\rm th}$ interval doesn't matter. 
+%The sum in the limit is called a \textbf{Riemann sum}.
+\end{block}\pause
+
+\alert<2>{$\sum$, $\int$} both stand for ``sum"\pause\\
+\alert<3>{$\Delta x$, $\dee x$} are tiny pieces of the $x$-axis, the bases of our very skinny rectangles\pause\\
+It's understood we're taking a limit as $N$ goes to infinity, so we don't bother specifying $N$ (or each location where we find our height) in the second notation.
+
+\unote{Definition~\eref{text}{def:INTintegral}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\StatusBar{1}{4}
+\begin{center}
+	\begin{tikzpicture}[scale=8]
+	\draw plot[domain=0:1](\x,\x*\x);
+\foreach \s/\N in {1/10,2/50,3/100}{
+	\onslide<\s|handout:0>{
+	\draw (.25,.5)node{$N=\N$: approximate area};
+	\DIVIDE{1}{\N}{\delx}
+	\foreach \x in {1,...,\N}{
+		\MULTIPLY{\x}{\delx}{\xstar}
+		\SUBTRACT{\xstar}{\delx}{\xleft}
+		\MULTIPLY{\xstar}{\xstar}{\height}
+		\draw[M4,fill=M3, fill opacity=0.5] (\xleft,0)rectangle(\xstar,\height);
+	}
+}}
+\onslide<4-|handout:0>{
+	\draw (.25,.5)node{Limit as $N \to \infty$ gives exact area};
+	\fill[M4!75!M3, opacity=0.5] (0,0)  plot[domain=0:1](\x,\x*\x) |-cycle;
+	}
+	\end{tikzpicture}
+\end{center}
+
+\end{frame}
+%-------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>
+\textcolor{W2}{ $\sum\limits_{i=1}^n i=\frac{n(n+1)}{2}$\hfill
+$\sum\limits_{i=1}^n i^2=\frac{n(n+1)(2n+1)}{6}$\hfill
+$\sum\limits_{i=1}^n i^3=\frac{n^2(n+1)^2}{4}$}
+\iftoggle{spoiler}{\vfill}{\vspace{2em}}
+
+Give the right Riemann sum of $y=x^2$ from $a=0$ to $b=5$ with \alert{$n$ slices}, and simplify:
+
+\sonslide<2->{\begin{align*}
+\sum\limits_{i=1}^n \Delta x \cdot f\left(a+i\Delta x \right)&=
+\sum_{i=1}^{n} \frac{5}{n}\cdot\left( \frac{5}{n}i \right)^2=
+\sum_{i=1}^{n}\frac{125}{n^3}i^2 \\
+&=\frac{125}{n^3}\left[\sum_{i=1}^{n} i^2\right]
+=\frac{125}{n^3}\left(\frac{n(n+1)(2n+1)}{6}\right)\\
+&=\frac{125}{n^2}\left(\frac{(n+1)(2n+1)}{6}\right)
+=\frac{125}{6}\left(\frac{2n^2+3n+1}{n^2}\right)
+\end{align*}}
+\vfill
+\end{frame}
+%--------------------
+%----------------------------------------------------------------------------------------
+
+%---------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\MoreSpace<1>
+\AnswerYes<2>
+We found the right Riemann sum of $y=x^2$ from $a=0$ to $b=5$ using $n$ slices:
+\[\frac{125}{6}\cdot\frac{2n^2+3n+1}{n^2}\]
+Use it to find the exact area under the curve.
+\only<1>{
+\begin{tikzpicture}[yscale=0.95]
+\myaxis{x}{0}{5.5}{y}{0}{5}
+\draw[thick] plot[domain=0:5](\x,{\x*\x/5});
+\foreach \x in {0,0.1,...,4.9}{
+	\MULTIPLY{\x}{\x}{\xx}
+	\DIVIDE{\xx}{5}{\y}
+	\draw[M4,thin,fill=M3, fill opacity=0.5] (\x,0)rectangle(\x-0.1,\y);}
+\end{tikzpicture}
+}
+\pause
+\sonly<3->{\begin{align*}
+\int_0^5 x^2~\dee x &= \lim_{n \to \infty}\left[\frac{125}{6}\cdot\frac{2n^2+3n+1}{n^2}\right]\\
+                    &= \frac{125}{6}\lim_{n \to \infty}\left[2+\frac{3}{n}+\frac{1}{n^2}\right]\\
+&=\frac{125}{6}(2)=\frac{125}{3}
+\end{align*}}
+\end{frame}
+%--------------------
+
+%--------------------
+\begin{frame}{Refresher: Limits of Rational Functions}
+\StatusBar{1}{4}
+\[\lim_{n \to \infty} \frac{n^2+2n+15}{3n^2-9n+5}=\sonslide<2->{\lim_{n \to \infty} \frac{1+2/n+15/n^2}{3-9/n+5/n^2}=\frac13} \]
+\onslide<2->{When the degree of the top and bottom are the same, the limit as $n$ goes to infinity is the ratio of the leading coefficients.}
+\vfill
+\[\lim_{n \to \infty} \frac{n^2+2n+15}{3n^3-9n+5}=\sonslide<3->{\lim_{n \to \infty} \frac{1/n+2/n^2+15/n^3}{3-9/n^2+5/n^3}=0} \]
+\onslide<3->{When the degree of the top is smaller than the degree of the bottom, the limit as $n$ goes to infinity is 0.}
+\vfill
+\[\lim_{n \to \infty} \frac{n^3+2n+15}{3n^2-9n+5}=\sonslide<4->{\lim_{n \to \infty} \frac{n+2/n+15/n^2}{3-9/n+5/n^2}=\infty} \]
+\onslide<4->{When the degree of the top is larger than the degree of the bottom, the limit as $n$ goes to infinity is positive or negative infinity.}
+\vfill
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1-3>
+
+\alert{ $\sum\limits_{i=1}^n i=\frac{n(n+1)}{2}$\hfill
+$\sum\limits_{i=1}^n i^2=\frac{n(n+1)(2n+1)}{6}$\hfill
+$\sum\limits_{i=1}^n i^3=\frac{n^2(n+1)^2}{4}$}
+\iftoggle{spoiler}{\vfill}{}
+
+Evaluate $\displaystyle\int_0^1 x^2~\dee x$ exactly using midpoint Riemann sums.
+
+
+{\color{spoilercolor}\footnotesize \begin{align*}
+\sonslide<2->{\sum_{i=1}^n\Delta x \cdot \left( \left(i-\frac12\right)\Delta x\right)^2}
+\sonslide<3->{&=\frac1{n^3}\sum_{i=1}^n \left( i^2-i+\frac14\right)=\frac{1}{n^3}\left[ \sum_{i=1}^n i^2-\sum_{i=1}^n i +\sum_{i=1}^n\frac14\right]\\
+&=\frac{1}{n^3}\left[ \frac{n(n+1)(2n+1)}{6} -\frac{n(n+1)}{2}+\frac{1}{4}n\right]\\
+&=\frac{2n^2+3n+1}{6n^2} -\frac{n+1}{2n^2}+\frac{1}{4n^2}}
+\end{align*}}
+
+\sonslide<4->{Exact area under the curve: 
+
+\[\lim_{n \to \infty}\left[\frac{2n^2+3n+1}{6n^2} -\frac{n+1}{2n^2}+\frac{1}{4n^2}\right]=\frac{2}{6}-0+0=\frac13\]
+}
+\vfill
+\end{frame}
+
+%--------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%---------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\label{1.1.4} %skip button from Riemann evaluations goes here
+
+\section{1.1.5 Using Known Areas}
+%----------------------------------------------------------------------------------------
+%---------------------------------------------------------------------------------------
+
+%---------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}
+Let's see some special cases where we can use geometry to evaluate integrals without Riemann sums.
+\end{frame}
+%----------------------------------------------------------------------------------------
+%--------------------
+\begin{frame}
+\QuestionBar<1>{1}{6}\AnswerYes<1>
+\AnswerBar<2>{1}{6}
+\[\int_0^5 2x\, \dee x \sonslide<2->{\, =\frac{1}{2}(5)(10)=25}\]
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{0}{6}{y}{0}{4.2}
+\xcoord{5}{5}
+\ycoord{4}{10}
+\draw[thick] (0,0)--(5,4) node[right]{$y=2x$};
+\fill[W1, opacity=0.5] (5,0)--(0,0)--(5,4)--cycle;
+\end{tikzpicture}
+\end{center}
+\end{frame}
+%--------------------%--------------------
+\begin{frame}
+\QuestionBar<1>{2}{6}\AnswerYes<1>
+\AnswerBar<2>{2}{6}
+
+\[\int_3^5 2x\, \dee x \sonslide<2>{\,=\frac{1}{2}(5)(10)-\frac12(3)(6)=25-9=16}\]
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{0}{6}{y}{0}{4.2}
+\xcoord{5}{5} \xcoord{3}{3}
+\ycoord{4}{10} \ycoord{12/5}{6}
+\draw[thick] (0,0)--(5,4) node[right]{$y=2x$};
+\fill[W1,  opacity=0.5] (5,0)--(3,0)--(3,12/5)--(5,4) node[right]{$y=2x$};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+%--------------------
+%--------------------%--------------------
+\begin{frame}
+\QuestionBar<1>{3}{6}\AnswerYes<1>
+\AnswerBar<2>{3}{6}
+
+\[\int_{-2}^{2} \sin x\, \dee x \sonslide<2->{=\textcolor{C2}{-A}+\textcolor{W1}{A}=0}\]
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{2.5}{2.5}{y}{1}{1}
+\xcoord{-2}{-2} \xcoord{2}{2}
+\draw[thick] plot[domain=-2:2](\x,{sin(\x r)});
+\fill[C2, opacity=0.5] (-2,0) plot[domain=-2:0] (\x,{sin (\x r)})--(0,0)--(-2,0);
+\fill[W1, opacity=0.5] (0,0) plot[domain=0:2] (\x,{sin (\x r)})--(2,0)--(0,0);
+\end{tikzpicture}
+\end{center}
+\end{frame}
+%--------------------%--------------------
+\begin{frame}
+\QuestionBar<1>{4}{6}\AnswerYes<1>
+\AnswerBar<2>{4}{6}
+
+\[\int_{-1}^{1} |x|\, \dee x \sonslide<2->{\, =\frac{1}{2}(1)(1)+\frac12(1)(1)=1}\]
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{2.5}{2.5}{y}{.5}{2.5}
+\xcoord{-2}{-1} \xcoord{2}{1}
+\ycoord{2}{1}
+\draw[thick] (-2,2)--(0,0)--(2,2)node[right]{$y=|x|$};
+\fill[W1, opacity=0.5] (-2,2)|-(0,0)--cycle;
+\fill[W1, opacity=0.5] (2,2)|-(0,0)--cycle;
+\end{tikzpicture}
+\end{center}
+\end{frame}
+%--------------------%--------------------
+\begin{frame}
+\QuestionBar<1>{5}{6}\AnswerYes<1>
+\AnswerBar<2>{5}{6}
+
+\[\int_{0}^{1} \sqrt{1-x^2}\, \dee x \sonslide<2->{\, =\frac{1}{4}(\pi \cdot 1^2)=\frac{\pi}{4}}\]
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{0}{2.5}{y}{0}{2.5}
+\xcoord{2}{1}
+\ycoord{2}{1}
+\draw[thick] (0,2) arc(90:0:2cm);
+\fill[W1, opacity=0.5] (0,2) arc(90:0:2cm)-|cycle;
+\end{tikzpicture}
+\end{center}
+\end{frame}
+%--------------------
+\begin{frame}
+\QuestionBar<1>{6}{6}\AnswerYes<1>
+\AnswerBar<2>{6}{6}
+
+\[\int_{10}^{10} \log x\, \dee x \sonslide<2->{\,=0}\]
+\begin{center}
+\begin{tikzpicture}
+\myaxis{x}{0}{5}{y}{0}{2.5}
+\xcoord{4}{10}
+\draw[thick] plot[domain=-.5:1.6]({exp(\x)},\x) node[right]{$y=\log x$};
+\draw[thick,W1] (4,0)--(4,1.38);
+\end{tikzpicture}
+\end{center}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section{1.1.6 Another Interpretation}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\sStatusBar{1}{6}
+\AnswerYes<1-5>
+ A car travelling down a straight highway records the following measurements:
+\begin{center}
+\begin{tabular}{|*{8}{c|}}
+\hline
+Time & 12:00&12:10&12:20 & 12:30 & 12:40 & 12:50 & 1:00\\ 
+\hline
+Speed (kph) & 80 & 100 & 100 & 90 & 90 & 75 & 100
+\\ \hline 
+\end{tabular}
+\end{center}
+Approximately how far did the car travel from 12:00 to 1:00? \vfill
+
+
+\sonly<2>{
+We don't know the speed of the car over the entire hour, so the best we can do is to use the measured speeds as approximations for the speeds the car travelled over 10-minute intervals. 
+\vfill
+We can use left, right, and midpoint Riemann sums. Note that there are only six 10-minute intervals, but we know seven points. For a midpoint Riemann sum, since we need to know the speed at the midpoint of the interval, we can only use three intervals, not six.
+\vfill
+Finally, note that 10 minutes is $\frac16$ of an hour, and 20 minutes is $\frac13$ of an hour.}
+
+\small
+\sonly<3>{
+Left RS: $\underbrace{80\cdot \frac16}_{12:00 - 12:10} + \underbrace{100\cdot \frac16}_{12:10 - 12:20}
++ \underbrace{100\cdot \frac16}_{12:20 - 12:30}
++ \underbrace{90\cdot \frac16}_{12:30 - 12:40}
++ \underbrace{90\cdot \frac16}_{12:40 - 12:50}
++ \underbrace{75\cdot \frac16}_{12:50 - 1:00}$
+\begin{center}
+\begin{tikzpicture}
+\myaxis{t}{0}{6.3}{v}{0}{3.3}
+\draw[help lines] (0,0) grid[ystep=0.5] (6,3);
+\ycoord{3}{100}
+\ycoord{2.5}{90}
+\ycoord{2}{80}
+\ycoord{1.5}{70}
+\draw[fill=W1, fill opacity=0.1];
+\foreach \x/\y in {0/2,1/3,2/3,3/2.5,4/2.5,5/1.75,6/3}{
+	\draw(\x,\y)node[vertex]{};
+	\ifnum \x<6
+	\draw[thick, black, fill=W1, fill opacity=0.2](\x,0) rectangle (\x+1,\y);
+	\fi
+	}
+\end{tikzpicture}
+\end{center}}
+
+\sonly<4>{
+Right RS: $\underbrace{100\cdot \frac16}_{12:00 - 12:10} + \underbrace{100\cdot \frac16}_{12:10 - 12:20}
++ \underbrace{90\cdot \frac16}_{12:20 - 12:30}
++ \underbrace{90\cdot \frac16}_{12:30 - 12:40}
++ \underbrace{75\cdot \frac16}_{12:40 - 12:50}
++ \underbrace{100\cdot \frac16}_{12:50 - 1:00}$
+
+\begin{center}
+\begin{tikzpicture}
+\myaxis{t}{0}{6.3}{v}{0}{3.3}
+\draw[help lines] (0,0) grid[ystep=0.5] (6,3);
+\ycoord{3}{100}
+\ycoord{2.5}{90}
+\ycoord{2}{80}
+\ycoord{1.5}{70}
+\draw[fill=W1, fill opacity=0.1];
+\foreach \x/\y in {0/2,1/3,2/3,3/2.5,4/2.5,5/1.75,6/3}{
+	\draw(\x,\y)node[vertex]{};
+	\ifnum \x>0
+	\draw[thick, black, fill=W1, fill opacity=0.2](\x,0) rectangle (\x-1,\y);
+	\fi
+	}
+\end{tikzpicture}
+\end{center}
+}
+\sonly<5>{
+Midpoint RS: %Since we have to know the times at the \textit{midpoint} of each interval, we can only use $n=3$ intervals.
+$\underbrace{ 100\cdot \frac13}_{12:00- 12:20}+\underbrace{90\cdot \frac13}_{12:20- 12:40}+\underbrace{ 75\cdot \frac13}_{12:40- 1:00}$
+
+\begin{center}
+\begin{tikzpicture}
+\myaxis{t}{0}{6.3}{v}{0}{3.3}
+\draw[help lines] (0,0) grid[ystep=0.5] (6,3);
+\ycoord{3}{100}
+\ycoord{2.5}{90}
+\ycoord{2}{80}
+\ycoord{1.5}{70}
+\draw[fill=W1, fill opacity=0.1];
+\foreach \x/\y in {0/2,1/3,2/3,3/2.5,4/2.5,5/1.75,6/3}{
+	\draw(\x,\y)node[vertex]{};
+	}
+\draw[thick, black, fill=W1, fill opacity=0.2](0,0) rectangle (2,3);
+\draw[thick, black, fill=W1, fill opacity=0.2](2,0) rectangle (4,2.5);
+\draw[thick, black, fill=W1, fill opacity=0.2](4,0) rectangle (6,1.75);
+\end{tikzpicture}
+\end{center}
+
+}
+
+\sonly<6>{
+{\color{W2}
+Remark: it's tempting to try to make a midpoint Riemann sum with 6 intervals work by averaging the speeds at the two ends of each interval. This is a perfectly sensible approximation, but it's not a midpoint Riemann sum.}
+
+\begin{center}
+\begin{tikzpicture}
+\myaxis{t}{0}{6.3}{v}{0}{3.3}
+\draw[help lines] (0,0) grid[ystep=0.5] (6,3);
+\ycoord{3}{100}
+\ycoord{2.5}{90}
+\ycoord{2}{80}
+\ycoord{1.5}{70}
+\draw[fill=W1, fill opacity=0.1];
+\foreach \x/\y in {0/2,1/3,2/3,3/2.5,4/2.5,5/1.75,6/3}{
+	\draw(\x,\y)node[vertex]{};
+	}
+\draw[thick, black, fill=W1, fill opacity=0.2](0,0) rectangle (1,2.5);
+\draw[thick, black, fill=W1, fill opacity=0.2](1,0) rectangle (2,3);
+\draw[thick, black, fill=W1, fill opacity=0.2](2,0) rectangle (3,2.75);
+\draw[thick, black, fill=W1, fill opacity=0.2](3,0) rectangle (4,2.5);
+\draw[thick, black, fill=W1, fill opacity=0.2](4,0) rectangle (5,2.125);
+\draw[thick, black, fill=W1, fill opacity=0.2](5,0) rectangle (6,2.375);
+\end{tikzpicture}
+\end{center}
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\begin{center}
+\begin{tikzpicture}
+\myaxis{t}{0}{6.3}{v}{0}{3.3}
+\draw[help lines] (0,0) grid[ystep=0.5] (6,3);
+\ycoord{3}{100}
+\ycoord{2.5}{90}
+\ycoord{2}{80}
+\ycoord{1.5}{70}
+\draw[fill=W1, fill opacity=0.1];
+\foreach \x/\y in {0/2,1/3,2/3,3/2.5,4/2.5,5/1.75,6/3}{
+	\draw(\x,\y)node[vertex]{};
+	\ifnum \x>0
+	\draw[thick, black, fill=W1, fill opacity=0.2](\x,0) rectangle (\x-1,\y);
+	\fi
+	}
+\end{tikzpicture}
+\end{center}
+
+The computation 
+\begin{center}
+distance = rate $\times$ time
+\end{center}
+
+looks a lot like the computation
+
+\begin{center}
+area = base $\times$ height
+\end{center}
+
+for a rectangle. This gives us another interpretation for an integral.
+\end{frame}
+%%----------------------------------------------------------------------------------------
+\begin{frame}{Another interpretation of the integral}
+Let $x(t)$ be the position of an object moving along the $x$-axis at time $t$, and let $v(t) = x'(t)$ be its velocity. Then for all $b>a$,
+\[x(b)-x(a) = \int_a^b v(t)~\dee t\]
+That is, $\int_a^b v(t)~\dee t$ gives the \textit{net distance} moved by the object from time $a$ to time $b$.
+\end{frame}
+%%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------

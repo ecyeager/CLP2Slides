@@ -1,0 +1,386 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsC{\ca}
+ \end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\section{Introduction to Sequences and Series}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\StatusBar{1}{4}
+We can imagine the list of numbers below carrying on forever:
+\begin{align*}
+\onslide<2>{a_1&=}0.1\\
+\onslide<3-|handout:0>{+}\onslide<2>{a_2&=}0.01\\
+\onslide<3-|handout:0>{+}\onslide<2>{a_3&=}0.001\\
+\onslide<3-|handout:0>{+}\onslide<2>{a_4&=}0.0001\\
+\onslide<3-|handout:0>{+}\onslide<2>{a_5&=}0.00001\\
+&\qquad\vdots\\
+\onslide<3-|handout:0>{&\rule{2cm}{1 pt}}\\
+\onslide<4-|handout:0>{&\hphantom{=} 0.11111\cdots}
+\end{align*}
+A \alert{sequence}  is a list of infinitely many numbers with a specified order. \pause It is denoted
+$\{a_1,\ a_2,\ \cdots , a_n,\ \cdots\}$ or $\{a_n\}_{n=1}^\infty$, etc. \pause
+
+Imagine \textit{adding up} this sequence of numbers.\\ \pause A \alert{series} is a sum $a_1+a_2+\cdots+a_n+\cdots$ of infinitely many terms.
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}
+To handle sequences and series, we should define them more carefully. A good definition should allow us to answer some basic questions, such as:
+\begin{itemize}
+\item What does it mean to add up infinitely many things?
+\item Should infinitely many things add up to an infinitely large number?
+\item Does the order in which the numbers are added matter?
+\item Can we add up infinitely many functions, instead of just infinitely many numbers?
+\end{itemize}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\section{3.1 Sequences}
+%-------------------------------------------------------------
+\begin{frame}
+\begin{block}{Sequence}
+A \alert{sequence} is a list of infinitely many numbers with a specified order. 
+\end{block}
+Some examples of sequences:
+\begin{itemize}
+\item $\{1,2,3,4,5,6,7,8,\cdots\}$\qquad (natural numbers)\vfill
+\item $\{3,1,4,1,5,9,2,6,\cdots\}$ \qquad (digits of $\pi$)\vfill
+\item $\{1,-1,1,-1,1,\cdots\}$ \qquad (powers of $-1:$ $(-1)^0$, $(-1)^1$, $(-1)^2$, etc.)
+\end{itemize}
+\end{frame}
+
+%%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\begin{block}{Sequence}
+A \alert{sequence} is a list of infinitely many numbers with a specified order. It is denoted
+$\{a_1,\ a_2,\ a_3,\ \cdots, a_n\ \cdots\}$ or $\{a_n\}$ or $\{a_n\}_{n=1}^\infty$, etc.
+\end{block}
+
+\[\{\alert<4|handout:0>{a_n}\}_{\alert<2|handout:0>{n=1}}^{\alert<3|handout:0>{\infty}} = \left\{ \alert<4|handout:0>{\frac1n}\right\}_{\alert<2|handout:0>{n=1}}^{\alert<3>{\infty}}\]
+\pause\vfill
+\begin{itemize}[<+->]
+\item \alert<2|handout:0>{$n=1$: this is the index of the first term of our sequence. Sometimes it's 0, sometimes something else, for example a year.}
+\item \alert<3|handout:0>{$\infty$: there is no end to our sequence.}
+\item \alert<4|handout:0>{$\frac1n$: this tells us the value of $a_n$.}
+\item Often we omit the limits and even the brackets, writing \alert<beamer>{$a_n=\frac1n$}.
+\end{itemize}
+\end{frame}
+
+
+%----------------------------------------------------------------------------------------
+\begin{frame}{Sequence Notation}
+For convenience, we write $a_1$ for the first term of a sequence, $a_2$ for the second term, etc.
+\vfill
+In the sequence $1,\frac{1}{2},\frac{1}{3},\frac14,\cdots$, \\
+$a_3$ is another name for  \sonslide<2->{$\frac{1}{3}$.}
+\vfill
+Sometimes we can find a rule for a sequence.\\ 
+In the above sequence, $a_n=$\sonslide<3->{$ \frac{1}{n}$ (whenever $n$ is a whole number).}
+\vfill
+We can write $\{a_n\}_{n=1}^\infty =\sonslide<4->{{ \left\{ \frac1n\right\}}_{n=1}^\infty.}$
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+Our primary concern with sequences will be the behaviour of $a_n$ as $n$
+tends to infinity and, in particular, whether or not $a_n$ ``settles down''
+to some value as $n$ tends to infinity.
+\begin{block}{Convergence}
+A sequence $\big\{a_n\big\}_{n=1}^\infty$ is said to \alert{converge} to the limit
+$A$ if $a_n$ approaches $A$ as $n$ tends to infinity. If so, we write
+\begin{equation*}
+\lim_{n\rightarrow\infty} a_n=A\qquad\hbox{or}\qquad
+a_n\rightarrow A\text{ as }n\rightarrow\infty
+\end{equation*}
+A sequence is said to converge if it converges to some limit. Otherwise
+it is said to diverge.
+\end{block}
+\unote{Definition~\eref{text}{def:SRsequenceLimit}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------
+\begin{frame}
+\AnswerYes<1>\NoSpace<1>
+\begin{block}{Convergence}
+A sequence $\big\{a_n\big\}_{n=1}^\infty$ is said to \alert{converge} to the limit
+$A$ if $a_n$ approaches $A$ as $n$ tends to infinity. If so, we write
+\begin{equation*}
+\lim_{n\rightarrow\infty} a_n=A\qquad\hbox{or}\qquad
+a_n\rightarrow A\text{ as }n\rightarrow\infty
+\end{equation*}
+A sequence is said to converge if it converges to some limit. Otherwise
+it is said to diverge.
+\end{block}
+
+\begin{itemize}
+\item $\{1,2,3,4,5,6,7,8,\cdots\}$ (natural numbers)\\ This sequence  \sonslide<2->{\alert{diverges}, growing without bound, not approaching a real number.}\vfill
+\item $\{3,1,4,1,5,9,2,6,\cdots\}$  (digits of $\pi$)\\ This sequence \sonslide<2->{\alert{diverges}, since it bounces around, not approaching a real number.}\vfill
+\item $\{1,-1,1,-1,1,\cdots\}$  (powers of $-1:$ $(-1)^0$, $(-1)^1$, $(-1)^2$, etc.)\\ This sequence  \sonslide<2->{\alert{diverges}, since it bounces around, not approaching a real number.}
+\end{itemize}
+\end{frame}
+
+%%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>
+Does the sequence $a_n=\dfrac{n}{2n+1}$ converge or diverge?
+\vspace{1em}
+
+\sonslide<2>{
+To study the behaviour of $\dfrac{n}{2n+1}$ as $n\rightarrow\infty$, it is a good
+idea to write it as:
+\[\frac{n}{2n+1}=\frac{1}{2+\frac{1}{n}}\]
+As $n\rightarrow\infty$, the $\frac{1}{n}$ in the denominator tends to
+zero, so that the denominator $2+\frac{1}{n}$ tends to $2$ and
+$\frac{1}{2+\frac{1}{n}}$ tends to $\frac{1}{2}$. So
+\begin{align*}
+\lim_{n\rightarrow\infty}\frac{n}{2n+1}
+=\lim_{n\rightarrow\infty}\frac{1}{2+\frac{1}{n}}
+=\frac{1}{2+0}=\frac12
+\end{align*}
+}
+\unote{Example~\eref{text}{eg:SRsequenceLimB}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\sStatusBar{1}{4}
+\nsStatusBar{1}{3}
+Consider the sequence $\ds\textcolor{W1}{a_n=\frac{1}{3^n+1}}$.
+\hspace{1cm}
+$\lim\limits_{n\to\infty}\textcolor{W1}{a_n}=\sonslide<4->{0}$
+\begin{center}
+\begin{tikzpicture}[yscale=0.6]
+\myaxis{n}{.25}{7}{}{.25}{4}
+\onslide<3-|handout:0>{
+{\color{C2}
+\draw[thick] plot[domain=1:6](\x,{15/(3^\x+1)})node[above right]{$f(x)=\frac{1}{3^x+1}$};
+}}
+
+
+\foreach \x in {1,2,3,4,5}{\xcoord{\x}{\x}
+\onslide<2-|handout:0>{
+\POWER{3}{\x}{\p}
+\ADD{\p}{1}{\d}
+\DIVIDE{15}{\d}{\y}
+\draw[W1] (\x,\y) node[vertex, label=above right:{$a_{\x}$}]{};
+}%slide3
+}%foreach
+\onslide<2->{\ycoord{15/4}{\frac14}
+\ycoord{15/10}{\frac1{10}}
+\ycoord{15/28}{\frac1{28}}
+}
+
+\end{tikzpicture}
+\end{center}
+\onslide<3->{\begin{block}{Theorem~\eref{text}{thm:SRxlimtoanlim}}
+If \vspace{-1em}
+\begin{equation*}
+\lim_{x\rightarrow\infty} f(x) = L
+\end{equation*}
+and if $a_n=f(n)$ for all positive integers $n$, then
+\begin{equation*}
+\lim_{n\rightarrow\infty} a_n = L
+\end{equation*}
+\end{block}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Cautionary Tale}
+\sStatusBar{1}{8}
+\nsStatusBar{1}{5}
+Consider the sequence $\textcolor{W1}{b_n=\sin(\pi n)=\sonslide<6->{\{0,0,0,0,0,\ldots\}}}$\\[1em]
+\pause
+
+
+\onslide<5->{$\lim\limits_{n\to\infty}\textcolor{W1}{b_n}=\sonslide<7->{0}$}\hspace{2cm}
+ \onslide<5->{$\lim\limits_{x\to\infty}\textcolor{C2}{f(x)}$ \sonslide<8->{ DNE}}
+\begin{center}
+\begin{tikzpicture}
+\myaxis{n}{.25}{7}{}{1.25}{1.25}
+
+\onslide<4->{
+{\color{C2}
+\draw[thick] plot[domain=0:6.25,smooth](\x,{sin(\x*3.141 r) })node[right]{$f(x)=\sin(\pi x)$};
+}}
+
+
+\foreach \x in {1,2,3,4,5}{\xcoord{\x}{\x}
+\onslide<3-|handout:0>{
+\draw[W1] (\x,0) node[vertex, label=above	:{$b_{\x}$}]{};
+}%slide3
+}%foreach
+
+
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\begin{block}{Theorem }
+\alert{If $\lim\limits_{x\rightarrow\infty} f(x) = L$}
+and if $a_n=f(n)$ for all natural $n$, then
+$\lim\limits_{n\rightarrow\infty} a_n = L.
+$
+\end{block}\vfill
+
+\begin{tikzpicture}[scale=0.6]
+\myaxis{n}{0}{7}{}{0}{4}
+{\color{C2}
+\draw[thick] plot[domain=1:6](\x,{15/(3^\x+1)});
+}
+\foreach \x in {1,2,3,4,5}{\xcoord{\x}{\x}
+\POWER{3}{\x}{\p}
+\ADD{\p}{1}{\d}
+\DIVIDE{15}{\d}{\y}
+\draw[W1] (\x,\y) node[vertex, label=above right:{$a_{\x}$}]{};
+}%foreach
+\end{tikzpicture}\hfill
+\begin{tikzpicture}[scale=0.75]
+\myaxis{n}{0}{7}{}{1.25}{1.25}
+{\color{C2}
+\draw[thick] plot[domain=0:6.25,smooth](\x,{sin(\x*3.141 r) });
+}
+\foreach \x in {1,2,3,4,5}{\xcoord{\x}{\x}
+\draw[W1] (\x,0) node[vertex, label=above	:{$b_{\x}$}]{};
+}%foreach
+\end{tikzpicture}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\label{note3.1a}
+\begin{block}{Arithmetic of Limits}
+\unote{Theorem~\eref{text}{thm:SRlimarith}}
+  Let $A$, $B$ and $C$ be real numbers and let the two sequences
+$\big\{a_n\big\}_{n=1}^\infty$ and  $\big\{b_n\big\}_{n=1}^\infty$
+converge to $A$ and $B$ respectively. That is, assume that
+ \begin{align*}
+  \lim_{n \to \infty} a_n&=A & \lim_{n \to \infty} b_n &=B
+\end{align*}
+  Then the following limits hold.
+\begin{enumerate}[(a)]
+ \item $\ds \lim_{n \to \infty} \big[a_n+b_n\big] = A+B$
+ \item $\ds \lim_{n \to \infty} \big[a_n-b_n\big] = A-B$
+\item $\ds \lim_{n \to \infty} C a_n = C A$.
+\item $\ds \lim_{n \to \infty} a_n\,b_n = A\,B$
+\item If $B \neq 0$, then $\ds \lim_{n \to \infty}\frac{a_n}{b_n} = \frac{A}{B}$
+\end{enumerate}
+\end{block}
+
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\label{note3.1b}
+\AnswerYes<1>\NoSpace<1>
+ Evaluate the following limits:\vfill
+\begin{itemize}
+\item $\lim\limits_{n\to\infty}{e^{-n}}=\sonslide<2>{0}$\vfill
+\item $\lim\limits_{n\to\infty}\frac{1+n}{n}=\sonslide<2>{1}$\vfill
+\item $\lim\limits_{n\to\infty}\frac{1}{n^2}=\sonslide<2>{0}$\vfill
+\item $\lim\limits_{n\to\infty}{2n^2}=\sonslide<2>{\infty}$\vfill
+\item $\lim\limits_{n\to\infty}\left(\frac{1}{n^2}\right)\left(2n^2\right)=\sonslide<2>{2}$
+\end{itemize}\vfill
+\sonslide<2>{(As you might guess, the expression ``$\lim\limits_{n\rightarrow\infty} a_n = \infty$" means that $a_n$
+grows without bound as $n\rightarrow\infty$.)}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>
+\unote{Theorem~\eref{text}{thm:SRcontfn}}
+\begin{block}{Continuous functions of limits}
+If $\lim\limits_{n\to \infty}a_n=L$ and if the function $g(x)$ is continuous at $L$, then
+\[\lim_{n \to \infty}g(a_n)=g(L)\]
+\end{block}
+
+Evaluate $\lim\limits_{n\to\infty}\left[\sin\left(\frac{\pi n}{2n+1}\right)\right]$
+
+\sonslide<2>{
+	\begin{align*}
+	\lim_{n \to \infty} \left[\frac{\pi n}{2n+1}\right]&=\lim_{n \to \infty} \left[\frac{\pi}{2+\frac{1}{n}}\right]=\frac{\pi}{2}\\
+	\lim\limits_{n\to\infty}\left[\sin\left(\frac{\pi n}{2n+1}\right)\right]&=\sin\left(\frac{\pi}{2}\right)=1
+	\end{align*}
+	}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\begin{block}{Squeeze Theorem  }
+\unote{Theorem~\eref{text}{thm:SRsqueeze}}
+If $\textcolor{C2}{a_n}\le c_n\le \textcolor{M4}{b_n}$ for all sufficiently large natural numbers $n$, and if
+\begin{equation*}
+\lim_{n\rightarrow\infty}\textcolor{C2}{a_n}=\lim_{n\rightarrow\infty}\textcolor{M4}{b_n}=L
+\end{equation*}
+then\begin{equation*}
+\lim_{n\rightarrow\infty}c_n=L
+\end{equation*}
+\end{block}
+\begin{center}
+\begin{tikzpicture}
+\myaxis{n}{.25}{10}{}{.25}{3.2}
+\draw[thick, dashed] (0,2.9)--(10,2.9);
+\foreach \x in {1,...,9}{\xcoord{\x}{\x}
+\DIVIDE{5}{\x}{\y}
+\draw[C2,opacity=0.75] (\x,{3-(61*\x-90)/(\x*(20*\x-30))}) node[vertex]{};
+\draw[opacity=0.75] (\x,{3-5/(2.5*\x)}) node[vertex]{};
+\draw[M4,opacity=0.75] (\x,{3-1/(5*\x-7.5)}) node[vertex]{};
+
+}
+\end{tikzpicture}
+\end{center}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\only<1>{\AnswerYes}\AnswerSpace
+Evaluate 
+\[\lim_{n\to\infty}\left(\frac{2n+\cos n}{n+1} \right)\]
+
+\sonslide<2->{
+Use squeeze theorem:
+
+\begin{align*}
+-1&\leq \cos n \leq 1 \\
+2n-1 & \leq 2n+\cos n \leq 2n+1\\
+\frac{2n-1}{n+1} & \leq \frac{2n+\cos n}{n+1} \leq \frac{2n+1}{n+1}\\
+\lim_{n\to\infty}\frac{2n-1}{n+1} & = \lim_{n\to\infty} \frac{2n+1}{n+1}=2\\
+2 &=\lim_{n\to\infty}  \frac{2n+\cos n}{n+1} 
+\end{align*}}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\only<1>{\AnswerYes}\AnswerSpace
+Let $a_n=(-n)^{-n}$. Evaluate $\lim\limits_{n \to \infty}a_n$.
+
+\sonslide<2->{
+First, we note $a_n=(-1)^{-n}\cdot (n^{-n})=\frac{(-1)^n}{n^n}$
+because $(-1)^{-n} ={\big((-1)^{-1}\big)}^n=(-1)^n$.
+%(Note that multiplying and dividing by 1 do the same thing; and multiplying and dividing by %negative 1 do the same thing.)
+
+This sequence alternates between positive and negative terms. We can show that the positive terms tend to zero and the negative terms tend to zero.
+   So, we can apply the squeeze theorem.
+	\begin{align*}
+	\text{Set }b_n&=\frac{-1}{n^n} \text{ and }c_n=\frac{1}{n^n}\\
+	\text{Then, } b_n &<a_n<c_n \text{ for all natural $n$}\\
+	\lim_{n \to \infty}b_n&=\lim_{n \to \infty}c_n=0\\
+	\text{So, } \lim_{n \to \infty}a_n&=0
+	\end{align*}
+	}
+\end{frame}
+%----------------------------------------------------------------------------------------

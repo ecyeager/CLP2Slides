@@ -1,0 +1,852 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
+%%%GENERAL%%%
+%%%%%%%%%%%
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{ulem}%to strikeout text
+\usepackage{polynom}%for long division
+\usepackage{ifthen}%mostly used in fancy macros like weights
+\usepackage{cancel}%diagonal strikes for cancelling over e.g. division
+\usepackage{mathtools}% underbrace labels that overlap horizontally
+\usepackage{array}%vertical aignment options for tabular
+\usepackage{colortbl}%nice colours in tables
+\usepackage{changepage}%adjustwidth to change margins of single frame
+\usetheme{CLP}%custom beamer theme
+
+%\setbeameroption{hide notes}%Notes are not shown. This is the default in a presentation.
+%\setbeameroption{show notes}%Notes are shown. This is nice for preparing.
+
+%%%GRAPHICS%%%
+%%%%%%%%%%%
+\usepackage{pgfplots}%includes tikz,xcolor,graphicx,etc
+\usetikzlibrary{shapes, patterns, snakes}
+
+%colorblind-friendly palette
+%mixed colours: CB sees contrasting grays
+\definecolor{M1}{RGB}{0,0,0}
+\definecolor{M2}{RGB}{0,73,73}
+\definecolor{M3}{RGB}{0,146,146}
+\definecolor{M4}{RGB}{255,109,182}
+\definecolor{M5}{RGB}{255,182,119}
+%cool colours: CB sees contrasting blues
+\definecolor{C1}{RGB}{73,0,146}
+\definecolor{C2}{RGB}{0,109,219}
+\definecolor{C3}{RGB}{182,109,255}
+\definecolor{C4}{RGB}{109,182,255}
+\definecolor{C5}{RGB}{182,219,255}
+%warm colours: CB sees contrasting yellow
+\definecolor{W1}{RGB}{146,0,0}
+\definecolor{W2}{RGB}{146,73,0}
+\definecolor{W3}{RGB}{219,209,0}
+\definecolor{W4}{RGB}{36,255,36}
+\definecolor{W5}{RGB}{255,255,109}
+
+%%%CLP Colours
+\definecolor{_deepskyblue}{HTML}{007090}
+\definecolor{_deepgreen}{HTML}{006070}
+\definecolor{_darkred}{HTML}{600000}
+
+%%%spoilers: shown only if 'spoiler' toggle is true. Will show on full version, but not handout.
+%currently sam as deepgreen
+\definecolor{spoilercolor}{HTML}{006070}
+
+%%%hidden spoilers: shown only if 'spoiler' toggle is false. Will show on handout, but not full version.
+%currently same as darkred
+\definecolor{nospoilercolor}{HTML}{600000}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%versioning%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%spoilers: include in full, not on handout or lecture
+%%These are the things the instructor would likely write in during lecture.
+%%Sometimes short answers are not included as spoilers, if they're more a part of exposition, and less a computational exercise
+\newtoggle{spoiler}
+\settoggle{spoiler}{true}
+
+%spoiler-only onslide
+\newcommand<>{\sonslide}[1]{\iftoggle{spoiler}{\onslide#2{\color{spoilercolor}#1\color{fg}}}{}}
+%spoiler-only only
+\newcommand<>{\sonly}[1]{\iftoggle{spoiler}{\only#2{\color{spoilercolor}#1\color{fg}}}{}}
+%onslide non-spoiler
+\newcommand<>{\nsonslide}[1]{\iftoggle{spoiler}{}{\onslide#2{\color{nospoilercolor}#1\color{fg}}}}
+%only non-spoiler
+\newcommand<>{\nsonly}[1]{\iftoggle{spoiler}{}{\only#2{\color{nospoilercolor}#1\color{fg}}}}
+%slide #1 for spoiler, slide #2 non-spoiler, #3 handout
+\newcommand{\snshonly}[4]{
+	\iftoggle{spoiler}{
+	\only<#1|handout:#3>{\ifthenelse{\equal{#3}{0}}{\color{spoilercolor}}{} #4\color{fg}}}
+	{\only<#2|handout:#3>{\ifthenelse{\equal{ #3}{0}}{\color{spoilercolor}}{}#4\color{fg}}}
+	}
+\newcommand{\snshonslide}[4]{
+	\iftoggle{spoiler}{
+	\onslide<#1|handout:#3>{ \ifthenelse{\equal{#3}{0}}{\color{spoilercolor}}{}#4 \color{fg}}}
+	{\onslide<#2|handout:#3>{\ifthenelse{ \equal{#3}{0}}{\color{spoilercolor}}{}#4\color{fg}}}
+	}
+\newcommand<>{\stextcolor}[2]{%only colour text if spoilers are true (useful for substitution rule)
+	\iftoggle{spoiler}{
+	\textcolor#3{#1}{#2}
+	}%colours if spoiler is true
+	{#2}%uncoloured if spoiler is false
+	}
+\newcommand<>{\salert}[1]{%only colour text if spoilers are true (useful for substitution rule)
+	\iftoggle{spoiler}{
+	\alert#2{#1}
+	}%colours if spoiler is true
+	{#1}%uncoloured if spoiler is false
+	}
+
+%%%%CITATIONS%%%%%%%%
+%%%%%%%%%%%%%
+%Attribution Index
+%to add an attribution, write \index{entry that you want to show up}
+
+\newenvironment{theindex}{}{}
+\usepackage{imakeidx}
+
+\makeatletter
+\def\@idxitem{\par}
+\def\imki@firstpagestyle{empty}
+\newcommand{\indexspace}{\vspace{1em}}
+\makeatother
+\indexsetup{noclearpage}%otherwise blank pages added
+
+\makeindex[columns=1]
+
+%copyright macros
+\newcommand{\CCBY}{\href{https://opendefinition.org/licenses/cc-by/}{CC-BY}}
+\newcommand{\CCBYtwo}{\href{https://creativecommons.org/licenses/by/2.0/}{CC BY 2.0}}
+\newcommand{\CCBYthree}{\href{https://creativecommons.org/licenses/by/3.0/}{CC BY 3.0}}
+\newcommand{\CCBYNDfour}{\href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{CC BY-NC-ND 4.0}}
+\newcommand{\CCBYNCSAtwo}{\href{https://creativecommons.org/licenses/by-nc-sa/2.0/}{CC BY-NC-SA 2.0}}
+
+%External References: to text and problem book
+%\eref{text}{<label>} and \eref{prob}{<label>}
+\usepackage{xr}
+\externaldocument[text1-]{XR/clp_1_dc_text}
+\externaldocument[text-]{XR/clp_2_ic_text}
+\externaldocument[prob-]{XR/clp_2_ic_problems}
+\newcommand{\eref}[2]{\ref*{#1-#2}}
+
+
+%%%ENVIRONMENTS%%%
+%%%%%%%%%%%
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem*{defn}{Definition}
+\newtheorem*{recall}{Recall}
+\newtheorem*{thm}{Theorem}
+
+%long description environment, credit to https://imathworks.com/tex/tex-latex-customize-description-environment/ (accessed 4 Jan 2023)
+\makeatletter
+\def\Ldescription{%
+  \@ifnextchar[{\beamer@testforospec}{\beamer@descdefault\beamer@descriptionwidth\@@Ldescription}%
+}
+
+\def\beamer@testforospec[{\@ifnextchar<{\beamer@scandefaultospec[}{\@Ldescription[}}%
+
+\def\beamer@scandefaultospec[#1]{\def\beamer@defaultospec{#1}\Ldescription}
+
+\def\@Ldescription[#1]{%
+\setbox\beamer@tempbox=\hbox{\def\insertdescriptionitem{#1}
+  \usebeamertemplate**{description item}}%
+\beamer@descdefault\wd\beamer@tempbox\@@description%
+}%
+
+\def\@@Ldescription{%
+  \beamer@descdefault35pt%
+  \list
+  {}
+  {\labelwidth\beamer@descdefault\leftmargin2.8em\let\makelabel\beamer@Ldescriptionitem}%
+  \beamer@cramped%
+  \raggedright
+  \beamer@firstlineitemizeunskip%
+}
+
+\def\endLdescription{\ifhmode\unskip\fi\endlist}
+\long\def\beamer@Ldescriptionitem#1{%
+  \def\insertdescriptionitem{#1}%
+  \hspace\labelsep{\parbox[b]{\dimexpr\textwidth-\labelsep\relax}{%
+        \usebeamertemplate**{description item}%
+    }}}
+\makeatother
+
+
+%%%Link Display%%%
+%%%%%%%%%%%
+\usepackage{etoolbox, calculator,hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=W1,
+    urlcolor=C2
+}
+
+%%%Formatting check-your-work frames%%%
+%%%%%%%%%%%%
+%CheckFrame: colour W2; first bit is the statement, leaving room to work; second bit is the working
+% on the handouts, empty space is displayed for work, without ``giving away" the answer
+\newcommand{\CheckFrame}[2]{\begin{frame}[t]{Check Our Work}\color{W2}
+\onslide<1->{#1}
+
+\sonslide<2->{#2}
+\end{frame}}
+
+%less proscriptive overlays, same header and colour
+\newcommand{\checkframe}[1]{\begin{frame}[t]{Check Our Work}\color{W2}#1\end{frame}}
+
+%%%SHORT MACROS%%%
+%%%%%%%%%%%
+\newcommand{\kph}{\frac{\mathrm{km}}{\mathrm{hr}}}
+\newcommand{\ve}[1]{\langle #1 \rangle}
+\newcommand{\diff}[2]{\frac{\text{d}#1}{\text{d}#2}}
+\newcommand{\ddiff}[3]{ \frac{\mathrm{d}^#1#2}{\mathrm{d}{#3}^#1}}
+\newcommand{\pdiff}[2]{\frac{\partial#1}{\partial#2}}
+\newcommand{\dee}{\text{d}}
+\tikzstyle{vertex}=[shape=circle, minimum size=2mm, inner sep=0, fill]
+\tikzstyle{opendot}=[shape=circle, minimum size=2mm, inner sep=0, fill=white, draw]
+
+\newcommand{\myaxis}[7][help lines]{%[formatting of lines]{xlabel}{xleft}{xright}{ylabel}{yleft}{yright}
+	\ifthenelse{\lengthtest{#3 pt=0 pt}}{}{
+		\draw[ <-,#1] (-#3,0)--(0,0);
+		}
+	\ifthenelse{\lengthtest{#4 pt=0 pt}}{
+		\draw[#1] (0,0)node[right]{$#2$};}{
+		\draw[ ->,#1] (0,0)--(#4,0)node[right]{$#2$};
+		}
+	\ifthenelse{\lengthtest{#6 pt= 0 pt}}{
+		}{
+		\draw[ <-,#1] (0,-#6)--(0,0);}
+	\ifthenelse{\lengthtest{#7 pt= 0 pt}}{
+		\draw[#1] (0,0)node[above]{$#5$};
+		}{
+		\draw[ ->,#1] (0,0)--(0,#7)node[above]{$#5$};}
+}
+\newcommand{\hosp}{L'H$\hat{\mbox{o}}$pital}
+\newcommand{\lheq}{\stackrel{\text{l'H}}{=}~}
+
+\newcommand<>{\xxcancel}[1]{\alt#2{\cancel{#1}}{#1\vphantom{\cancel{#1}}}}
+%adapted from https://tex.stackexchange.com/questions/29082/latex-beamer-applies-the-cancel-command-only-a-specified-slides
+
+\newcommand{\xcoord}[3][]{\draw (#2,.2)--(#2,-.2) node[below,#1]{$#3$};}
+\newcommand{\nxcoord}[3][]{\draw (#2,-.2)--(#2,.2) node[above,#1]{$#3$};}
+\newcommand{\ycoord}[3][]{\draw (.2,#2)--(-.2,#2) node[left,#1]{$#3$};}
+\newcommand{\nycoord}[3][]{\draw (-.2,#2)--(.2,#2) node[right,#1]{$#3$};}
+\newcommand{\dlimx}[1]{\displaystyle\lim_{x \to #1}~}
+\newcommand{\ds}{\displaystyle}
+\newcommand<>\highlightbox[2]{%
+  \alt#3{\makebox[\dimexpr\width-2\fboxsep]{\colorbox{#1}{#2}}}{#2}%
+}
+
+\makeatletter
+%unobtrusive / under note, left hand of page
+\newcommand{\unote}[1]{
+\ifbeamer@notes \else %don’t use with notes
+	\begin{textblock}{1.0}(.1,.967)
+	\tiny #1
+	\end{textblock}
+	\fi}
+\makeatother
+
+%printing answers
+%\newtoggle{printsolutions}
+%\settoggle{printsolutions}{true}
+%\mode<handout>{\settoggle{printsolutions}{false}}
+%\newcommand{\answer}[1]{
+%	\iftoggle{printsolutions}{#1}{}}
+%%%%%%%%%%%%%%%%%%%%%
+%special pages
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+%Detect whether there is anything in the index to print
+%%%%%%%%%%%%%%%%%%%%%%
+\newcounter{indexentries} %count number of entries in the index
+\setcounter{indexentries}{0}
+\usepackage{letltxmacro}
+\LetLtxMacro{\oldindex}{\index}
+\renewcommand{\index}[1]{ \stepcounter{indexentries} \oldindex{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%
+%Print attribution index if there's anything to attribute
+%might have to run twice for it to work correctly
+%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter %access \ifbeamer@notes
+\newcommand{\LastPage}{
+\ifbeamer@notes \else %don't print index with notes
+\ifnum \theindexentries>0
+	\appendix%this will suppress the section being added to the beamer header
+	\begin{frame}[t,allowframebreaks]%allowframebreaks necessary for long indices
+	Included Work\\[1em]
+	\footnotesize
+	\printindex
+	\end{frame}
+\fi\fi}
+\makeatother
+%
+%
+%%%%%%%%%%%%%%%%%%%%%
+%Information about pages and lecture flow
+%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+
+
+%Spacer
+\newcommand{\AnswerSpace}{
+	\begin{textblock}{1.0}(.955,.958)
+	\begin{tikzpicture}
+	\draw[opacity=0] (-.2,-.125) rectangle (.2,.125);
+	\end{tikzpicture}
+	\end{textblock}
+}
+
+ %answer to the question on this slide is written or not
+ \newcommand{\PlaceAnswerYes}{
+\only<beamer>{ \begin{textblock}{1.0}(.955,.958)
+	\begin{tikzpicture}
+	\draw (-.2,-.125) rectangle (.2,.125);
+	\node{\tiny ans};
+	\end{tikzpicture}
+	\end{textblock}
+ 	}}
+\newcommand<>{\AnswerYes}{
+%only use with spoilers
+	\AnswerSpace
+	\iftoggle{spoiler}{\only#1{\PlaceAnswerYes}}{}
+}
+\newcommand<>{\nsAnswerYes}{
+%only use with nonspoilers
+	\AnswerSpace
+	\iftoggle{spoiler}{}{\only#1{\PlaceAnswerYes}}
+}
+%
+\newcommand<>{\AnswerNo}{
+%only use with spoilers
+	\AnswerSpace
+	\iftoggle{spoiler}{\only#1{\begin{textblock}{1.0}(.955,.958)
+	\begin{tikzpicture}
+	\draw (-.2,-.125) rectangle (.2,.125);
+	\node{\tiny ans};
+	\draw (-.2,-.125)--(.2,.125);
+	\end{tikzpicture}
+	\end{textblock}}}{}
+}
+%
+\newcommand<>{\nsAnswerNo}{
+%only use without spoilers
+	\AnswerSpace
+	\iftoggle{spoiler}{}{\only<beamer>{\only#1{\begin{textblock}{1.0}(.955,.958)
+	\begin{tikzpicture}
+	\draw (-.2,-.125) rectangle (.2,.125);
+	\node{\tiny ans};
+	\draw (-.2,-.125)--(.2,.125);
+	\end{tikzpicture}
+	\end{textblock}}}}
+}
+
+%more space to work is provided on next slide
+\usepackage[absolute, overlay]{textpos}
+\setlength{\TPHorizModule}{\paperwidth}\setlength{\TPVertModule}{\paperheight}
+
+%generic command for the 'more space' icon
+\newcommand{\PlaceMoreSpace}{
+	\only<beamer>{\begin{textblock}{1.0}(.92,.958)
+		\includegraphics[height=3mm]{clipart/notebook}
+		\end{textblock}
+	\index{ \includegraphics[height=3mm]{clipart/notebook} \href{https://thenounproject.com/term/notebook/983098/}{`Notebook'}  by \href{https://thenounproject.com/iconproducer/}{Iconic} is licensed under \CCBYthree~ (accessed 9 June 2021)}
+	}}
+\newcommand<>{\MoreSpace}{%shows up in both spoilers and no-spoilers; not in handout
+	\AnswerSpace
+	\ifbeamer@notes \else %don’t use with notes
+	\only<beamer>{\AnswerSpace}
+	\only#1{\PlaceMoreSpace}\fi
+	}
+
+\newcommand<>{\sMoreSpace}{%shows up in spoilers, but not in no-spoilers
+	\ifbeamer@notes \else %don’t use with notes
+	\only<beamer>{\AnswerSpace}
+	\sonly#1{\PlaceMoreSpace}
+	\fi
+	}
+\newcommand<>{\nsMoreSpace}{%shows up in no-spoilers (lecture), but not in spoilers (full)
+	\ifbeamer@notes \else %don’t use with notes
+	\nsonly<beamer>{\AnswerSpace}
+	\nsonly#1{\PlaceMoreSpace}
+	\fi
+	}
+
+\newcommand{\PlaceNoSpace}{
+	\begin{textblock}{1.0}(.92,.958)
+		\includegraphics[height=3mm]{clipart/nobook}
+		\end{textblock}
+	\index{ \includegraphics[height=3mm]{clipart/nobook} \href{https://thenounproject.com/term/notebook/983098/}{`Notebook'}  by \href{https://thenounproject.com/iconproducer/}{Iconic} is licensed under \CCBYthree~ (accessed 9 June 2021, modified)}
+	}
+\newcommand<>{\NoSpace}{
+\ifbeamer@notes \else %don’t use with notes
+	\only<beamer>{
+	\AnswerSpace
+	\only#1{\PlaceNoSpace
+	}}\fi}
+	
+\newcommand<>{\sNoSpace}{%shows up in spoilers, but not in no-spoilers
+	\ifbeamer@notes \else %don’t use with notes
+	\sonly<beamer>{\only#1{
+	\PlaceNoSpace}}\fi}
+
+\newcommand<>{\nsNoSpace}{%shows up if no-spoilers
+	\ifbeamer@notes \else %don’t use with notes
+	\nsonly<beamer>{\only#1{
+	\PlaceNoSpace}}\fi}
+
+
+%status bar for an animation
+%doesn't work with \centering or with notes
+\newcommand{\StatusBar}[2]{	%#1: starting page; #2: ending page
+\ifbeamer@notes \else %don’t use with notes
+	\only<beamer>{\COPY{#1}{\aStatus}
+	\COPY{#2}{\bStatus}
+	\SUBTRACT{\bStatus}{\aStatus}{\dStatus}
+	\ADD{\dStatus}{1}{\dStatus}%duration
+
+	\begin{textblock}{1.0}(0.835 , 0.9625)
+		\onslide<\aStatus-\bStatus>{\begin{tikzpicture}
+		\draw[fill=gray!50] (0,0) rectangle (1,.1);
+		\DIVIDE{1}{\dStatus}{\step}
+		\foreach \nStatus[
+			evaluate = \xStatus using \step*\nStatus,
+			evaluate = \sStatus using int(\aStatus+\nStatus-1)
+			] in {1,...,\dStatus}{
+			\onslide<\sStatus>{\draw[fill=white] (1,.1) rectangle (\xStatus,0);
+			\draw[W1, thick] (\xStatus,-.05)--(\xStatus,.15);}}
+		\end{tikzpicture}}
+		\end{textblock}
+	}\fi}
+
+%status bar that only comes with spoilers
+\newcommand{\sStatusBar}[2]{\iftoggle{spoiler}{\StatusBar{#1}{#2}}{}}
+
+%status bar that only comes without spoilers
+\newcommand{\nsStatusBar}[2]{\iftoggle{spoiler}{}{\StatusBar{#1}{#2}}}
+
+%%%%%%%%%%%%%%%%%%%
+%"status bar" for sets of questions
+%use \begin{questionset} and \endquestionset}
+%then \setquestion{} and \setanswer{}
+%works up to about 6 questions, then overruns page; can shift left by changing \blockx to a smaller number
+
+\newcommand*{\overlaynumber}{\number\beamer@slideinframe}
+
+
+\newcounter{questionset}
+\COPY{0.9}{\blockx}
+\COPY{0.95}{\blocky}
+\newenvironment{QuestionSet}
+	{\setcounter{questionset}{0}%reset counter
+	\COPY{\overlaynumber}{\setstart}%first slide of question set
+	}
+	{
+	\ifbeamer@notes \else %don’t use with notes
+	\begin{textblock}{1.0}[0,1](\blockx , \blocky)
+	\onslide<\setstart->{\begin{tikzpicture}
+	\foreach \n in {1,...,\thequestionset}{
+		\draw (\n/5,0)rectangle (\n/5+.2,\n/20);
+		}}
+	\end{tikzpicture}
+	\end{textblock}
+	\fi}%at the end of the environment, put the step-status bar on each question
+
+\newcommand{\SetQuestion}[1]{
+	\stepcounter{questionset}
+	\only<+|handout:+>{#1
+
+	\ifbeamer@notes \else %don’t use with notes
+	\begin{textblock}{1.0}[0,1](\blockx , \blocky)
+	\begin{tikzpicture}
+	\foreach \n in {1,...,\thequestionset}{
+		\fill[opacity=0.3] (\n/5,0)rectangle (\n/5+.2,\n/20);
+		}
+	\draw (\thequestionset/5+.1,\thequestionset/20+.15)node[inner sep=0]{\tiny Q};
+	\end{tikzpicture}
+	\end{textblock}\fi}
+	}
+
+\newcommand{\SetAnswer}[1]{
+	\iftoggle{spoiler}{
+		\only<+|handout:+>{{\color{spoilercolor}#1\color{fg}}
+		
+		\ifbeamer@notes \else %don’t use with notes
+		\only<beamer>{\begin{textblock}{1.0}[0,1](\blockx , \blocky)
+		\begin{tikzpicture}
+		\foreach \n in {1,...,\thequestionset}{
+			\fill[opacity=0.3] (\n/5,0)rectangle (\n/5+.2,\n/20);
+			}
+		\draw (\thequestionset/5+.1,\thequestionset/20+.15)node[inner sep=0]{\tiny A};
+		\end{tikzpicture}
+		\end{textblock}}\fi}
+	}{}
+}
+
+
+
+%sets of Q and A that may span frames, or have additional overlay formatting
+\COPY{0.9}{\blockxx}
+\COPY{0.95}{\blockyy}
+
+\newcommand{\PrintQuestionBar}[2]{
+	\begin{textblock}{1.0}[0,1](\blockxx ,\blockyy)
+	\begin{tikzpicture}
+	\DIVIDE{1}{#2}{\stepwidth}
+	\MIN{\stepwidth}{.25}{\stepwidth}
+	\foreach \n in {1,...,#1}{
+		\MULTIPLY{\stepwidth}{\n}{\xx}
+		\fill[opacity=0.3] (\xx-\stepwidth,0)rectangle (\xx,\xx/4);
+		}
+	\MULTIPLY{#1}{\stepwidth}{\xx}
+	\DIVIDE{\stepwidth}{2}{\halfstep}
+	\SUBTRACT{\xx}{\halfstep}{\xx}
+	\DIVIDE{\xx}{4}{\yy}
+	\ADD{\yy}{0.2}{\yy}
+	\draw (\xx,\yy)node[inner sep=0]{\tiny Q};
+
+	\foreach \n in {1,...,#2}{
+		\MULTIPLY{\stepwidth}{\n}{\xx}
+		\draw (\xx-\stepwidth,0)rectangle (\xx,\xx/4);}
+	\end{tikzpicture}
+	\end{textblock}
+	}
+\newcommand<>{\QuestionBar}[2]{%#1: current position #2: total
+\ifbeamer@notes \else %don’t use with notes
+	\only#3{\PrintQuestionBar{#1}{#2}}%print in all modes
+	\AnswerSpace
+	\fi}
+\newcommand<>{\sQuestionBar}[2]{%#1: current position #2: total
+\ifbeamer@notes \else %don’t use with notes
+	\iftoggle{spoiler}{\only#3{\PrintQuestionBar{#1}{#2}}}{} %print only if spoilers toggle is true
+	\AnswerSpace
+	\fi}
+\newcommand<>{\nsQuestionBar}[2]{%#1: current position #2: total
+\ifbeamer@notes \else %don’t use with notes
+	\iftoggle{spoiler}{}{\only#3{\PrintQuestionBar{#1}{#2}} }%print only if spoilers toggle is false
+	\AnswerSpace
+	\fi}
+\makeatother
+\newcommand{\PlaceAnswerBar}[2]{%#1: current position #2: total
+	\only<beamer>{\begin{textblock}{1.0}[0,1](\blockxx ,\blockyy)
+	\begin{tikzpicture}
+	\DIVIDE{1}{#2}{\stepwidth}
+	\MIN{\stepwidth}{.25}{\stepwidth}
+	\foreach \n in {1,...,#1}{
+		\MULTIPLY{\stepwidth}{\n}{\xx}
+		\fill[opacity=0.3] (\xx-\stepwidth,0)rectangle (\xx,\xx/4);
+		}
+	\MULTIPLY{#1}{\stepwidth}{\xx}
+	\DIVIDE{\stepwidth}{2}{\halfstep}
+	\SUBTRACT{\xx}{\halfstep}{\xx}
+	\DIVIDE{\xx}{4}{\yy}
+	\ADD{\yy}{0.2}{\yy}
+	\draw (\xx,\yy)node[inner sep=0]{\tiny A};
+
+	\foreach \n in {1,...,#2}{
+		\MULTIPLY{\stepwidth}{\n}{\xx}
+		\draw (\xx-\stepwidth,0)rectangle (\xx,\xx/4);}
+	\end{tikzpicture}
+	\end{textblock}}}
+\newcommand<>{\AnswerBar}[2]{%#1: current position #2: total. Only spoilers.
+	\AnswerSpace
+	\iftoggle{spoiler}{\only#3{
+	\PlaceAnswerBar{#1}{#2}
+	}}{}
+	}
+\newcommand<>{\nsAnswerBar}[2]{%#1: current position #2: total. Non-spoilers.
+	\AnswerSpace
+	\iftoggle{spoiler}{}{\only#3{
+	\PlaceAnswerBar{#1}{#2}}}
+	}
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+%Choice table for IBP
+%int ab dx
+%1- varable
+% 2-4: a, a', \int a
+%5-7: b, b', \int b
+%8: onslide start
+\newcommand{\IBP}[8]{
+	\ADD{#8}{1}{\A}
+	\ADD{#8}{2}{\B}
+	\ADD{#8}{3}{\C}
+	\onslide<#8->{\begin{tabular}{l | l c l | l r}
+	\multicolumn{2}{c}{Option A:}&&\multicolumn{2}{c}{Option B:}\\
+	$\textcolor{C2}{u(#1)}=#2$ &\sonslide<\A->{$\textcolor{C2}{u'(#1)}=#3$} &\hspace{5mm}& $\textcolor{C2}{u(#1)}=#5$ & \sonslide<\B->{${\textcolor{C2}{u'(#1)}}=#6$} \\
+	$\textcolor{W1}{v'(#1)}=#5$ &\sonslide<\A->{$\textcolor{W1}{v(x)}=#7$} && $\textcolor{W1}{v'(#1)}=#2$ & \sonslide<\B->{$\textcolor{W1}{v(#1)}=#4$}
+	\sonslide<\C->{\\[10pt]
+		\multicolumn{2}{r}{$ \rightarrow \int #7\cdot#3\ \dee{#1} $}&&	\multicolumn{2}{r}{$  \rightarrow \int #4\cdot#6\ \dee{#1} $}&}
+	\end{tabular}\\[1em]}}
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%right triangle
+%(angle)(adjacent)(opposite)(hypotenuse)
+\newcommand{\TrigTri}[4]{
+\begin{tikzpicture}
+\draw (-.5,0)--(2,0)--(2,1.5)--cycle;
+\draw (1.8,0) |- (2,.2);
+\draw[double] (0,0) arc(0:30:.5cm);
+\draw (0,.2) node[right]{$#1$};
+\draw (1,-.5) node{$#2$};
+\draw (2,.75) node[right]{$#3$};
+\draw (.6,1.1) node[rotate=30]{$#4$};
+\end{tikzpicture}}
+
+
+
+%Series Visualization:
+%weights on a scale
+%Syntax: three csv arguments: relative sizes of terms, term labels, and partial sums
+%if the third argument is left blanks, partial sums will be computed from first list
+%csv's can be any length, but weird things will happen if you force them to. If you make more list items than term sizes, it will cause an error because there isn't a place to put them. If you use more than about 8 terms they will run off the side of the scale.)
+%values can also be negative -- this will show a balloon instead of a weight.
+%e.g:	\weights{0.4,0.5,-1}{\frac{2}{5},\frac{1}{2},-1}{}
+%e.g:	\weights{0.4,0.5,-1,1}{\frac{2}{5},\frac{1}{2},-1,1}{0.2,0.45,-0.05,.45}
+
+\COPY{1}{\partialstartindex}
+\newcommand{\setpartialstart}[1]{\COPY{#1}{\partialstartindex}} % will only last till end of frame
+\newcommand{\resetpartialstart}{\COPY{1}{\partialstartindex}} 
+
+
+\newcounter{listlength}
+\newcounter{listposition}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%set up attribution for two pictures used
+\newcommand{\weightindexentry}{\includegraphics[height=3mm]{clipart/weight.png} \href{https://thenounproject.com/term/weight/192822/}{`Weight'} by \href{https://thenounproject.com/Krisb/}{Kris Brauer}  is licensed under  \CCBY (accessed May 2021)}
+\newcommand{\balloonindexentry}{\includegraphics[height=3mm]{clipart/balloon.png} 
+\href{https://thenounproject.com/term/balloon/2219929/}{`Balloon'} by
+\href{https://thenounproject.com/simon1276/}{Simon Farkas}
+is licensed under
+ \CCBY~  (accessed November 2022, edited)}
+\newcommand{\scaleindexentry}{\includegraphics[height=3mm]{clipart/scalePD.png} \href{https://openclipart.org/detail/191471/waagelibra}{`Waage/Libra'} by \href{https://openclipart.org/artist/B.Lachner}{B. Lachner} is in the public domain  (accessed April 2021, edited)}
+
+
+%need to get the raw sum of weight lengths.
+%after \forcsvlist\getrawsum, the variable \rawsum will be the combined widths of weights BEFORE scaling
+%also, the counter listlength will have the number of entries (doing it by hand to avoid loading a whole package just for this)
+%finally: we want to attribute the two pictures, weights and balloons, but only if they actually show up. So we need a bool for whether any term is positive bzw. negative.
+\newcommand{\getrawsum}[1]{
+	\ABSVALUE{#1}{\rawlength}
+	\ADD{\rawsum}{\rawlength}{\rawsum} 
+	\stepcounter{listlength}
+	\ifthenelse{\lengthtest{#1 pt=\rawlength pt}}{\COPY{1}{\weightattrib}}{\COPY{1}{\balloonattrib}}
+}
+
+%placing of weights
+%use scaled lengths, not raw input lengths
+\newcommand{\placement}[1]{%input: raw length from entered csv
+	%place the weight; figure out where its right endpoint is (\rightendpoint), to help place the next
+	\stepcounter{listposition}%1 for first entry, etc.
+	%width of weight: scaled, but not more than 1.5 cm
+	\ABSVALUE{#1}{\w}
+	\MULTIPLY{\w}{\scalefactor}{\W} \MIN{\W}{1.5}{\w}
+	\DIVIDE{\w}{2}{\x}
+	
+	%check if #1 is positive (weight) or negative (balloon)
+	\ifthenelse{\lengthtest{#1 pt > 0 pt}}{\def\filename{weight}}{\def\filename{balloon}}
+	
+	%draw top
+	%Coordiantes (N1), (N2) etc. saved to place labels later
+	\onslide<1-\thelistposition>{
+		\draw(\x+\rightendpoint,3)coordinate(N\thelistposition){};
+		\draw(N\thelistposition)node[above]{\includegraphics[width=\w cm]{clipart/\filename}};}
+	%draw bottom
+	\ADD{\thelistposition}{1}{\movetobottom}
+	\onslide<\movetobottom-|handout:0>{\draw(\x+\rightendpoint,.75)node[above]{\includegraphics[width=\w cm]{clipart/\filename}};}
+	
+	%increment positions for the next one: 0.33 white space plus the width of the icon
+	%in practice: little icons are closer than they need to be; add some if that's the case
+	%make min distance between labels ~0.75 cm
+	%this does mean you can't have more than about 8 terms without them overrunning the scale
+	\ADD{\rightendpoint}{\w}{\rightendpoint}
+	\ADD{\rightendpoint}{0.33}{\rightendpoint}
+	\ifthenelse{\lengthtest{\w pt <0.4 pt} }{
+		\SUBTRACT{.4}{\w}{\extraspace}
+		\ADD{\rightendpoint}{\extraspace}{\rightendpoint}
+		}{}
+	}
+	
+%placing labels
+\newcommand{\labelplacement}[1]{
+	\stepcounter{listposition}
+	\onslide<1-\thelistposition>{\draw(N\thelistposition)node[below]{{$#1$}};}
+	}
+	
+%parial sums if that argument is {}
+\newcommand{\computedpartials}[1]{
+	\stepcounter{listposition}
+	\ADD{\partialsum}{#1}{\partialsum}
+	\TRUNCATE[4]{\partialsum}{\sn}
+	\ADD{\thelistposition}{1}{\movetobottom}
+	\ROUND[0]{\movetobottom}{\movetobottom}
+	\onslide<\movetobottom|handout:0>{\draw(2,-0.125)node{\sn};}
+	\SUBTRACT{1}{\partialstartindex}{\indexadjustment}
+	\SUBTRACT{\thelistposition}{\indexadjustment}{\printindex}
+	\onslide<\movetobottom->{\draw(9,6-\thelistposition*.75)node{$S_{\printindex}=\sn$};}
+	
+}
+
+%partial sums provided in the argument
+\newcommand{\specifiedpartials}[1]{
+\stepcounter{listposition}
+\ADD{\thelistposition}{1}{\movetobottom}
+\ROUND[0]{\movetobottom}{\movetobottom}
+%\TRUNCATE[4]{#1}{\sn} -- with this line, you can put in things like 5.1 and they will be formatted to 5.1000; but you cannot put in non-numbers
+\onslide<\movetobottom|handout:0>{\draw(2,-0.125)node{#1};}
+\SUBTRACT{1}{\partialstartindex}{\indexadjustment}
+	\SUBTRACT{\thelistposition}{\indexadjustment}{\printindex}
+\onslide<\movetobottom->{\draw(9,6-\thelistposition*.75)node{$S_{\printindex}= $ #1};}
+}
+
+
+%%%%%%%
+%main command to set up weights
+%%%%%%%
+\newcommand{\weights}[3]%input: csvs of sizes , labels, and partial sums, e.g. \sumlist{1,.5,-0.25}{1,\frac12,\frac-14}{} (leave last value empty for them to be computed; but often you want to adjust the sizes ad hoc so you can also specify)
+	{
+	%place the scale
+	\draw (3.5,0) node{\includegraphics[height=2cm]{clipart/scalePD}};	
+	\index{\scaleindexentry}
+	
+	\setcounter{listlength}{0}%this counter will figure out how many arguments were passed
+	\COPY{0}{\rawsum}%this variable will figure out the combined widths of the weights, pre-scaled. 
+	
+	\COPY{0}{\weightattrib}
+	\COPY{0}{\balloonattrib}
+	%find the raw sum of all variables as entered, and the length of the list
+	\forcsvlist\getrawsum{#1}
+	
+	%The above also set up attribution books
+	%attribution
+	\ifthenelse{\weightattrib=0}{}{\index{\weightindexentry}}
+	\ifthenelse{\balloonattrib=0}{}{\index{\balloonindexentry}}
+	
+	%scaling factor: 
+		%total length of scale: 6.75 cm
+		% space between weights: 0.33 cm (listlength-1 times)
+		% combined weight lengths should be 7.08-(listlength/3) (formerly 4.44 cm for 8 entries)
+	\DIVIDE{\thelistlength}{3}{\spaces}
+	\SUBTRACT{7}{\spaces}{\actualcombinedlength}
+	\DIVIDE{\actualcombinedlength}{\rawsum}{\scalefactor}	
+	
+	%place weights
+	\COPY{0}{\rightendpoint}
+	\setcounter{listposition}{0}
+	\forcsvlist\placement{#1}
+	\setcounter{listposition}{0}
+	\forcsvlist\labelplacement{#2}
+
+	
+	%place partial sums
+	\setcounter{listposition}{0}
+	%%if #3 is empty, compute
+	\ifthenelse {\equal{#3}{}}{
+		%if the labels are empty, compute partial sums
+		\COPY{0}{\partialsum}
+		\forcsvlist\computedpartials{#1}
+		}{
+		%if the labels are nonempty, use them
+		\forcsvlist\specifiedpartials{#3}
+		}
+	}
+%%----------------------------------------------------------------------------------------
+%%
+
+%-------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%%%%%%%%%%%HIPPO STACKS %%%%%%%%%%%%
+%Hippo Stacks
+%Internal Macros
+%----------------------------------------------------------------------------------------
+\newcommand{\hippoindex}{\index{\includegraphics[height=3mm]{clipart/hippo1PD.png} \href{https://publicdomainvectors.org/en/free-clipart/Hippopotamus-vector-image/62068.html}{Hippopotamus vector image} is in the  Public Domain (accessed January 2021)}}
+
+\newcounter{labelnode}
+\newcommand{\addhippo}[1]{%input: hippo size (taken from csv)
+\hippoindex
+\DIVIDE{#1}{2}{\tempA}
+\ADD{\tempA}{\HeightSum}{\tempB}
+\COPY{\tempB}{\HippoHeight}
+\draw (0,\HippoHeight)node{\includegraphics[height=#1 cm]{clipart/Hippo1PD}};
+\ADD{#1}{\HeightSum}{\HeightSum}
+
+\stepcounter{labelnode}
+\draw (-#1*.8,\HippoHeight)node(l\thelabelnode){};
+}
+
+\newcommand{\addlabel}[1]{%
+\stepcounter{labelnode}
+\draw (l\thelabelnode)node[left]{#1};
+}
+
+
+\newcommand{\varaddhippo}[1]{%input: hippo size (taken from csv)
+\hippoindex
+\DIVIDE{#1}{2}{\tempA}
+\ADD{\tempA}{\HeightSum}{\tempB}
+\COPY{\tempB}{\HippoHeight}
+\draw (0,\HippoHeight)node[xscale=-1]{\includegraphics[height=#1 cm]{clipart/Hippo2PD}};
+\ADD{#1}{\HeightSum}{\HeightSum}
+
+\stepcounter{labelnode}
+\draw (#1*.8,\HippoHeight)node(l\thelabelnode){};
+}
+
+\newcommand{\varaddlabel}[1]{%
+\stepcounter{labelnode}
+\draw[W1] (l\thelabelnode)node[right]{#1};
+}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%Hippo Stacks
+%----------------------------------------------------------------------------------------
+%black, labels on left
+%input : #1, CSV list of sizes
+%#2: CSV list of labels. Can use formatting, e.g. \small$\frac12$
+\newcommand{\HippoStack}[2]{
+	\COPY{0}{\HeightSum}%a1+a2+...+an
+	\COPY{0}{\HippoHeight}%a1+...+an+(a_{n+1}/2)
+	\setcounter{labelnode}{0}
+	\forcsvlist\addhippo{#1}
+	\setcounter{labelnode}{0}
+	\forcsvlist\addlabel{#2}
+}%
+
+%red, lables on right
+%input : #1, CSV list of sizes
+%#2: CSV list of labels. Can use formatting, e.g. \small$\frac12$
+\newcommand{\VarHippoStack}[2]{
+	\COPY{0}{\HeightSum}%a1+a2+...+an
+	\COPY{0}{\HippoHeight}%a1+...+an+(a_{n+1}/2)
+	\setcounter{labelnode}{0}
+	\forcsvlist\varaddhippo{#1}
+	\setcounter{labelnode}{0}
+	\forcsvlist\varaddlabel{#2}
+	\hippoindex
+}%
+
+%colours for substitution rule
+%inside function colour: sub u
+\newcommand<>{\su}[1]{%colours the entry, if there is one; prints "u" if no argument given
+	\ifthenelse{\equal{#1}{}}{
+		\textcolor#2{C2}{u}}{
+		\textcolor#2{C2}{#1}}%
+	}
+%du
+\newcommand<>{\sdu}[1]{%colours the entry, if there is one; prints "u" if no argument given
+	\ifthenelse{\equal{#1}{}}{
+		\textcolor#2{C3}{\dee u}}{
+		\textcolor#2{C3}{#1}}%
+	}

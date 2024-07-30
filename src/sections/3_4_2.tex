@@ -1,0 +1,278 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsC{\cd}
+ \end{frame}
+%%----------------------------------------------------------------------------------------
+%%----------------------------------------------------------------------------------------
+\section{3.4.2 Optional: The Delicacy of Conditional Convergence}
+%%----------------------------------------------------------------------------------------
+%%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+Finite addition is commutative
+\[\textcolor{C1}1+\textcolor{C2}2+\textcolor{C3}3+\textcolor{C4}4 = \textcolor{C4}4+\textcolor{C1}1+\textcolor{C3}3+\textcolor{C2}2\]
+What happens if we re-arrange the terms in a series?\pause\vfill
+We'll illustrate some possibilities, but first we need to establish some preliminary results.
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Preliminary Results}
+Split up the alternating harmonic series into two series: one with the positive terms, and one with the negative terms.
+
+\[1-\frac12+\frac13-\frac14+\frac15-\frac16+\frac17-\frac18\cdots\]
+\begin{multicols}{2}
+\begin{align*}
+&-\frac12-\frac14-\frac16-\frac18-\cdots\\
+\onslide<2->{=&-\frac12\left(1+\frac12+\frac13+\frac14+\cdots\right)\\
+&=-\frac12\sum_{n=1}^\infty \frac 1n}
+\end{align*}
+\onslide<2->{So, we can make an arbitrarily large negative number by adding up these terms.}
+\columnbreak
+
+
+\begin{align*}
+&1+\frac13+\frac15+\frac17+\cdots\\
+\onslide<3->{\ge&\frac12+\frac14+\frac16+\frac18+\cdots}
+\end{align*}
+\onslide<3->{So, we can make an arbitrarily large positive number by adding up these terms.}
+\end{multicols}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Preliminary Results}
+We've shown that the alternating harmonic series converges. We don't have the tools to do it just yet, but later we'll be able to compute what it converges to:
+\[\sum_{n=1}^\infty \frac{(-1)^{n-1}}{n} \ = \ \log 2\]
+\pause
+\vfill
+Surprising fact: if we reorder the terms of the series carefully, we can make a new series adding up to any number we want.
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\tikzstyle{po}=[fill=M3,fill opacity=0.5]
+\tikzstyle{ne}=[fill=M4,fill opacity=0.5]
+
+\newcommand{\cacheRect}[1]{%place the rectangle in the cache at the top
+	\COPY{#1}{\cachen}
+	\ifodd \cachen
+		\ifnum \cachen < 37 \draw[po] (\cachen/6,0) rectangle +(.2,1/\cachen);
+		\draw(\cachen/6+.1,0)node[below]{$\frac{1}{\cachen}$};\fi
+		\else
+		\ifnum \cachen < 32\draw[ne] (6+\cachen/6,0) rectangle +(.2,-1/\cachen);
+		\draw(\cachen/6+6.1,0)node[above]{\small$\frac{\text{-} 1}{\cachen}$};\fi
+		\fi
+	}
+\newcommand{\usedRect}[1]{%place the rectangle in the cache at the top, but shaded
+	\COPY{#1}{\cachen}
+	\begin{scope}[opacity=0.1]
+	\ifodd \cachen
+		\ifnum \cachen < 37\draw[po,fill opacity=0.1] (\cachen/6,0) rectangle +(.2,1/\cachen);
+		\draw(\cachen/6+.1,0)node[below]{$\frac{1}{\cachen}$};\fi
+		\else
+		\ifnum \cachen < 32 \draw[ne,fill opacity=0.1] (6+\cachen/6,0) rectangle +(.2,-1/\cachen);
+		\draw(\cachen/6+6.1,0)node[above]{\small$\frac{\text{-}1}{\cachen}$};\fi
+		\fi
+	\end{scope}
+	}
+
+\COPY{3}{\xshift}%for where the sums show up
+\COPY{3}{\yshift}%can change these before frame
+%using "scope" breaks Sn
+\newcommand{\rect}[2]{%n, ordinal
+	% (overlays and counters don't mix; would have been more elegant to iterate over csv)
+	\COPY{#1}{\n}% a_n=(-1)^(n-1)/n
+	\COPY{#2}{\N}%first term, second, term, etc.
+	\ADD{\N}{1}{\s}%the slide where it moves
+	\SUBTRACT{\s}{1}{\t}%the last slide where it's in the cache
+	\onslide<-\t|handout:1>{
+		\cacheRect{\n}
+		}
+	\DIVIDE{1}{\n}{\h}
+	\ifodd \n
+		\onslide<\s-|handout:2>{
+		\usedRect{\n}
+		\draw[po,xshift=\xshift cm, yshift=-\yshift cm] (\N*.2,\Sn) rectangle +(.2,1/\n);}
+		\ADD{\Sn}{\h}{\Sn}
+		\onslide<\s|handout:0>{\draw[densely dotted,xshift=\xshift cm, yshift=-\yshift cm]
+		 (0,\Sn)--(\N*.2+.5,\Sn)node[right]{$\Sn$};}
+		\else
+		\onslide<\s-|handout:2>{
+		\usedRect{\n}
+		\draw[ne,xshift=\xshift cm, yshift=-\yshift cm] (\N*.2,\Sn) rectangle +(.2,-1/\n);}
+		\SUBTRACT{\Sn}{\h}{\Sn}
+		\onslide<\s|handout:0>{\draw[densely dotted,xshift=\xshift cm, yshift=-\yshift cm] 
+		(0,\Sn)--(\N*.2+.5,\Sn)node[right]{$\Sn$};}
+	\fi
+}
+%----------------------------------------------------------------------------------------
+\COPY{0}{\Sn}%partial sum
+\COPY{0}{\termN}
+\begin{frame}[t]
+\StatusBar{1}{22}
+Rearrange the alternating harmonic series to sum to 0. \onslide<beamer:-21|handout:0>{\hfill 
+\hyperlink{end0sum}{\beamerskipbutton{\tiny skip steps}}}
+\begin{tikzpicture}
+\draw[xshift=3cm,yshift=-3cm,<->](0,-1.1)--(0,1.1);
+\draw[xshift=3cm,yshift=-3cm](.2,0)--(-.2,0)node[left]{0};
+%unused
+\foreach \x in {11,13,...,29}{\cacheRect{\x}}
+%partial sum
+\pgfplotsforeachungrouped \term in {1,2,4,6,8,3,10,12,14,16,5,18,20,22,24,7,26,28,30,32,9}{
+	\rect{\term}{\termN}
+	\ADD{\termN}{1}{\termN}}
+
+\end{tikzpicture}
+\begin{itemize}
+\item \color{M3} Add positive terms until the partial sum is greater than 0.
+\item \color{M4} Add negative terms until the partial sum is less than 0.
+\item \color{black} Repeat.
+\end{itemize}
+\hypertarget<21>{end0sum}{}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\COPY{0}{\Sn}%partial sum
+\COPY{0}{\xshift}%for where the sums show up
+\COPY{4}{\yshift}%can change these before frame
+\COPY{0}{\termN}
+\begin{frame}[t]
+\StatusBar{1}{34}
+Rearrange the alternating harmonic series to sum to $2$. \onslide<beamer:-34|handout:0>{\hfill 
+\hyperlink{end2sum}{\beamerskipbutton{\tiny skip steps}}}
+\begin{tikzpicture}
+\draw[xshift=\xshift cm,yshift=-\yshift cm,<->](0,-0.2)--(0,2.5);
+\draw[xshift=\xshift cm,yshift=-\yshift cm](.2,2)--(-.2,2)node[left]{2};
+%unused
+\foreach \x in {6,8,...,20}{\cacheRect{\x}}
+%partial sum
+\pgfplotsforeachungrouped \term in {1,3,...,15,2,17,19,...,41,4,43,45,...,63}{
+	\rect{\term}{\termN}
+	\ADD{\termN}{1}{\termN}}
+
+\end{tikzpicture}
+\vfill
+\begin{itemize}
+\item \color{M3} Add positive terms until the partial sum is greater than 2.
+\item \color{M4} Add negative terms until the partial sum is less than 2.
+\item \color{black} Repeat.
+\end{itemize}
+\hypertarget<34>{end2sum}{}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}<1|handout:1>[label=takeaway]
+In fact: you can reorder \textit{any} conditionally convergent series to
+\begin{itemize}
+\item  add up to \textit{any} number, or
+\item diverge to infinity, or 
+\item diverge to negative infinity.
+\end{itemize}\vfill
+\onslide<2|handout:2>{Changing the order of terms in an absolutely convergent series does not change its value.}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+ %n^2
+ %squared
+\newcommand{\squaredCacheRect}[1]{%place the rectangle in the cache at the top
+	\COPY{#1}{\cachen}
+	\SQUARE{\cachen}{\squaredCachen}
+	\ifodd \cachen
+		\ifnum \cachen < 23 \draw[po] (\cachen/5,0) rectangle +(.2,1/\squaredCachen);
+		\draw(\cachen/5+.1,0)node[below]{\small $\frac{1}{\cachen^2}$};\fi
+		\else
+		\ifnum \cachen < 30\draw[ne] (5+\cachen/4.5,0) rectangle +(.2,-1/\squaredCachen);
+		\draw(\cachen/4.5+5.15,0)node[above]{\footnotesize $\frac{\text{-}1}{\cachen^2}$};\fi
+		\fi
+	}
+\newcommand{\squaredUsedRect}[1]{%place the rectangle in the cache at the top, but shaded
+	\COPY{#1}{\cachen}
+	\SQUARE{\cachen}{\squaredCachen}
+	\begin{scope}[opacity=0.1]
+	\ifodd \cachen
+		\ifnum \cachen < 23 \draw[po,fill opacity=0.1] (\cachen/5,0) rectangle +(.2,1/\squaredCachen);
+		\draw(\cachen/5+.1,0)node[below]{\small $\frac{1}{\cachen^2}$};\fi
+		\else
+		\ifnum \cachen < 30  \draw[ne,fill opacity=0.1] (5+\cachen/4.5,0) rectangle +(.2,-1/\squaredCachen);
+		\draw(\cachen/4.5+5.15,0)node[above]{\footnotesize $\frac{\text{-}1}{\cachen^2}$};\fi
+		\fi
+	\end{scope}
+	}
+
+\COPY{3}{\xshift}%for where the sums show up
+\COPY{3}{\yshift}%can change these before frame
+\COPY{0}{\Sn}
+%using "scope" breaks Sn
+\newcommand{\squaredRect}[2]{%n, ordinal
+	% (overlays and counters don't mix; would have been more elegant to iterate over csv)
+	\COPY{#1}{\n}% a_n=(-1)^(n-1)/n
+	\COPY{#2}{\N}%first term, second, term, etc.
+	\ADD{\N}{1}{\s}%the slide where it moves
+	\SUBTRACT{\s}{1}{\t}%the last slide where it's in the cache
+	\onslide<-\t|handout:1>{
+		\squaredCacheRect{\n}
+		}
+	\DIVIDE{1}{\n}{\h}
+	\MULTIPLY{\h}{\h}{\hh}
+	\ifodd \n
+		\onslide<\s-|handout:2>{
+		\squaredUsedRect{\n}
+		\draw[po,xshift=\xshift cm, yshift=-\yshift cm] (\N*.2,\Sn) rectangle +(.2,\hh);}
+		\ADD{\Sn}{\hh}{\Sn}
+		\onslide<\s|handout:0>{\draw[densely dotted,xshift=\xshift cm, yshift=-\yshift cm]
+		 (0,\Sn)--(\N*.2+.5,\Sn)node[right]{$\Sn$};}
+		\else
+		\onslide<\s-|handout:2>{
+		\squaredUsedRect{\n}
+		\draw[ne,xshift=\xshift cm, yshift=-\yshift cm] (\N*.2,\Sn) rectangle +(.2,-\hh);}
+		\SUBTRACT{\Sn}{\hh}{\Sn}
+		\onslide<\s|handout:0>{\draw[densely dotted,xshift=\xshift cm, yshift=-\yshift cm] 
+		(0,\Sn)--(\N*.2+.5,\Sn)node[right]{$\Sn$};}
+	\fi
+}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+\COPY{0}{\Sn}%partial sum
+\COPY{1}{\xshift}
+\COPY{2.5}{\yshift}
+\COPY{0}{\termN}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\label<1>{note3.4.2a}
+\StatusBar{1}{26}
+\alert{This doesn't work with absolutely convergent series.}\onslide<beamer:-25|handout:0>{\hfill 
+\hyperlink{end0squaredSum}{\beamerskipbutton{\tiny skip steps}}}
+
+Let's try to rearrange the terms of $\sum\limits_{n=1}^\infty\frac{(-1)^{n-1}}{n^2}$ to add up to 0:
+\begin{tikzpicture}
+\draw[xshift=\xshift cm,yshift=-\yshift cm,<->](0,-.25)--(0,1.1);
+\draw[xshift=\xshift cm,yshift=-\yshift cm](.2,0)--(-.2,0)node[left]{0};
+
+\onslide<26-|handout:2>{\draw[decorate,decoration={brace,amplitude=8pt,mirror}](6,-.5)--(12,-.5)node[midway,below,yshift=-2mm,xshift=-5mm]{$\left|\sum_{m=1}^\infty\frac{-1}{(2m)^2}\right|<\frac14+\int_{1}^ \infty \frac{1}{(2x)^2}\ \dee x=\frac12$};}
+
+%unused
+\foreach \x in {3,5,...,28}{\squaredCacheRect{\x}}
+%partial sum
+\pgfplotsforeachungrouped \term in {1,2,4,...,48}{
+	\squaredRect{\term}{\termN}
+	\ADD{\termN}{1}{\termN}}
+%	
+\end{tikzpicture}
+\begin{itemize}
+\item \color{M3} Add positive terms until the partial sum is greater than 0.
+\item \color{M4} Add negative terms (those with $n=2m$, $m=1,2,3,\cdots$)  until the partial sum is less than 0.
+\item \color{black} Repeat.
+\end{itemize}
+\hypertarget<25>{end0squaredSum}{}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+\againframe<2|handout:2>{takeaway}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------

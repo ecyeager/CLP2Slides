@@ -1,0 +1,1040 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsC{\cc}
+ \end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+\section{3.3.4 Alternating Series Test}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Review}
+\sStatusBar{1}{3}
+\AnswerSpace
+\AnswerYes<2>
+Let $\ds S_N=\sum_{n=1}^N a_n$.\\[1em]
+
+Simplify:  $S_{N}-S_{N-1}$.
+\hfill
+(This will come in handy soon.)
+
+\onslide<2-|handout:0>{\color{spoilercolor}\begin{align*}
+S_N&=a_1+a_2+a_3+\cdots+a_{N-1}+a_N\\
+S_{N-1}&=a_1+a_2+a_3+\cdots+a_{N-1}\\
+\sonslide<3->{S_N-S_{N-1}&=a_N}
+\end{align*}}
+
+\vfill
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Alternating Series}
+
+\begin{block}{Alternating Series}
+The series
+\begin{equation*}
+A_1-A_2+A_3-A_4+\cdots =\sum_{n=1}^\infty (-1)^{n-1} A_n
+\end{equation*}
+is alternating if every $A_n\ge 0$.
+\end{block}
+
+\begin{multicols}{2}
+Alternating series:\\[2em]
+\begin{itemize}
+\item $1-2+3-4+5-6+7-8+\cdots$\\[1em]
+\item $\ds 1-\frac12+\frac13-\frac14+\frac15-\cdots$
+\end{itemize}
+\columnbreak
+
+Not alternating:\\[2em]
+\begin{itemize}
+\item $\cos(1)+\cos(2)+\cos(3)+\cdots$
+\item $1-\left(-\dfrac12\right)+\dfrac13-\left(-\dfrac14\right)+\cdots$
+\end{itemize}
+\end{multicols}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\begin{tikzpicture}
+\only<1-|handout:1>{\weights{6,-5,4,-3,2,-1}{6,-5,4,-3,2,-1}{}}
+\sonslide<1>{\draw(5.25,1.5)node{\parbox{\textwidth}{Note: these terms alternate signs, \alert{and} their magnitudes are\\ decreasing: $|6|>|-5|>|4|>|-3|>|2|>|-1|$}};}
+\onslide<8-|handout:2>{\begin{scope}[yshift=4cm]
+\myaxis{n}{0}{7}{}{0}{2.2}
+\draw(1,2)node[vertex,label=above: $S_1$](S1){};
+\ycoord{2}{6}
+\onslide<9->{\draw(2,1/3)node[vertex,label=below:$S_2$](S2){};
+\ycoord{1/3}{1}}
+\onslide<14->{\draw[W1,->] (S1)--(S2)node[midway,left]{$a_2$};}
+\onslide<10->{\draw(3,5/3)node[vertex,label=above: $S_3$](S3){};
+\ycoord{5/3}{5}}
+\onslide<15->{\draw[C1,->] (S2)--(S3)node[midway,left]{$a_3$};}
+\onslide<11->{\draw(4,2/3)node[vertex,label=below:$S_4$](S4){};
+\ycoord{2/3}{2}}
+\onslide<16->{\draw[W1,->] (S3)--(S4)node[midway,left]{$a_4$};}
+\onslide<12->{\draw(5,4/3)node[vertex,label=above: $S_5$](S5){};
+\ycoord{4/3}{4}}
+\onslide<17->{\draw[C1,->] (S4)--(S5)node[midway,above]{$a_5$};}
+\onslide<13->{\draw(6,1)node[vertex,label=below:$S_6$](S6){};
+\ycoord{1}{3}}
+\onslide<18->{\draw[W1,->] (S5)--(S6)node[midway,below]{$a_6$};}
+\end{scope}}
+\sonslide<7-9>{\draw (0.7,3.3)node{ 6};
+\draw (2.4,3.3)node{ $-5$};
+\draw (3.8,3.3)node{ $4$};
+\draw (4.9,3.3)node{ $-3$};
+\draw (5.9,3.3)node{ $2$};
+\draw (6.5,3.3)node{ $-1$};}
+\end{tikzpicture}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+
+\begin{frame}[t]
+\StatusBar{1}{6}
+Consider an alternating series $a_1-a_2+a_3-a_4+\cdots$, where $\{a_n\}$ is a sequence with positive, \alert{decreasing} terms and with $\lim\limits_{n\rightarrow\infty }a_n = 0$.
+\begin{tikzpicture}
+%partial sums: \pm 4e^{-\sqrt x}+2
+\myaxis{n}{0}{11}{}{0}{4}
+\foreach \n in {1,3,...,19}{
+	\SQRT{\n}{\e}
+	\EXP{-\e}{\a}
+	\MULTIPLY{\a}{4}{\b}
+	\ADD{\b}{2}{\y}
+	\draw(\n/2,\y)node[C1,vertex,label=above:{$S_{\n}$}](S\n){};
+	}
+\foreach \n in {2,4,...,20}{
+	\SQRT{\n}{\e}
+	\EXP{-\e}{\a}
+	\MULTIPLY{\a}{-4}{\b}
+	\ADD{\b}{2}{\y}
+	\draw(\n/2,\y)node[W1,vertex,label=below:{$S_{\n}$}](S\n){};
+	}
+	
+%S1 - S3
+\onslide<2-4|handout:0>{\draw[->,W1](S1)--(S2)node[midway,left]{$a_2$};}
+\onslide<3-6|handout:0>{\draw[->,C1](S2)--(S3)node[midway,right]{$a_3$};}
+\onslide<4-|handout:0>{\draw[C1] plot[domain=1:21,smooth]({\x/2},{4*exp(-sqrt(\x))+2});}
+\onslide<5-|handout:0>{\draw[->,W1](S3)--(S4)node[midway,right]{$a_4$};}
+\onslide<6-|handout:0>{\draw[W1] plot[domain=1:20,smooth]({\x/2},{-4*exp(-sqrt(\x))+2});}
+
+\end{tikzpicture}
+\vfill
+Since $a_2>a_3$, we have $a_1-(a_2-a_3)<a_1$, so $S_3<S_1$.
+
+\color{C1}
+\onslide<4-|handout:0>{Odd-indexed partial sums are decreasing.}
+\vfill
+\onslide<6-|handout:0>{
+Since $a_3>a_4$, we have $a_1-a_2+(a_3-a_4)>a_1-a_2$, so $S_4>S_2$.\\
+\textcolor{W1}{Even-indexed partial sums are increasing.}}
+\vfill
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]
+\label<6>{note3.3.4a}
+\StatusBar{1}{8}
+\begin{tikzpicture}
+%partial sums: \pm 4e^{-\sqrt x}+2
+\myaxis{n}{0}{11}{}{0}{4}
+\foreach \n in {1,3,...,19}{
+	\SQRT{\n}{\e}
+	\EXP{-\e}{\a}
+	\MULTIPLY{\a}{4}{\b}
+	\ADD{\b}{2}{\y}
+	\draw(\n/2,\y)node[C1,vertex,label=above:{$S_{\n}$}](S\n){};
+	}
+\foreach \n in {2,4,...,20}{
+	\SQRT{\n}{\e}
+	\EXP{-\e}{\a}
+	\MULTIPLY{\a}{-4}{\b}
+	\ADD{\b}{2}{\y}
+	\draw(\n/2,\y)node[W1,vertex,label=below:{$S_{\n}$}](S\n){};
+	}
+	
+
+\foreach \s in {2,...,5}{
+\only<\s|handout:0>{
+	\SUBTRACT{\s}{1}{\t}
+	\SUBTRACT{22}{\t}{\a}
+	\draw[C1,dashed] (S\t)--+(\a/2,0);
+	\draw[W1,dashed] (S\s)--+(\a/2-.5,0);}
+}
+
+\onslide<8-|handout:0>{\draw[dashed] (0,2)--(10.25,2)node[right]{$\lim\limits_{n \to \infty}S_n$};}
+\end{tikzpicture}
+\vfill
+
+\onslide<2->{
+\begin{itemize}
+\item For all $n \ge 2$, $S_n$ lies between $S_1$ and $S_2$.
+\foreach \s in {3,...,5}{
+\SUBTRACT{\s}{1}{\t}
+\onslide<\s->{\item For all $n \ge \s$, $S_n$ lies between $S_{\t}$ and $S_{\s}$.}
+}
+\end{itemize}
+}
+\vfill
+\onslide<6->{The difference between consecutive sums $S_{n}$ and $S_{n-1}$ is:\\}
+ \onslide<7-|handout:0>{$|a_n|$, which approaches 0.}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\unote{Theorem~\eref{text}{thm:SRalternating}}
+\begin{block}{Alternating Series Test}
+Let $\big\{a_n\big\}_{n=1}^\infty$
+be a sequence of real numbers that obeys
+\begin{enumerate}[(i)]
+\item $a_n\ge 0$ for all $n\ge 1$;
+\item $a_{n+1}\le a_n$  for all $n\ge 1$ (i.e. the
+sequence is monotone decreasing);
+\item  and $\lim\limits_{n\rightarrow\infty}a_n=0$.
+\end{enumerate}
+Then
+\begin{equation*}
+a_1-a_2+a_3-a_4+\cdots=\sum\limits_{n=1}^\infty (-1)^{n-1} a_n =S
+\end{equation*}
+converges and, for each natural number $N$,  
+$S-S_N$ is between $0$ and (the
+first dropped term) $(-1)^N a_{N+1}$. Here $S_N$ is, as previously,
+the $N^{\rm th}$ partial sum $\sum\limits_{n=1}^N (-1)^{n-1} a_n$.
+\end{block}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\begin{block}{Alternating Series Test (abridged)}
+Let $\big\{a_n\big\}_{n=1}^\infty$
+be a sequence of real numbers that obeys
+\begin{enumerate}[(i)]
+\item $a_n\ge 0$ for all $n\ge 1$;
+\item $a_{n+1}\le a_n$  for all $n\ge 1$ (i.e. the
+sequence is monotone decreasing);
+\item  and $\lim\limits_{n\rightarrow\infty}a_n=0$.
+\end{enumerate}
+Then
+\begin{equation*}
+a_1-a_2+a_3-a_4+\cdots=\sum\limits_{n=1}^\infty (-1)^{n-1} a_n
+\end{equation*}
+converges.
+\end{block}
+\begin{itemize}
+\item True or false: the harmonic series $\ds\sum_{n=1}^\infty \frac{1}{n}$ converges.
+\item True or false: the alternating harmonic series 
+$\ds\sum_{n=1}^\infty \frac{(-1)^n}{n}$ 
+converges.
+\end{itemize}
+\MoreSpace
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}<beamer>[t]
+\sStatusBar{1}{3}
+\nsStatusBar{1}{2}
+\AnswerYes<1-2>
+\color{spoilercolor}
+Let $a_n=\frac1n$.\pause
+\begin{enumerate}[(i)]\color{spoilercolor}
+\item $a_n \ge 0 $
+\item $a_{n+1} \le a_n$
+\item $\lim\limits_{n\to\infty}a_n = 0$
+\end{enumerate}
+\sonslide<3->{\begin{itemize}\color{spoilercolor}
+\item We've already seen that the harmonic series $\ds\sum_{n=1}^\infty \frac{1}{n}$ diverges.
+\item By the Alternating Series Test, $\sum_{n=1}^\infty (-1)^{n-1}a_n$ converges. That is,
+\[\ds\sum_{n=1}^\infty \frac{(-1)^n}{n}\]
+converges.
+\end{itemize}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}
+{Divergence Test $+$ Alternating Series Test}
+\StatusBar{1}{5}
+
+\centering
+\unote{Warning~\eref{text}{wrn:SRdivTest}}
+\begin{tikzpicture}[node distance = 3.25cm, auto,inner sep=3mm,->] 
+    \node [ellipse,draw] (lim) {$\ds\lim_{n\to \infty}a_n=$ ?}; 
+    \onslide<2->{\node [rectangle,draw,below left of=lim] (nonzero) {$\ds\sum a_n$ diverges};
+    \node[below of=nonzero, node distance=8mm]{(divergence test)}; 
+    \draw [ultra thick] (lim)--(nonzero)node[midway,left]{$\neq 0$};}
+    \onslide<3->{\node [ellipse,draw, below right of=lim] (zero) {\parbox{2.75cm}{Alternating and\\ $|a_{n+1}| \leq |a_{n}| $?}}; 
+    \draw [ultra thick] (lim) -- (zero) node[midway]{$=0$}; }
+    \onslide<4->{\node [rectangle,draw, below right of=zero,yshift=-2mm] (no) {\parbox{4cm}{$\ds\sum a_n$ may converge or diverge; use another test}};
+    \draw [ultra thick] (zero)--(no) node[midway,left]{no};}
+        \onslide<5->{\node [W1,rectangle,draw, below left of=zero] (ast) {$\sum a_n$ converges}; 
+    \node[W1,below of=ast,node distance=8mm]{(alternating series test)};
+    \draw [W1,ultra thick] (zero)--(ast) node[midway,left]{yes};}
+
+\end{tikzpicture}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\begin{block}{Alternating Series Test}
+Let $\big\{a_n\big\}_{n=1}^\infty$
+be a sequence of real numbers that obeys
+$a_n\ge 0$ for all $n\ge 1$;
+$a_{n+1}\le a_n$  for all $n\ge 1$;
+ and $\lim\limits_{n\rightarrow\infty}a_n=0$. Then
+$\sum\limits_{n=1}^\infty (-1)^{n-1} a_n =S$
+converges and  $S-S_N$ is between $0$ and  $(-1)^N a_{N+1}$. 
+\end{block}
+
+Using a computer, you find
+$\displaystyle\sum_{n=1}^{99} \frac{(-1)^{n-1}}{n} \approx 0.698. $\\
+How close is that to the value $\ds\sum_{n=1}^{\infty}  \frac{(-1)^{n-1}}{n} $?
+\AnswerYes<1>\NoSpace<1>
+
+\sonslide<2->{\vfill
+$\ds\frac{-1}{100} = \frac{(-1)^{100-1}}{100} \leq \sum_{n=1}^{\infty} \frac{(-1)^n}{n}-\sum_{n=1}^{99} \frac{(-1)^n}{n}\leq 0$.\\
+That is, the actual series has a sum in the interval $[0.688,0.698]$.
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\NoSpace<1>\AnswerYes<1>
+\begin{block}{Alternating Series Test}
+Let $\big\{a_n\big\}_{n=1}^\infty$
+be a sequence of real numbers that obeys
+$a_n\ge 0$ for all $n\ge 1$;
+$a_{n+1}\le a_n$  for all $n\ge 1$;
+ and $\lim\limits_{n\rightarrow\infty}a_n=0$. Then
+$\sum\limits_{n=1}^\infty (-1)^{n-1} a_n =S$
+converges and  $S-S_N$ is between $0$ and  $(-1)^N a_{N+1}$. 
+\end{block}
+
+Using a computer, you find
+$\ds\sum_{n=1}^{19}(-1)^{n-1}\frac{n^2}{n^2+1} \approx 0.6347. $\\
+How close is that to the value $\ds\sum_{n=1}^{\infty} (-1)^{n-1}\frac{n^2}{n^2+1} $? 
+\vfill
+
+\sonslide<2->{Not close at all: the series is divergent (which we can see by the divergence test).}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}<beamer>[t]{$\sum_{n=1}^{\infty}(-1)^{n-1} \frac{n^2}{n^2+1} $ diverges}
+\StatusBar{1}{11}
+
+
+\begin{tikzpicture}[scale=1]
+	\weights{.5,-.8,.9,-0.9411764,0.9615384,-0.972972,0.98,-0.9846153,0.987804
+}{
+	\frac12,-\frac{4}{5},\frac{9}{10},-\frac{16}{17},\frac{25}{26},-\frac{36}{37},\frac{49}{50},-\frac{64}{65},\frac{81}{82}}{}
+\onslide<11->{
+	\begin{scope}[yshift=3.5cm,xshift=5mm]
+	\myaxis{n}{0}{6.2}{S_n}{1}{1.5}
+	\ycoord{1.2}{0.6}
+	\ycoord{-0.6}{-0.3}
+	\foreach \n in {1,...,12}{
+		\xcoord{\n/2}{}
+		}
+	\foreach \y[count=\x] in {0.5,-0.3,0.6,-0.34,0.62,-0.35,0.63,-0.36,0.63,-0.36,0.63,-0.36
+}{
+		\draw (\x/2,2*\y)node[vertex]{};}
+	\end{scope}
+	}
+\end{tikzpicture}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section{3.3.5 Ratio Test}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\StatusBar{1}{8}
+Recall for a geometric series, the \alert{ratios of consecutive terms} is constant.
+\vfill
+
+\begin{center}\begin{tikzpicture}
+\foreach \x in {1,2,3,4,5}{
+	\POWER{2}{\x}{\n}
+	\draw(\x,0)node{$\dfrac{1}{\n}$};
+	}
+\foreach \x in {1,2,3,4}{
+	\draw(\x+.5,0)node{$+$};
+	\onslide<\x->{
+		\draw[->](\x,1) to[bend left](\x+.9,1);
+		\draw(\x+.45,1.1)node[above]{\footnotesize$\times \frac12$};
+		}
+	\ADD{\x}{4}{\s}
+	\onslide<\s->{
+		\POWER{2}{\x}{\den}
+		\MULTIPLY{\den}{2}{\num}
+		\draw[decorate,decoration={brace,mirror,amplitude=5pt}](\x+0.05,-1)--(\x+0.95,-1)node[midway,below,yshift=-2mm]{$\frac{1/\num}{1/\den}=$};
+		}
+	}
+\draw(5.5,0)node{$\cdots$};
+\onslide<8->{\draw(5.25,-1.6)node{\alert{$\frac12$}};}
+\end{tikzpicture}\end{center}
+
+\vfill
+If that ratio has magnitude \alert{less then one}, then the series converges.\\
+If the ratio has magnitude \alert{greater than one}, the series diverges.
+\end{frame}
+
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\StatusBar{1}{6}
+
+For series convergence, we are concerned with what happens to terms $a_n$ when $n$ is sufficiently large.
+
+Suppose for a sequence $a_n$, $\alert{\lim\limits_{n \to \infty} \frac{a_{n+1}}{a_n}=L}$ for some constant $L$.\vfill
+
+\begin{center}\begin{tikzpicture}
+\draw(0.,0)node(a0){$a_n$};
+\foreach \x in {1,2,3,4}{
+	\POWER{2}{\x}{\n}
+	\draw(\x*1.5,0)node(a\x){$a_{n+\x}$};
+	}
+
+\foreach \x in {0,1,2,3,4}{
+	\draw(\x*1.5+.75,0)node{$+$};
+	\ADD{\x}{1}{\nn}
+	\onslide<\nn->{
+		\MULTIPLY{\x}{1.5}{\a}
+		\ADD{\a}{1.5}{\b}
+		\ifnum \x > 0
+		\draw[decorate,decoration={brace,mirror,amplitude=5pt}](\a+0.05,-.25)--(\b-0.05,-.25)node[midway,below,yshift=-2mm]{$\dfrac{a_{n+\nn}}{a_{n+\x}}~\approx$};
+		\else
+		\draw[decorate,decoration={brace,mirror,amplitude=5pt}](\a+0.05,-.25)--(\b-0.05,-.25)node[midway,below,yshift=-2mm]{$\dfrac{a_{n+1}}{a_{n}}~\approx$};
+		\fi
+		}
+	}
+\draw(7.25,0)node{$\cdots$};
+\onslide<6->{\draw(7.75,-.9)node{\alert{$L$}};}
+\end{tikzpicture}\end{center}
+\vfill
+Like in a geometric series:\\[1em]
+If  $L$ has magnitude \alert{less then one}, then the series converges.\\
+If  $L$ has magnitude \alert{greater than one}, the series diverges.
+
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\unote{Theorem~\eref{text}{thm:SRratio}}
+\begin{block}{Ratio Test}
+Let $N$ be any positive integer and assume that $a_n\ne 0$ for all $n\ge N$.
+\begin{enumerate}[(a)]
+\item If $\lim\limits_{n\rightarrow\infty}\Big|\frac{a_{n+1}}{a_n}\Big| = L<1$,
+then $\sum\limits_{n=1}^\infty a_n$ converges.
+\item If $\lim\limits_{n\rightarrow\infty}\Big|\frac{a_{n+1}}{a_n}\Big| = L>1$,
+or $\lim\limits_{n\rightarrow\infty}\Big|\frac{a_{n+1}}{a_n}\Big| = \infty$,
+then $\sum\limits_{n=1}^\infty a_n$ diverges.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\only<1>{\begin{block}{Ratio Test}
+Let $N$ be any positive integer and assume that $a_n\ne 0$ for all $n\ge N$.
+\begin{enumerate}[(a)]
+\item If $\lim\limits_{n\rightarrow\infty}\Big|\frac{a_{n+1}}{a_n}\Big| = L<1$,
+then $\sum\limits_{n=1}^\infty a_n$ converges.
+\item If $\lim\limits_{n\rightarrow\infty}\Big|\frac{a_{n+1}}{a_n}\Big| = L>1$,
+or $\lim\limits_{n\rightarrow\infty}\Big|\frac{a_{n+1}}{a_n}\Big| = \infty$,
+then $\sum\limits_{n=1}^\infty a_n$ diverges.
+\end{enumerate}
+\end{block}
+}
+Use the ratio test to determine whether the series \[\sum_{n=1}^\infty \frac{n}{3^n}\] converges or diverges. 
+\MoreSpace<1>
+\AnswerYes<2>
+\QuestionBar{1}{3}<1-2>
+\AnswerBar{1}{3}<3->
+\vfill
+\sonslide<3->{
+\begin{align*}
+\left|\frac{a_{n+1}}{a_n}\right|&=\frac{\frac{n+1}{3^{n+1}}}{\frac{n}{3^n}}=\frac{n+1}{n}\cdot\frac{3^n}{3^{n+1}}=\left(1+\frac{1}{n}\right)\cdot\frac13\\
+\lim_{n \to \infty}\left|\frac{a_{n+1}}{a_n}\right|&=\frac13
+\end{align*}
+Since $\frac13<1$, by the ratio test, $\ds\sum_{n=1}^\infty \frac{n}{3^n}$ coverges.
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Remark}
+\StatusBar{1}{7}
+The series we just considered, $\ds\sum_{n=1}^\infty \frac{n}{3^n}$, looks similar to a geometric series, but it is not exactly a geometric series. That's a good indicator that the ratio test will be helpful! 
+\vfill\pause
+We could have used other tests, but ratio was probably the easiest.
+\begin{itemize}[<+->]
+\item Integral test: \onslide<+->{$\ds\int \frac{x}{3^x} \ \dee x$ can be evaluated using integration by parts.}
+\item Comparison test: 
+\begin{itemize}
+\item $\sum\frac{1}{3^n}$ is not a valid comparison series, nor is $\sum n$.
+\item Because $n<2^n$ for all $n\ge 1$, the series $\sum\left(\frac23\right)^n$ will work.
+\end{itemize}
+\item  The divergence test is inconclusive, and the alternating series test does not apply. Our series is not geometric, and not obviously telescoping.
+\end{itemize}\vfill
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}<beamer>[t]
+{$\sum_{n=1}^\infty \frac{n}{3^n}$ converges}
+\begin{tikzpicture}
+
+\weights{0.3333333333,
+0.2222222222,
+0.1111111111,
+0.049382716,
+0.0205761317,
+0.0082304527,
+0.0032007316,
+0.0012193263,
+}%sizes
+{\frac{1}{3},\frac{2}{3^2},\frac{3}{3^3},\frac{4}{3^4},\frac{5}{3^5},\frac{6}{3^6}
+,\frac{7}{3^7}
+,\frac{8}{3^8}}%labels
+{}%partial sums
+
+\end{tikzpicture}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]
+\begin{block}{Ratio Test}
+Let $N$ be any positive integer and assume that $a_n\ne 0$ for all $n\ge N$.
+\begin{enumerate}[(a)]
+\item If $\lim\limits_{n\rightarrow\infty}\Big|\frac{a_{n+1}}{a_n}\Big| = L<1$,
+then $\sum\limits_{n=1}^\infty a_n$ converges.
+\item If $\lim\limits_{n\rightarrow\infty}\Big|\frac{a_{n+1}}{a_n}\Big| = L>1$,
+or $\lim\limits_{n\rightarrow\infty}\Big|\frac{a_{n+1}}{a_n}\Big| = \infty$,
+then $\sum\limits_{n=1}^\infty a_n$ diverges.
+\end{enumerate}
+\end{block}
+Let $a$ and $x$ be nonzero constants.
+Use the ratio test to determine whether
+\[\sum_{n=1}^\infty anx^{n-1}\]
+converges or diverges. (This may depend on the values of $a$ and $x$.)
+\MoreSpace
+\QuestionBar{2}{3}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}<beamer>[t]
+\AnswerYes<1>\QuestionBar<1>{2}{3}
+\AnswerBar<2>{2}{3}
+\[\sum_{n=1}^\infty anx^{n-1}\]
+
+\sonslide<2->{
+\begin{align*}
+\left|\frac{a_{n+1}}{a_n}\right|&=\left|\frac{a(n+1)x^n}{anx^{n-1}}\right|=\left|\left(\frac{n+1}{n}\right)x\right|=\left(1+\frac1n\right)|x|\\
+\lim_{n \to \infty}\left|\frac{a_{n+1}}{a_n}\right|&=|x|
+\end{align*}
+So the series converges when $|x|<1$ and diverges when $|x|>1$.
+For the cases $x=\pm1$, the ratio test is inconclusive, so we'll need another test. Fortunately, the divergence test makes things quick.
+
+\begin{align*}
+\text{For }x&=1: & \lim_{n \to \infty}an(1)^{n-1}&=\lim_{n \to \infty} an  \neq 0\\
+\text{For }x&=-1: & \lim_{n \to \infty}an(-1)^{n-1}&  \neq 0
+\end{align*}
+
+All together, for any nonzero $a$, the series diverges when $|x| \ge 1$ and converges when $|x|<1$.}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]
+\unote{Example~\eref{text}{eg:ratioC}}
+\AnswerYes<1>
+\QuestionBar{3}{3}<1>
+\AnswerBar{3}{3}<2->
+Let $x$ be a constant. Use the ratio test to determine whether
+\[\sum_{n=1}^\infty \frac{(-3)^n\sqrt{n+1}}{2n+3}x^{n}\]
+converges or diverges. (This may depend on the value of $x$.)\color{C1}
+
+\sonly<2>{
+\begin{align*}
+\left|\frac{a_{n+1}}{a_n}\right|&=\left|
+\frac{ \frac{(-3)^{n+1}\sqrt{n+2}}{2(n+1)+3}x^{n+1}}{ \frac{(-3)^n\sqrt{n+1}}{2n+3}x^{n}}\right|
+=
+\left|\frac{(-3)^{n+1}}{(-3)^n}\cdot\frac{\sqrt{n+2}}{\sqrt{n+1}}\cdot\frac{2n+3}{2n+5}\cdot\frac{x^{n+1}}{x^n}\right|\\
+&=3\cdot\sqrt{\frac{n+2}{n+1}}\cdot\left(\frac{2n+3}{2n+5}\right)\cdot |x|
+=
+3\sqrt{\frac{1+2/n}{1+1/n}}\cdot\left(\frac{2+3/n}{2+5/n}\right)\cdot |x|
+\\
+\lim_{n \to \infty}\left|\frac{a_{n+1}}{a_n}\right|&=3\sqrt{\frac11}\left(\frac{2}{2}\right)|x|=3|x|
+\end{align*}
+
+So the series converges when $3|x|<1$ and diverges when $3|x|>1$. 
+
+So for $|x|<\frac13$, the series converges, and for $|x|>\frac13$, it diverges.
+}
+\end{frame}
+%------------------------------------
+\iftoggle{spoiler}{\begin{frame}<beamer>[t]
+\AnswerYes\color{spoilercolor}
+Consider $x=\frac13$.
+\begin{align*}
+\sum_{n=1}^\infty \frac{(-3)^n\sqrt{n+1}}{2n+3}x^{n}&=
+\sum_{n=1}^\infty \frac{\sqrt{n+1}}{2n+3}\frac{(-3)^n}{3^{n}}=
+\sum_{n=1}^\infty (-1)^n\frac{\sqrt{n+1}}{2n+3}
+\end{align*}
+This is an alternating series. Let's use the alternating series test.
+\begin{enumerate}[(i)]\color{spoilercolor}
+\item $a_n=\frac{\sqrt{n+1}}{2n+3} \ge 0$ for all $n \ge 1$,
+\item To show that $a_n$ is monotonically decreasing, consider the derivative of $f(t)=\frac{\sqrt{t+1}}{2t+3}$:
+\begin{align*}
+f'(t)&=\frac{(2t+3)\frac{1}{2\sqrt{t+1}}-\sqrt{t+1}(2)}{(2t+3)^2}\left(\textcolor{W1}{\frac{\sqrt{t+1}}{\sqrt{t+1}}}\right)\\
+&=\frac{\left(t+\frac32\right)-(t+1)(2)}{(2t+3)^2\sqrt{t+1}}=\frac{-t-\frac12}{(2t+3)^2\sqrt{t+1}}
+\end{align*}
+Since $f'(t)<0$ for all $t >0$, we see it is a decreasing function on that domain, so $a_{n+1} < a_n$ for all $n \ge 1$.
+\item $\lim\limits_{n \to \infty}a_n = 0$
+\end{enumerate}
+So, our series converges by the alternating series test when $x=\frac13$.
+
+\end{frame}
+%----------
+\begin{frame}<beamer>[t]
+\AnswerBar{3}{3}
+\color{spoilercolor}
+
+Finally, consider $x=-\frac13$.
+\sonslide{\begin{align*}
+\sum_{n=1}^\infty \frac{(-3)^n\sqrt{n+1}}{2n+3}x^{n}&=
+\sum_{n=1}^\infty \frac{\sqrt{n+1}}{2n+3}\frac{(-3)^n}{(-3)^{n}}=
+\sum_{n=1}^\infty \frac{\sqrt{n+1}}{2n+3}
+\end{align*}
+We will use the limit comparison test, with comparison series
+ $\textcolor{W1}{\sum\limits_{n=1}^\infty \frac{1}{\sqrt n}}$.
+\begin{align*}
+\lim_{n \to \infty}\frac{\frac{\sqrt{n+1}}{2n+3}}{\textcolor{W1}{\frac{1}{\sqrt n}}}&=
+\lim_{n \to \infty}\frac{\sqrt{n+1}\sqrt{n}}{2n+3}=
+\lim_{n \to \infty}\frac{\sqrt{n^2+n}}{2n+3}\left(\textcolor{C3}{\frac{1/n}{1/n}}\right)\\
+&=\lim_{n \to \infty}\frac{\sqrt{1+1/n}}{2+3/n}=\frac{\sqrt{1+0}}{2+0}=\frac12
+\end{align*}
+Since $\frac12$ is a nonzero constant, and since $\sum\frac{1}{\sqrt n}$ diverges (by the $p$-test), our series diverges as well.\\
+\color{C2}
+All together, the original series converges when $-\frac13<x \le \frac13$, and diverges otherwise.
+}
+\end{frame}}{}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section{3.3.6 List of Tests}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Fill in in the blanks}
+\AnswerYes<1-3>
+\begin{block}{Divergence Test}
+If the sequence $\left\{ a_n\right\}_{n=c}^\infty$ \only<2-|handout:0>{fails to converge to zero as $n \to \infty$,}\only<1>{\boxed{\phantom{A}\hspace{5cm}}}\\
+ then the series $\sum\limits_{n=c}^\infty a_n$ diverges.
+\end{block}\vfill
+
+\begin{block}{Ratio Test}
+Let $N$ be any positive integer and assume that $a_n\ne 0$ for all $n\ge N$.
+\begin{enumerate}[(a)]
+\item If $\lim\limits_{n\rightarrow\infty}\Big|\frac{a_{n+1}}{a_n}\Big| ~\only<-2>{\boxed{\vphantom{A}\hspace{1cm}}} \only<3-|handout:0>{=L<1}$,
+then $\sum\limits_{n=1}^\infty a_n$ converges.
+\item If $\lim\limits_{n\rightarrow\infty}\Big|\frac{a_{n+1}}{a_n}\Big| 
+~\only<-3>{\boxed{\vphantom{A}\hspace{1cm}}} \only<4-|handout:0>{=L>1}$,
+or $\lim\limits_{n\rightarrow\infty}\Big|\frac{a_{n+1}}{a_n}\Big| = \infty$,
+then $\sum\limits_{n=1}^\infty a_n$ diverges.
+\end{enumerate}
+\end{block}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\only<1-2>{\AnswerYes}
+\begin{block}{Integral Test}
+Let $N_0$ be any natural number. If $f(x)$ is a function which is defined
+and continuous for all $x\ge N_0$ and which obeys
+\begin{enumerate}[(i)]
+\item \only<1>{\boxed{\vphantom{A}\hspace{3cm}}}\only<2-|handout:0>{$f(x)\ge 0$ for all $x\ge N_0$} and
+\item  \only<-2>{\boxed{\vphantom{A}\hspace{3cm}}}\only<3-|handout:0>{$f(x)$ decreases as $x$ increases} and
+\item $f(n)=a_n$ for all  $n\ge N_0$.
+\end{enumerate}
+
+Then
+\hfill\smash{\begin{tikzpicture}[yscale=0.75]
+\myaxis{x}{0}{3.25}{y}{0}{1.25}
+\xcoord{1}{1}
+\xcoord{2}{2}
+\xcoord{3}{3}
+\draw (1,1)node[vertex,label=above:{$a_1$}]{};
+\draw (2,.5)node[vertex,label=above:{$a_2$}]{};
+\draw (3,.33)node[vertex,label=above:{$a_3$}]{};
+\draw[C1] plot[domain=.8:3.5](\x,{1/\x})node[right]{$y=f(x)$};
+\end{tikzpicture}}\begin{equation*}
+\sum_{n=1}^\infty a_n\text{ converges }\iff
+\int_{N_0}^\infty f(x)\ \dee{x}\text{ converges}
+\end{equation*}
+Furthermore, when the series converges, the truncation error satisfies
+\begin{equation*}
+0 \le \sum_{n=1}^\infty a_n-\sum_{n=1}^N a_n\le
+  \int_N^\infty f(x)\ \dee{x}\qquad\text{for all $N\ge N_0$}
+\end{equation*}
+
+\end{block}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Fill in in the blanks}
+\AnswerSpace
+\only<1-2>{\AnswerYes}
+\begin{block}{The Comparison Test}
+Let $N_0$ be a natural number and let $K>0$.
+\begin{enumerate}[(a)]
+\item If $|a_n| \only<1>{~\boxed{\phantom V}~}\only<2-|handout:0>{\leq} K c_n$ for all $n \ge N_0$ and $\sum\limits_{n=0}^\infty c_n$ converges, then $\sum\limits_{n=0}^\infty a_n$ converges.
+\item If $a_n \only<-2>{~\boxed{\phantom V}~}\only<3-|handout:0>{\ge} Kd_n \ge 0$ for all $n \ge N_0$ and $\sum\limits_{n=0}^\infty d_n$ diverges, then $\sum\limits_{n=0}^\infty a_n$ diverges.
+\end{enumerate}
+\end{block}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{Fill in in the blanks}
+\AnswerSpace
+\only<1>{\AnswerYes}
+\begin{block}{Limit Comparison Theorem}
+Let $\sum_{n=1}^\infty a_n$ and $\sum_{n=1}^\infty b_n$ be two series with
+$b_n>0$ for all $n$. Assume that
+\begin{equation*}
+\lim_{n\rightarrow\infty}\frac{a_n}{b_n}=L
+\end{equation*}
+exists.
+\begin{enumerate}[(a)]
+\item If $\sum_{n=1}^\infty b_n$  converges, then
+$\sum_{n=1}^\infty a_n$ converges too.
+
+\item If $L\ne 0$ and $\sum_{n=1}^\infty b_n$  diverges,
+then $\sum_{n=1}^\infty a_n$ diverges too.
+\end{enumerate}
+In particular, if \only<1>{\boxed{\phantom A \hspace{1cm}}}\only<2|handout:0>{$L\ne 0$}, then $\sum_{n=1}^\infty a_n$ converges
+if and only if $\sum_{n=1}^\infty b_n$ converges.
+\end{block}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerSpace
+\only<1-2>{\AnswerYes}
+\begin{block}{Alternating Series Test}
+Let $\big\{a_n\big\}_{n=1}^\infty$
+be a sequence of real numbers that obeys
+\begin{enumerate}[(i)]
+\item \only<1>{\boxed{\phantom V\hspace{4cm}}}\only<2-|handout:0>{$a_n\ge 0$ for all $n\ge 1$;}
+\item $a_{n+1}\le a_n$  for all $n\ge 1$ (i.e. the
+sequence is monotone decreasing);
+\item  and \only<-2>{\boxed{\phantom V\hspace{4cm}}}\only<3-|handout:0>{$\lim\limits_{n\rightarrow\infty}a_n=0$.}
+\end{enumerate}
+Then
+\begin{equation*}
+a_1-a_2+a_3-a_4+\cdots=\sum\limits_{n=1}^\infty (-1)^{n-1} a_n =S
+\end{equation*}
+converges and, for each natural number $N$,  $S-S_N$ is between $0$ and (the
+first dropped term) $(-1)^N a_{N+1}$. Here $S_N$ is, as previously,
+the $N^{\rm th}$ partial sum $\sum\limits_{n=1}^N (-1)^{n-1} a_n$.
+\end{block}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]{List of convergence tests}
+\StatusBar{1}{5}
+\begin{Ldescription}[<+->]
+\item[Divergence Test]$ $\\
+When the $n^{\mathrm{th}}$ term in the series \textit{fails}
+to converge to zero as $n$ tends to infinity.
+
+This is a good first thing to check: if it works, it's quick, but it doesn't always work.
+%%%
+\vfill
+\item[Alternating Series Test]$ $\\
+\begin{itemize}
+\item
+successive terms in the series alternate
+in sign
+\item<.->
+don't forget to check that successive terms decrease in magnitude
+and tend to zero as $n$  tends to infinity
+\end{itemize}
+%%%
+\vfill
+\item[Integral Test]$ $\\
+\begin{itemize}
+\item
+works well when, if you substitute $x$ for $n$ in the $n^{\mathrm{th}}$ term
+you get a function, $f(x)$, that you can easily integrate
+\item<.->
+don't forget to check that $f(x)\ge 0$ and that $f(x)$ decreases
+as $x$ increases
+\end{itemize}
+\end{Ldescription}
+\end{frame}
+%%%----------------------------------------------------------
+\begin{frame}[t]{List of convergence tests}
+\StatusBar{1}{4}
+\begin{Ldescription}[<+->]
+\item[Ratio Test]$ $\\
+\begin{itemize}
+\item
+works well when $\frac{a_{n+1}}{a_n}$ simplifies enough that
+you can easily compute
+$\lim\limits_{n\rightarrow\infty}\big|\frac{a_{n+1}}{a_n}\big|=L$
+\item<.->
+this often happens when $a_n$ contains powers, like $7^n$,
+or factorials, like $n!$
+\item<.->
+don't forget that $L=1$ tells you nothing about the convergence/divergence
+of the series
+\end{itemize}
+
+%%%
+\vfill
+\item[Comparison Test and Limit Comparison Test]$ $\\
+\begin{itemize}
+\item Comparison test lets you ignore pieces of a function that feel extraneous (like replacing $n^2+1$ with $n^2$) \textit{but} there is a test to make sure the comparison is still valid. Either the limit of a ratio is the right thing, or an inequality goes the right way.
+\item<.->
+Limit comparison works well when, for very large $n$, the $n^{\mathrm{th}}$ term
+$a_n$ is approximately the same as a simpler, nonnegative term $b_n$
+
+\end{itemize}
+
+\end{Ldescription}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\StatusBar{1}{3}
+\begin{itemize}[<+->]
+\item The integral test gave us the $p$-test. When you're looking for comparison series, $p$-series $\ds\sum \frac{1}{n^p}$ are often good choices, because their convergence or divergence is so easy to ascertain.\vfill
+
+\item Geometric series have the form $\ds\sum a \cdot r^n$ for some nonzero constants $a$ and $r$. The magnitude of $r$ is all you need to know to deicide whether they converge or diverge, so these are also common comparison series.
+\vfill
+
+\item Telescoping series have partial sums that are easy to find because successive terms cancel out. These are less obvious, and are less common choices for comparison series.
+\end{itemize}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]
+\QuestionBar{1}{3}<1>
+\AnswerYes<1-2>
+\AnswerBar<2->{1}{3}
+\only<1>{\begin{block}{Test List}
+\begin{multicols}{2}
+\begin{itemize}
+\item divergence
+\item integral
+\item alternating series
+\columnbreak
+
+\item ratio
+\item comparison 
+\item limit comparison
+\end{itemize}
+\end{multicols}
+\end{block}}
+Determine whether the series $\ds\sum\limits_{n=1}^\infty \frac{\cos n}{2^n}$ converges or diverges.\vfill
+
+
+\sonly<2>{\color{W1}
+The \textbf{divergence test} is inconclusive, because $\lim\limits_{n \to \infty}\frac{\cos n}{2^n}=0$ (which you can show with the squeeze theorem).
+\vfill
+
+The \textbf{integral test} doesn't apply, because $f(x)=\frac{\cos x}{2^x}$ is not always positive (and not decreasing).\vfill
+
+The \textbf{alternating series test} doesn't apply because the signs of the series do not strictly alternate every term.\vfill
+
+The \textbf{ratio test} does not apply, because $\lim\limits_{n \to \infty}\frac{a_{n+1}}{a_n}$ does not exist.
+}
+
+\sonly<3>{\color{C1}
+\textbf{Comparison test:} Let $a_n=\frac{\cos n}{2^n}$. Note $|a_n| \leq \frac{1}{2^n}$, and $\sum_{n=1}^\infty \frac1{2^n}$ converges (it is a geometric sum with ratio of consecutive terms $\frac12$). So by the comparison test, $\sum\limits_{n=1}^\infty \frac{\cos n}{2^n}$ converges.
+\vfill
+
+\textbf{Limit comparison:} Set $a_n=\frac{\cos n}{2^n}$ and $b_n=\left(\frac{2}{3}\right)^n$. Then
+\begin{align*}
+\frac{a_n}{b_n}&=\frac{\frac{\cos n}{2^n}}{\frac{2^n}{3^n}}=\left(\frac{3}{4}\right)^n\cos n
+\\
+-\left(\tfrac{3}{4}\right)^n &\leq \left(\tfrac{3}{4}\right)^n \cos n
+ \leq \left(\tfrac{3}{4}\right)^n , \text{ and } \lim_{n \to \infty}-\left(\tfrac{3}{4}\right)^n =\lim_{n \to \infty}\left(\tfrac{3}{4}\right)^n =0
+ \intertext{So, by the Squeeze Theorem,}
+\lim_{n \to \infty}\frac{a_n}{b_n}&=0
+\end{align*}
+Since $\sum_{n=1}^\infty b_n$  converges, by the limit comparison theorem, $\sum\limits_{n=1}^\infty \frac{\cos n}{2^n}$ converges as well.
+}
+\end{frame}
+%---------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]
+\QuestionBar<1>{2}{3}
+\AnswerYes<1-4>
+\AnswerBar<2->{2}{3}
+\sStatusBar{1}{5}
+\only<1>{\begin{block}{Test List}
+\begin{multicols}{2}
+\begin{itemize}
+\item divergence
+\item integral
+\item alternating series
+\columnbreak
+
+\item ratio
+\item comparison 
+\item limit comparison
+\end{itemize}
+\end{multicols}
+\end{block}}
+Determine whether the series $\ds\sum\limits_{n=1}^\infty \frac{2^n\cdot n^2}{(n+5)^5}$ converges or diverges.\vfill
+
+\color{C1}
+\sonly<2>{
+\vfill
+\textcolor{W1}{The \textbf{alternating series test} doesn't apply because the signs of the series do not  alternate.}\vfill
+\textcolor{W1}{The \textbf{integral test} doesn't apply $f(x)=\frac{2^x\cdot x^2}{(x+5)^5}$ is not a decreasing function.}\vfill
+\textbf{Divergence test:} $\lim\limits_{n \to \infty}\frac{2^n\cdot n^2}{(n+5)^5}=\infty$ (which you can see because the numerator is larger than a power function; the denominator is a polynomial; and power functions grow faster than polynomials), so the series diverges by the divergence test.\\[1em]
+\textit{This is the fastest option, but not the only one.}
+\vfill
+}
+
+\sonly<3>{
+\textbf{Ratio test:}
+\begin{align*}
+\frac{a_n}{b_n}&=\frac{\frac{2^{n+1}\cdot (n+1)^2}{(n+1+5)^5}}{\frac{2^n\cdot n^2}{(n+5)^5}}
+=
+\frac{2^{n+1}}{2^n}\cdot\frac{(n+1)^2}{n^2}\cdot\frac{(n+5)^5}{(n+6) ^5}\\
+&=2\left(1+\frac1n\right)^2\left(1-\frac{1}{n+6}\right)^5\\
+\lim_{n \to \infty}\frac{a_n}{b_n}&=2(1)^2(1)^5=2
+\end{align*}
+So, the limit of the ratio of consecutive terms is greater than 1. Therefore $\sum\limits_{n=1}^\infty \frac{2^n\cdot n^2}{(n+5)^5}$ diverges by the ratio test.
+}
+
+\sonly<4>{
+\textbf{Comparison test:} 
+Since power functions grow faster than polynomials, for large values of $n$, $2^n>(n+5)^5$, so $\frac{2^n}{(n+5)^5}>1$. Then, for large enough $n$, 
+\[\frac{2^n\cdot n^2}{(n+5)^5}>n^2~.\]
+By the divergence test, $\sum_{n=1}^\infty n^2$ diverges. So by the comparison test,  $\sum\limits_{n=1}^\infty \frac{2^n\cdot n^2}{(n+5)^5}$ diverges as well.\vfill
+}
+
+\sonly<5>{
+\textbf{Limit comparison:} Set $a_n= \frac{2^n\cdot n^2}{(n+5)^5}$ and $b_n=\frac{2^n}{n^3}$. 
+
+
+Then
+\begin{align*}
+\frac{a_n}{b_n}&=\frac{ \frac{2^n\cdot n^2}{(n+5)^5}}{\frac{2^n}{n^3}}=
+\frac{n^5}{(n+5)^5}=\left(1-\frac{5}{n+5}\right)^5\\
+\text{So, }\lim_{n \to \infty}\frac{a_n}{b_n}&=1^5=1
+\end{align*}
+Note that $\sum_{n=1}^\infty \frac{2^n}{n^3}$ diverges. (You can show this using the tests we've already used on the original series, so this method isn't really an improvement.) Since 
+$\lim\limits_{n \to \infty}\frac{a_n}{b_n}$ exists and is nonzero, by the limit comparison theorem,
+$\sum\limits_{n=1}^\infty \frac{2^n\cdot n^2}{(n+5)^5}$ diverges.
+}
+\end{frame}
+%---------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[t]
+\sStatusBar{1}{5}
+\QuestionBar<1>{3}{3}
+\AnswerYes<1-4>
+\AnswerBar<2->{3}{3}
+\only<1>{\begin{block}{Test List}
+\begin{multicols}{2}
+\begin{itemize}
+\item divergence
+\item integral
+\item alternating series
+\columnbreak
+
+\item ratio
+\item comparison 
+\item limit comparison
+\end{itemize}
+\end{multicols}
+\end{block}}
+Determine whether the series $\ds\sum\limits_{n=1}^\infty \frac1n\sin\left(\frac1n\right)$ converges or diverges.\\[1em]
+\textit{Hint:} If $\theta \ge 0$ then $\sin \theta \leq \theta$.
+\vfill
+
+\color{C1}
+\sonly<2>{
+\color{W1}
+\vfill
+The \textbf{divergence test} is inconclusive because $\lim\limits_{n \to \infty}\frac{\sin\left(\frac1n\right)}{n}=0$.\vfill
+The \textbf{alternating series test} does not apply because we are not considering an alternating series.\vfill
+The \textbf{integral test} won't work for us because $\int_1^\infty \frac{1}{x}\sin\left(\frac1x\right)\ \dee x$ cannot be evaluated with techniques we've learned in class so far.
+\vfill
+}
+
+\sonly<3>{
+\color{W1}
+The 
+\textbf{ratio test} is inconclusive because $\lim\limits_{n \to \infty} \frac{\frac{1}{n+1}\sin\left(\frac1{n+1}\right)}{\frac{1}{n}\sin\left(\frac1{n}\right)}=1$:\small
+
+Set $x=\frac{1}{n+1}$. 
+ Then $\frac{1}{n}=\frac{x}{1-x}$:
+\begin{align*}
+\lim_{n \to \infty}\frac{\sin\left(\frac{1}{n+1}\right)}{\frac1n}&=
+\lim_{x \to 0^+}\frac{\sin x}{\frac{x}{1-x}}=
+\lim_{x \to 0^+}(1-x)\frac{\sin x}{x}=1\cdot 1=1
+\intertext{Set $y=\frac{1}{n}$. Then $\frac{1}{n+1}=\frac{y}{1+y}$:}
+\lim_{n \to \infty}\frac{\sin\left(\frac{1}{n}\right)}{\frac1{n+1}}&=
+\lim_{y \to 0^+}\frac{\sin y}{\frac{y}{1+y}}=
+\lim_{y \to 0^+}(1+y)\frac{\sin y}{y}=1\cdot 1=1
+\intertext{Therefore,}
+\lim\limits_{n \to \infty} \frac{\frac{1}{n+1}\sin\left(\frac1{n+1}\right)}{\frac{1}{n}\sin\left(\frac1{n}\right)}&=1
+\end{align*}
+}
+
+\sonly<4>{
+\textbf{Comparison test:} 
+For $n \ge 1$, $\frac{1}{n} >0$. Then setting  $\theta = \frac1n$ in the hint, $\sin\left(\frac1n\right) \le \frac1n$.  Furthermore, $0<\frac{1}{n}<\pi$, so $\sin\left(\frac1n\right)>0$.
+\[0<\frac1n\sin\left(\frac1n\right) \le \frac1n\left(\frac1n\right)=\frac{1}{n^2}\]
+The $p$-series $\sum_{n=1}^\infty\frac1{n^2}$ converges, so by the comparison test, $\sum_{n=1}^\infty \frac1n\sin\left(\frac1n\right)$ converges as well.
+\vfill}
+
+
+\sonly<5>{
+\textbf{Limit comparison:} Set $a_n=\frac1n\sin\left(\frac1n\right)$ and $b_n=\frac{1}{n^2}$.
+
+\begin{align*}
+\lim_{n \to \infty}\frac{a_n}{b_n}&=\lim_{n \to \infty}
+\frac{\frac1n\sin\left(\frac1n\right)}{\frac{1}{n^2}}
+=
+\lim_{n \to \infty}\frac{\sin\left(\frac1n\right)}{\frac{1}{n}}
+\intertext{Setting $x=\frac1n$,}
+&=\lim_{x \to 0^+}\frac{\sin x}{x}=1
+\end{align*}
+
+The $p$-series $\sum_{n=1}^\infty\frac1{n^2}$ converges, so by the limit comparison test, $\sum_{n=1}^\infty \frac1n\sin\left(\frac1n\right)$ converges as well.
+}
+
+
+\end{frame}
+%---------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------

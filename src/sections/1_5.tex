@@ -1,0 +1,315 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsA{\ae,\aapp}
+ \end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section{1.5: Area Between Curves}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+%full version
+\QuestionBar<1-6>{1}{5}
+\MoreSpace<5>
+\AnswerYes<6>
+\AnswerBar<7>{1}{5}
+\sStatusBar{1}{7} 
+%lecture version
+\nsStatusBar{1}{5} 
+%one function is always above the other, no sub rule
+Find the area between $f(x)$ and $g(x)$ from $x=-1$ to $x=2$.
+
+\only<-5>{\begin{tikzpicture}[yscale=0.75,xscale=1.75]
+\myaxis{x}{2}{3}{y}{0}{3.8}
+\xcoord{2}{2} \xcoord{-1}{-1}
+\draw[W1,very thick] plot[domain=-1.6:2.3,smooth](\x,{\x*\x*\x/3-\x+2})node[right]{$f(x)=\frac13x^3-x+2$};
+\draw[C2,very thick] plot[domain=-1.6:2.3,smooth](\x,{\x*\x-\x*\x*\x/3})node[right]{$g(x)=x^2-\frac13x^3$};
+\only<beamer>{
+	\onslide<2-3>{ \fill[W1,opacity=0.3] (-1,0)-- plot[domain=-1:2,smooth](\x,{\x*\x*\x/3-\x+2})|-cycle;}
+	\onslide<3>{ \fill[C1,opacity=0.3] (-1,0)-- plot[domain=-1:2,smooth](\x,{\x*\x-\x*\x*\x/3})|-cycle;}
+	\onslide<4->{ \fill[W1,opacity=0.3] plot[domain=-1:2,smooth](\x,{\x*\x*\x/3-\x+2}) -- plot[domain=2:-1,smooth](\x,{\x*\x-\x*\x*\x/3})--cycle;}
+}
+\end{tikzpicture}}
+\nsonly<6|handout:0>{%show tiny icon for lecture
+	\begin{tikzpicture}[yscale=0.25]
+\myaxis{}{1.2}{2.2}{}{0}{3}
+\xcoord{2}{2} \xcoord{-1}{-1}
+\draw[W1,very thick] plot[domain=-1:2,smooth](\x,{\x*\x*\x/3-\x+2})node[above right]{$f(x)=\frac13x^3-x+2$};
+\draw[C2,very thick] plot[domain=-1:2,smooth](\x,{\x*\x-\x*\x*\x/3})node[below right,xshift=2mm]{$g(x)=x^2-\frac13x^3$};
+	 \fill[W1,opacity=0.3] plot[domain=-1:2,smooth](\x,{\x*\x*\x/3-\x+2}) -- plot[domain=2:-1,smooth](\x,{\x*\x-\x*\x*\x/3})--cycle;
+	\end{tikzpicture}
+	}
+\begin{align*}
+\onslide<2-|handout:0>{&\textcolor{W1}{\int_{-1}^2 f(x)\, \dee x}} \onslide<4-|handout:0>{-}
+	\onslide<3-|handout:0>{\textcolor{C2}{\int_{-1}^2 g(x)\, \dee x}} \onslide<5-|handout:0>{=\int_{-1}^2 \Big[\,f(x) - g(x)\Big] \dee x}\\
+	\sonslide<6->{&=\int_{-1}^2 \left[\frac13x^3-x+2 - x^2+\frac13x^3\right] \dee x}
+	\sonslide<7->{\\&= \int_{-1}^2\left[\frac23x^3-x^2-x+2\right] \dee x
+	\\&=\left[\frac{1}{6}x^4-\frac13x^3-\frac12x^2+2x\right]_{-1}^2
+	\\&=\frac{16}{6}-\frac{8}{3}-\frac{4}{2}+4-\left(\frac16+\frac13-\frac12-2\right)
+	\\&=2-(-2)=4
+	}
+\end{align*}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\label{note1.5a}
+\QuestionBar<1-3>{2}{5}
+\AnswerBar<4->{2}{5}
+\sStatusBar{1}{5}
+\nsStatusBar{1}{2}
+\sMoreSpace<3>
+\nsMoreSpace<2>
+\AnswerYes<4>
+\iftoggle{spoiler}{\COPY{3}{\sl}}{\COPY{2}{\sl}}
+%one function is always above the other, no sub rule; one function sometimes gives negative values
+Find the (unsigned) area between $f(x)$ and $g(x)$ from $x=-\frac{\pi}{2}$ to $x=\frac{\pi}{2}$.\\
+
+\only<-\sl>{\begin{tikzpicture}[xscale=1.75]
+\myaxis{x}{2}{2.5}{y}{.5}{1.5}
+\xcoord{1.57}{\frac{\pi}{2}} \xcoord{-1.57}{-\frac{\pi}{2}}
+\draw[W1,very thick] plot[domain=-2:2,smooth](\x,{exp(sin(\x r))*cos(\x r)})node[right]{$f(x)=e^{\sin x} \cos x$};
+\fill[W1,opacity=0.3] plot[domain=-1.57:1.57,smooth](\x,{exp(sin(\x r))*cos(\x r)})--plot[domain=1.57:-1.57,smooth](\x,{sin(\x r) * cos (\x r)});
+\draw[C2,very thick] plot[domain=-2:2,smooth](\x,{sin(\x r) * cos (\x r)})node[right]{$g(x)=\sin x \cdot \cos x$};
+
+	\onslide<\sl-|handout:0>{\foreach \x[evaluate=\m using -pi/2+pi/20*(\x-1/2),
+	 evaluate=\g using sin(\m r)*cos(\m r),
+	 evaluate=\f using exp(sin(\m r))*cos(\m r)] in {1,...,20}{
+	%m: midpoint of interval
+		\draw[fill=C1,fill opacity=0.3](\m-.079,\g) rectangle (\m+.079,\f);
+		}}
+\end{tikzpicture}}
+\nsonly<3|handout:0>{
+	\begin{tikzpicture}[yscale=0.25]
+	\myaxis{}{2}{2.5}{}{.5}{1.5}
+\draw[W1,very thick] plot[domain=-1.57:1.57,smooth](\x,{exp(sin(\x r))*cos(\x r)})node[above right]{$f(x)=e^{\sin x} \cos x$};
+\fill[W1,opacity=0.3] plot[domain=-1.57:1.57,smooth](\x,{exp(sin(\x r))*cos(\x r)})--plot[domain=1.57:-1.57,smooth](\x,{sin(\x r) * cos (\x r)});
+\draw[C2,very thick] plot[domain=-1.57:1.57,smooth](\x,{sin(\x r) * cos (\x r)})node[below right]{$g(x)=\sin x \cdot \cos x$};
+	\end{tikzpicture}
+%	\setabovedisplayskip{0pt}
+	}
+
+\sonly<2->{
+\begin{align*}
+\int_{-\frac\pi2}^{\frac\pi2}\Big[\,\textcolor{W1}{f(x)}-\textcolor{C2}{g(x)}\Big]\dee x
+\onslide<4->{&=\int_{-\frac\pi2}^{\frac\pi2}\left(e^{\sin x} \cos x - \sin x \cos x\right)\dee x}
+\sonslide<5->{
+\intertext{ Let $\su{u=\sin x}$. \linebreak Then: $\sdu{\dee u = \cos x ~\dee x}$, $\su{u\left(\frac\pi2\right)=\sin\left(\frac\pi2\right)=1}$, $\su{u\left(\frac{-\pi}{2}\right)=\sin\left(\frac{-\pi}{2}\right)=-1}$.}
+&=\int_{\su{-1}}^{\su{1}}\left(e^{\su{}} - \su{}\right)\sdu{}\\&=\left[e^{\su{}}-\frac12\su{u}^2\right]_{\su{-1}}^{\su{1}}
+\\&=e-\frac1e}
+\end{align*}}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\sQuestionBar<1>{3}{5}
+\nsQuestionBar<1-2>{3}{5}
+\MoreSpace<1>
+\AnswerBar<2->{3}{5}
+\AnswerYes<2>
+\sStatusBar{1}{3} 
+%finite region between two curves, a and b not given
+Find the (unsigned) area of the finite region bounded by $f(x)$ and $g(x)$.
+
+\only<1>{
+\begin{tikzpicture}
+\myaxis{x}{4}{4}{y}{3}{3}
+\begin{scope}
+\draw[W1,very thick] plot[domain=-4:-0.33,smooth](\x,{1/\x})plot[domain=0.33:4,smooth](\x,{1/\x})node[right,yshift=2mm]{$f(x)=\frac1 x$};
+\draw[C2,very thick] plot[domain=-1:4.5,smooth](\x,{7/3-2/3*\x})node[right,yshift=-2mm]{$g(x)=\frac73-\frac23x$};
+\end{scope}
+\end{tikzpicture}}
+\sonly<2-|handout:0>{
+\begin{multicols}{2}
+\only<2->{
+	\begin{tikzpicture}[xscale=0.75]
+	\myaxis{x}{0}{5.75}{y}{1}{3}
+	\draw[W1,very thick]plot[domain=.33:4.5,smooth](\x,{1/\x})node[right,yshift=2mm]{$f(x)=\frac1 x$};
+	\draw[C2,very thick] plot[domain=0:4.3,smooth](\x,{7/3-2/3*\x})node[right,yshift=-2mm]{$g(x)=\frac73-\frac23x$};
+	\fill[W1,opacity=0.3] plot[domain=.5:3,smooth](\x,{1/\x}) plot[domain=3:.5,smooth](\x,{7/3-2/3*\x});
+	
+	\onslide<3->{\xcoord{.5}{\frac12} \xcoord{3}{3}}
+	\end{tikzpicture}
+	\columnbreak
+	}
+\onslide<3->{\begin{align*}
+\frac{1}{x}&=\frac{7-2x}{3}\\
+3&=7x-2x^2\\
+0&=2x^2-7x+3\\
+x&=\frac{7 \pm\sqrt{7^2-4(2)(3)}}{4}\\
+ &=\frac{7 \pm\sqrt{25}}{4}\\
+x&=\frac12 \text{ and }x=3
+\end{align*}}
+\end{multicols}
+\sonslide<3->{\vspace{-7mm}\small
+\begin{align*}
+\int_{\frac12}^3 \big[g(x)-f(x)\big]\dee x&=\int_{\frac12}^3 \left[\frac73-\frac23x-\frac1x\right]\dee x
+=\left[\frac73x-\frac13x^2-\log x\right]_{\frac12}^3\\
+&=\left(7-3-\log 3\right)-\left(\frac{7}{6}-\frac{1}{12}-\log\frac12\right)=\frac{35}{12}-\log 6
+\end{align*}
+}
+}%full-version only section
+\nsonly<2|handout:0>{
+\begin{tikzpicture}[scale=0.3]
+	\myaxis{}{0}{5.75}{y}{1}{3}
+	\draw[W1,very thick]plot[domain=.33:4.5,smooth](\x,{1/\x})node[right,yshift=2mm]{$f(x)=\frac1 x$};
+	\draw[C2,very thick] plot[domain=0:4.3,smooth](\x,{7/3-2/3*\x})node[right,yshift=-2mm]{$g(x)=\frac73-\frac23x$};
+	\fill[W1,opacity=0.3] plot[domain=.5:3,smooth](\x,{1/\x}) plot[domain=3:.5,smooth](\x,{7/3-2/3*\x});
+	\end{tikzpicture}
+}%lecture-version only section
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\iftoggle{spoiler}{\COPY{2}{\sl}}{\COPY{1}{\sl}}
+\QuestionBar<1-2>{4}{5}
+\AnswerBar<3-4>{4}{5}
+
+\sStatusBar{1}{4} 
+\AnswerYes<1,3>
+\sMoreSpace<2>
+\nsMoreSpace<1>
+%top function changes
+Find the (unsigned) area in the figure below between the curves $f(x)$ and $g(x)$ from $x=0$ to $x=1$.
+\only<-\sl>{
+\begin{multicols}{2}
+\begin{tikzpicture}[xscale=2]
+\myaxis{x}{.5}{1.5}{y}{1.2}{3}
+\xcoord{1}{1}
+\draw[dashed] (1,0)--(1,2.9);
+\draw[W1,very thick] plot[domain=-.5:1.05,smooth](\x,{\x*exp(\x*\x)})node[right]{$f(x)=xe^{x^2}$};
+\draw[C2,very thick] plot[domain=-.5:1.5,smooth](\x,{\x*exp(1-\x*\x)})node[right]{$g(x)=xe^{1-x^2}$};
+\fill[W1,opacity=0.3] plot[domain=1:0,smooth](\x,{\x*exp(\x*\x)})--plot[domain=0:1,smooth](\x,{\x*exp(1-\x*\x)});
+\sonslide<2->{\xcoord{0.707}{\frac{1}{\sqrt 2}}}
+\end{tikzpicture}
+
+\sonslide<2->{
+Intersections at $x=0$ and $ x = \pm\frac{1}{\sqrt 2}$:
+\begin{align*}
+xe^{x^2}&=xe^{1-x^2}\\
+e^{x^2}&=e^{1-x^2}\text{ or }x=0\\
+x^2&=1-x^2\\
+ x &= \pm\frac{1}{\sqrt 2}
+\end{align*}
+}
+\end{multicols}}
+
+\sonslide<2->{
+\small
+\begin{align*}
+\text{Area}&=\int_0^{\frac{1}{\sqrt 2}}\Big[\textcolor{C2}{g(x)}-\textcolor{W1}{f(x)}\Big]\dee x+\int_{\frac{1}{\sqrt 2}}^1\Big[\,\textcolor{W1}{f(x)}-\textcolor{C2}{g(x)}\Big]\dee x\\
+\only<3->{&=\int_0^{\frac{1}{\sqrt 2}}\Big[xe^{1-x^2}-xe^{x^2}\Big]\dee x+\int_{\frac{1}{\sqrt 2}}^1\Big[xe^{x^2}-xe^{1-x^2}\Big]\dee x \\}
+\only<4->{\color{black}
+\text{Aside: }&\color{black}\underbrace{\int \sdu{x}e^{\su{1-x^2}}\sdu{\dee x}}_{\su{u=1-x^2},~\sdu{\dee u = -2x\,\dee x}}=-\frac12e^{1-x^2} +C\qquad
+\underbrace{\int \sdu{x}e^{\su{x^2}}\sdu{\dee x}}_{\su{u=x^2},~\sdu{\dee u = 2x\,\dee x}}=\frac12e^{x^2} +C
+\\\text{Area}&=
+\left[-\frac12e^{1-x^2}-\frac12e^{x^2} \right]_0^{\frac{1}{\sqrt 2}}
++
+\left[\frac12e^{x^2} -\left(-\frac12e^{1-x^2}\right)\right]_{\frac{1}{\sqrt 2}}^1\\
+&=-\frac12\left[\left(e^{\frac12}+e^{\frac12}\right)-\left(e^1+e^0\right)\right]
++
+\frac12\left[\left(e^1+e^0\right)-\left(e^{\frac12}+e^{\frac12}\right)\right]\\
+&=e-2\sqrt e+1
+}
+\end{align*}
+}
+
+\nsonly<2|handout:0>{\begin{tikzpicture}[yscale=0.5,xscale=1.5]
+\myaxis{x}{0}{1.5}{y}{0}{3}
+\xcoord{1}{1}
+\draw[dashed] (1,0)--(1,2.9);
+\draw[W1,very thick] plot[domain=-0:1.,smooth](\x,{\x*exp(\x*\x)})node[right]{$f(x)=xe^{x^2}$};
+\draw[C2,very thick] plot[domain=-0:1,smooth](\x,{\x*exp(1-\x*\x)})node[right]{$g(x)=xe^{1-x^2}$};
+\fill[W1,opacity=0.3] plot[domain=1:0,smooth](\x,{\x*exp(\x*\x)})--plot[domain=0:1,smooth](\x,{\x*exp(1-\x*\x)});
+\end{tikzpicture}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\QuestionBar{5}{5}
+\sStatusBar{1}{3}
+\AnswerYes
+%%rotate
+Set up, but do not evaluate, integral(s) to find the (unsigned) area of the finite region bounded by $x=1+y^2$ and $y=x-3$.
+%
+%
+\begin{tikzpicture}[scale=0.9]
+\myaxis{x}{0}{6}{y}{2}{3}
+\draw[W1,very thick] plot[domain=-2.2:2.2,smooth]({1+\x*\x},{\x})node[right]{$x=1+y^2$};
+\draw[C2,very thick] plot[domain=1:6,smooth](\x,{\x-3})node[right]{$y=x-3$};
+
+\sonslide<2->{
+\xcoord{2}{2} \xcoord{5}{5}
+\ycoord{-1}{-1} \ycoord{2}{2}
+\xcoord{1}{1}
+\onslide<2>{
+\draw[dashed] (0,-1)-| (2,-0.5) (0,2)-|(5,0);}
+
+\onslide<3->{
+	\fill[W4,opacity=0.3] (2,-1)--plot[domain=-1:1,smooth]({1+\x*\x},{\x})--cycle;
+	\draw[M2, ultra thick, |-|] plot[domain=0:1,smooth]({1+\x*\x},{\x})node[above left]{$y=\sqrt{x-1}$};
+	\draw[C2, ultra thick, |-|] plot[domain=0:-1,smooth]({1+\x*\x},{\x})node[below left,fill=white,inner sep=0,yshift=-2mm]{$y=-\sqrt{x-1}$};
+	
+	\fill[W1,opacity=0.3] (2,-1)--(5,2)plot[domain=2:1,smooth]({1+\x*\x},{\x})--(2,-1);
+	}
+
+
+}%end full-version-only section
+\end{tikzpicture}
+
+
+\sonslide<3>{
+\[\text{Option 1:}\qquad\int_1^2 \left[\sqrt{x-1}-\left(-\sqrt{x-1}\right)\right]\dee x + \int_2^5 \left[\sqrt{x-1}-(x-3)\right]\dee x\]}
+\end{frame}
+%%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerBar{5}{5}
+\AnswerYes<1>
+\AnswerNo<2>
+\sStatusBar{1}{2}
+\NoSpace
+%%rotate
+Set up, but do not evaluate, integral(s) to find the (unsigned) area of the finite region bounded by $x=1+y^2$ and $y=x-3$.
+
+\only<beamer>{\sonly{Option 2: }Swapping $x$ and $y$ results in a figure with the same area.}
+
+\begin{tikzpicture}[scale=0.5]
+\myaxis{x}{0}{6}{y}{2}{3}
+\draw[W1,very thick] plot[domain=-2.2:2.2,smooth]({1+\x*\x},{\x})node[right]{$x=1+y^2$};
+\draw[C2,very thick] plot[domain=1:6,smooth](\x,{\x-3})node[right]{$y=x-3$};
+
+\fill[W1,opacity=0.3] (2,-1)--plot[domain=-1:1,smooth]({1+\x*\x},{\x})--cycle;
+\fill[W4,opacity=0.3] (2,-1)--(5,2)plot[domain=2:1,smooth]({1+\x*\x},{\x})--(2,-1);
+\xcoord[C1]{1}{1} \xcoord[C1]{2}{2} \xcoord[C1]{5}{5}
+\ycoord[C1]{-1}{-1} \ycoord[C1]{2}{2}
+
+
+\begin{scope}[xshift=15cm,yshift=-2cm]
+\myaxis{x}{2}{3}{y}{0}{6}
+\draw[W1,very thick] plot[domain=-2.2:2.2,smooth](\x,{1+\x*\x})node[below right]{$y=1+x^2$};
+\draw[C2,very thick] plot[domain=1:6.5,smooth]({\x-3},{\x})node[above right]{$x=y-3$};
+\fill[C3,opacity=0.3] (-1,2)--plot [domain=-1:2,smooth](\x,{1+\x*\x})--cycle;
+
+\xcoord[C1]{-1}{-1} \xcoord[C1]{2}{2}
+\end{scope}
+\end{tikzpicture}
+
+
+\sonslide<2->{
+\[\int_{-1}^2 \left[(x+3)-(1+x^2)\right]\dee x\]}
+\end{frame}
+%%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------

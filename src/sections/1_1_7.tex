@@ -1,0 +1,621 @@
+% Copyright 2021 Joel Feldman, Andrew Rechnitzer and Elyse Yeager, except where noted.
+% This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+\setbeamertemplate{theorems}[numbered]%for general ideas
+\newtheorem{prop}{Proposition}
+
+
+ \begin{frame}{Table of Contents }
+\mapofcontentsA{\aa,\aintro}
+ \end{frame}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+\section{1.1.6 (Optional) Careful Definition of the Integral}
+\label{note1.1.7}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+ \begin{frame}
+ We defined the definite integral as
+ \[\int_a^b f(x)~\dee x  = \lim_{N \to \infty}\sum_{i=1}^N \Delta x \cdot f\left(x_{i,N}^*\right)\]
+ where $\Delta x = \frac{b-a}{N}$ and $x_{i,N}^*$ is a point in the interval $\left[a+(i-1)\Delta x~,~a+i\Delta x\right]$.\vfill
+ 
+We have seen in previous classes that limits don't always exist. We will verify that this limit does indeed exist, and is equal to the desired area (at least in the most common cases).
+\vfill\pause
+We'll start with some general ideas that appear in the proof.
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section{General Ideas}
+\begin{frame}
+\StatusBar{1}{5}
+\AnswerYes<4>
+Suppose $x$ and $y$ are both in the interval $[a,b]$. What is the maximum possible value of $|x-y|$?
+\vfill
+\begin{center}
+\begin{tikzpicture}
+\draw[<->,help lines] (-1,0)--(6,0);
+\nxcoord{0}{a}
+\nxcoord{5}{b}
+
+\color{W1}
+\foreach \s/\x/\y in {1/2/1,2/3/4,3/1/4,4-/0/5}{
+\onslide<\s|handout:0>{\xcoord{\x}{x} \xcoord{\y}{y}
+\ifnum \x < \y %decide whether to mirror
+\draw[decorate,decoration={brace,amplitude=10pt,mirror}](\x,-.75)--(\y,-.75)node[midway,below,yshift=-5mm]{$|x-y|$};
+\else
+\draw[decorate,decoration={brace,amplitude=10pt}](\x,-.75)--(\y,-.75)node[midway,below,yshift=-5mm]{$|x-y|$};
+\fi
+}}
+\end{tikzpicture}
+\vfill
+\begin{block}{\small Proposition 1: distance between two numbers in an interval}\label{P1}
+If $a \leq x \leq b$ and $a \leq y \leq b$, then \sonslide<5>{$|x-y| \leq \only<beamer>{b-a.}$}
+\end{block}
+\end{center}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}
+%\label{note1.1.7}
+\StatusBar{1}{4}
+\begin{block}{\small Proposition 2: area inequality}\label{P2}
+Let $f(x)$ be a function, defined over the interval $[a,b]$. If $m \le f(x) \le M$ over the entire interval $[a,b]$, then the (signed) area between the curve $y=f(x)$ and the $x$-axis, from $a$ to $b$, is between $m(b-a)$ and $M(b-a)$.
+\end{block}
+
+\begin{center}\begin{tikzpicture}
+\myaxis{x}{0}{5}{y}{0}{3.2}
+\xcoord{1}{a} \xcoord{4}{b}
+\draw[C1,thick] plot[domain=0:5,smooth,samples=50](\x,{sin(6*\x r)/5+2.5-\x/2.75})node[right]{$f(x)$};
+\ycoord{3}{M} \draw[dashed] (.2,3)--(5,3);
+\ycoord{0.5}{m} \draw[dashed] (.2,.5)--(5,.5);
+\onslide<2|handout:0>{\fill[W1,opacity=0.2] (1,0) rectangle (4,0.5); }
+\onslide<3|handout:0>{\fill[C1,opacity=0.2] (1,0)-- plot[domain=1:4](\x,{sin(6*\x r)/5+2.5-\x/2.75})|-cycle; }
+\onslide<4|handout:0>{\fill[W1,opacity=0.2] (1,0) rectangle (4,3); }
+
+\end{tikzpicture}\end{center}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%%----------------------------------------------------------------------------------------
+%\begin{frame}[t]
+%\AnswerYes<1>\AnswerSpace
+%Proposition 2: If $f(x) \leq g(x)$ for all $x$ in $[a,b]$, then $\int_a^b f(x)\,\dee x\leq \int_a^b g(x)\,\dee x$.\\
+%Proof:
+%\sonslide<2>{\begin{alignat*}{3}
+%&f(x)&& \le &&g(x)\\
+%\implies &f(x_{i,n}^*)&& \le& &g(x_{i,n}^*)\\
+%\implies &f(x_{i,n}^*)\frac{b-a}{n}&& \le& &g(x_{i,n}^*)\frac{b-a}{n}\\
+%\implies \sum_{i=1}^n\,&f(x_{i,n}^*)\frac{b-a}{n}&&\le& \sum_{i=1}^n\, &g(x_{i,n}^*)\frac{b-a}{n}\\
+%\implies \lim_{n \to \infty}\sum_{i=1}^n\,&f(x_{i,n}^*)\frac{b-a}{n}&&\le& \lim_{n \to\infty}\sum_{i=1}^n\, &g(x_{i,n}^*)\frac{b-a}{n}\\
+%\implies \int_a^b &f(x)\,\dee x &&\le & \int_a^b&g(x)\,\dee x
+%\end{alignat*}}
+%
+%\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+ \begin{frame}
+ Intuition: If \alert<2|handout:0>{$f'(x)$ is bounded} on $(a,b)$ and \alert<3|handout:0>{$b-a$ is small}, then \alert<4|handout:0>{$f(b)-f(a)$ is also small}.
+ \vfill
+ 
+\begin{center}
+\begin{tikzpicture}[xscale=3]
+\draw[help lines, ->] (-0.25,0)--(2.25,0)node[right]{$x$};
+\xcoord{0}{a} \xcoord{2}{b}
+\draw (0,0.5)node[vertex]{}; \draw (2,2)node[vertex]{};
+\draw[C1,thick] plot[domain=0:2,smooth](\x,{sin(6*\x r)/10+0.79*\x+0.5});
+\color{W2}
+\onslide<2->{\draw[|->] (0,1)--(1,1.75) node[midway,above,rotate=14]{not very steep};}
+\onslide<3->{\draw[|->](0,-1)--(2,-1)node[midway,below]{not very far};}
+\onslide<4->{\draw[|->] (2.25,.5)--(2.25,2)node[midway,right]{not very far};}
+\end{tikzpicture}
+\end{center}
+\vfill
+
+\onslide<5->{The Mean Value Theorem provides a more explicit connection between these quantities.}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+ \begin{frame}[t]
+ \StatusBar{1}{4}
+\begin{center}
+\begin{tikzpicture}[xscale=3,yscale=0.8]
+\draw[help lines, ->] (-0.25,0)--(2.25,0)node[right]{$x$};
+\xcoord{0}{a} \xcoord{2}{b}
+\draw[M4,thin] (0,0.5)--(2,2); \draw (0,0.5)node[vertex]{}; \draw (2,2)node[vertex]{};
+
+\onslide<2>{\draw[C1, thick] plot[domain=0:2,smooth](\x,{0.265+0.235*exp(\x)});
+\draw[M4,thin,xshift=1.16cm,yshift=1.015 cm](-0.5,-0.375)--(0.5,0.375);}
+\onslide<3|handout:0>{\draw[C1, thick] plot[domain=0:2,smooth](\x,{1.875*\x*\x/(1+\x*\x)+0.5});
+\draw[M4,thin,xshift=1.11cm,yshift=1.55 cm](-0.5,-0.375)--(0.5,0.375);}
+\onslide<4|handout:0>{\draw[C1, thick] plot[domain=0:2,smooth](\x,{3/7*(\x-1.5)*(\x-1.5)*(\x-1.5)+1.946});
+\draw[M4,thin,xshift=0.74cm,yshift=1.758 cm](-0.5,-0.375)--(0.5,0.375);}
+\end{tikzpicture}
+\end{center}\vfill
+
+ 
+\begin{block}{Mean Value Theorem}
+Let $a$ and $b$ be real numbers with $a<b$. Let $f$ be a function such that
+\begin{itemize}
+\item $f(x)$ is continuous on the closed interval $a \le x \le b$, and
+\item $f(x)$ is differentiable on the open interval $a<x<b$.
+\end{itemize}
+Then there is a $c$ in $(a,b)$ such that
+\[ f(b)-f(a) = f'(c)(b-a).\]\pause
+Equivalently: $f'(c)=\frac{f(b)-f(a)}{b-a}$.
+\end{block}
+
+\unote{CLP1 Theorem~\eref{text1}{thm:DIFFmvt}, the mean value theorem}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\AnswerSpace
+\only<2>{\AnswerNo}
+
+\begin{block}{Triangle Inequality}%CLP1 lemma 1.9.1; but there's no /ref there to cite it here
+For any real numbers $x_1,~x_2,~\cdots,~x_n$:
+
+\[\left|\sum_{i=1}^n x_i \right|\leq \sum_{i=1}^n |x_i|\]
+\end{block}
+Intuition: If some terms are positive and some are negative, they ``cancel each other out" and make the overall sum smaller.
+\pause\vfill
+
+\begin{align*}
+&|1+2|   &&|1|+|2|\\[1.5em]
+&|1+(-2)|  && |1|+|-2| \\[1.5em]
+&|(-1)+(-2)|  && |-1|+|-2| 
+\end{align*}
+
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\AnswerYes<1>
+\AnswerSpace
+\begin{block}{Triangle Inequality}%CLP1 lemma 1.9.1; but there's no /ref there to cite it here
+For any real numbers $x_1,~x_2,~\cdots,~x_n$:
+
+\[\left|\sum_{i=1}^n x_i \right|\leq \sum_{i=1}^n |x_i|\]
+\end{block}
+Proof outline:\vfill
+
+\sonslide<2>{Let $x$ and $y$ be any real numbers.
+\begin{itemize}\color{spoilercolor}
+\item $x \leq |x|$ and $y \le |y|$, so $x+y \leq |x|+|y|$
+\item $-x \leq |x|$ and $-y \le |y|$, so $-(x+y) = (-x)+(-y) \leq |x|+|y|$
+\item $|x+y| = \begin{cases}
+x+y & \mbox{ if }x+y \ge 0\\
+-(x+y) & \mbox{ if }x+y < 0
+\end{cases}\quad \leq |x|+|y|$
+\item Then $|x+y+z| = |(x+y)+z| \leq |x+y|+|z| \leq |x|+|y|+|z|$, etc.
+\end{itemize}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+ \begin{frame}[t]{Requirements}
+ We will consider
+ \[\int_a^b f(x)~\dee x\]
+ where:
+ \begin{itemize}
+ \item $a<b$
+ \item $f(x)$ is continuous over the interval $[a,b]$
+  \item $f(x)$ is differentiable over the interval $(a,b)$
+  \item $f'(x)$ is bounded over the interval $(a,b)$. 
+  That is, there exists a positive constant number $F$ such that $|f'(x)|\leq F$ for all $x$ in the interval $(a,b)$.
+ \end{itemize}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section{Error in a Single Slice}
+ \begin{frame}[t]{Error in a Single Slice}
+ \StatusBar{1}{6}
+Consider approximating the area of single slice, from $x_0$ to $x_1$.
+ 
+ \begin{multicols}{2}
+
+%f(x)=-0.5x^2+1.5x+2
+ \begin{tikzpicture}
+  \draw[help lines,->] (-0.5,0)--(2.5,0)node[right]{$x$};
+\draw[thick,C1] (0,0)--plot[domain=0:2,smooth](\x,{-\x*\x/2+1.5*\x+2})--(2,0);
+\xcoord{0}{x_0} \xcoord{2}{x_1};
+\fill[W1, opacity=0.3] (0,0)--plot[domain=0:2,smooth](\x,{-\x*\x/2+1.5*\x+2})--(2,0)--cycle;
+\draw[W1] (1,1)node{$A$};
+
+\onslide<2->{\draw(0,2)node[vertex,label=left:{$f(\underline x)$}]{}; \draw(1.5,3.125)node[vertex,label=above:{$f(\overline x)$}]{}; }
+\onslide<4|handout:0>{\draw[C1,fill=C1, fill opacity=0.1] (0,0) rectangle (2,2);}
+\onslide<5|handout:0>{\draw[C1,fill=C1, fill opacity=0.1] (0,0) rectangle (2,3.125);}
+ \end{tikzpicture}
+\columnbreak
+ 
+\begin{itemize}[<+-|alert@+>]
+\item $A$ is the actual area of the slice
+\item $f(\overline x)$ and $f(\underline x)$ are the largest and smallest function values over the slice
+\item Our slice has width $x_1-x_0$
+\end{itemize}
+\end{multicols}
+\onslide<+->{
+Then we can bound our area:
+\only<beamer>{\[ \alert<4>{f(\underline x)\cdot(x_1-x_0) }~\leq ~A~\alert<5>{ \leq~ f(\overline x)\cdot(x_1-x_0)}\]}}
+
+\only<4->{\unote{Proposition 2: area inequality}}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+ \begin{frame}[t]{Error in a Single Slice}
+ \StatusBar{1}{6}
+ Consider approximating the area of single slice, from $x_0$ to $x_1$.
+ 
+ \begin{multicols}{2}
+
+%f(x)=-0.5x^2+1.5x+2
+ \begin{tikzpicture}
+  \draw[help lines,->] (-0.5,0)--(2.5,0)node[right]{$x$};
+\draw[thick,C1] (0,0)--plot[domain=0:2,smooth](\x,{-\x*\x/2+1.5*\x+2})--(2,0);
+\draw(0,2)node[vertex,label=left:{$f(\underline x)$}]{};
+\draw(1.5,3.125)node[vertex,label=above:{$f(\overline x)$}]{}; 
+\draw(.75,2.84)node[vertex,label=above:{$f( x^*)$}]{}; 
+\xcoord{0}{x_0} \xcoord{2}{x_1} \xcoord{0.75}{x^*};
+
+\onslide<2->{\draw[fill=M5, fill opacity=0.5] (0,0) rectangle (2,2.84);}
+\onslide<4|handout:0>{\draw[C1,fill=C1, fill opacity=0.1] (0,0) rectangle (2,2);}
+\onslide<5|handout:0>{\draw[C1,fill=C1, fill opacity=0.1] (0,0) rectangle (2,3.125);}
+ \end{tikzpicture}
+\columnbreak
+ 
+\begin{itemize}
+\item<1-|alert@1>  $f(x^*)\cdot (x_1-x_0)$ is our approximation of the area of the slice, for some $x^*$ in the interval $[x_0,x_1]$.
+\item<3-|alert@3> $f(\overline x)$ and $f(\underline x)$ are the largest and smallest function values over the slice, so 
+\[f(\underline x) \leq f(x^*) \leq f(\overline x)\]
+\end{itemize}
+\end{multicols}
+\onslide<4->{
+Then we can bound our approximation:
+\only<beamer>{\[ \alert<4>{f(\underline x)\cdot(x_1-x_0) }~\leq ~f(x^*)\cdot (x_1-x_0)~\alert<5>{ \leq~ f(\overline x)\cdot(x_1-x_0)}\]}}
+
+\onslide<4->{\unote{using Proposition 2: area inequality}}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+ \begin{frame}[t]{Error in a Single Slice}
+ \vspace{-3mm}
+  \begin{tikzpicture}[scale=0.9]
+  \draw[help lines,->] (-0.5,0)--(2.25,0)node[right]{$x$};
+\draw[thick,C1] (0,0)--plot[domain=0:2,smooth](\x,{-\x*\x/2+1.5*\x+2})--(2,0);
+\draw(0,2)node[vertex,label=left:{$f(\underline x)$}]{};
+\xcoord{0}{x_0} \xcoord{2}{x_1}
+
+\draw[C1, fill=C1, fill opacity=0.2](0,0) rectangle (2,2);
+ \end{tikzpicture}
+ \hfill
+  \begin{tikzpicture}[scale=0.9]
+  \draw[help lines,->] (-0.5,0)--(2.25,0)node[right]{$x$};
+\draw[thick,C1] (0,0)--plot[domain=0:2,smooth](\x,{-\x*\x/2+1.5*\x+2})--(2,0);
+\draw(.75,2.84)node[vertex,label=above:{$f( x^*)$}]{}; 
+\xcoord{0}{x_0} \xcoord{2}{x_1} \xcoord{0.75}{x^*};
+\fill[W1, opacity=0.3] (0,0)--plot[domain=0:2,smooth](\x,{-\x*\x/2+1.5*\x+2})--(2,0)--cycle;
+\draw[fill=M5, fill opacity=0.3] (0,0) rectangle (2,2.84);
+ \end{tikzpicture}
+ \hfill
+  \begin{tikzpicture}[scale=0.9]
+  \draw[help lines,->] (-0.5,0)--(2.25,0)node[right]{$x$};
+\draw[thick,C1] (0,0)--plot[domain=0:2,smooth](\x,{-\x*\x/2+1.5*\x+2})--(2,0);
+\draw(1.5,3.125)node[vertex,label=above:{$f(\overline x)$}]{}; 
+\xcoord{0}{x_0} \xcoord{2}{x_1} 
+\draw[C1, fill=C1, fill opacity=0.2](0,0) rectangle (2,3.125);
+ \end{tikzpicture}
+ 
+ 
+\begin{align*}
+f(\underline x)\cdot(x_1-x_0) &&\leq&&& \textcolor{W1}{A} &&\leq&& f(\overline x)\cdot(x_1-x_0)\\
+f(\underline x)\cdot(x_1-x_0) &&\leq&&& \textcolor{M5}{f(x^*)\cdot (x_1-x_0)}&&\leq&& f(\overline x)\cdot(x_1-x_0)\\
+\end{align*}
+\pause\vspace{-5mm}
+\[\underbrace{\left| \textcolor{W1}{A} - \textcolor{M5}{f(x^*)\cdot (x_1-x_0)}\right|}_{\text{error in slice}}~\leq~\sonslide<3-|handout:0>{\left[f(\overline x)-f(\underline x)\right]\cdot(x_1-x_0)}\]
+
+\unote{using Proposition 1: difference between two numbers in a given interval}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+ \begin{frame}{Error in a Single Slice}
+\begin{itemize}[<+->]
+\item The error in our single slice is at most $\left[f(\overline x)-f(\underline x)\right]\cdot(x_1-x_0)$\vfill
+\item We want to show that our total error is not too large.\vfill
+\item Intuitively, if $|f'(x)|$ is never very large, and $x_1-x_0$ is not very large, then $f(\overline x)-f(\underline x)$ is not very large.
+\end{itemize}
+\onslide<3->{
+\begin{center}
+\begin{tikzpicture}[xscale=3]
+\draw[help lines, ->] (-0.25,0)--(2.25,0)node[right]{$x$};
+\xcoord{0}{\underline x} \xcoord{2}{\overline x}
+ \draw (0,0.5)node[vertex]{}; \draw (2,2)node[vertex]{};
+\draw[C1, thick] plot[domain=0:2,smooth](\x,{0.265+0.235*exp(\x)});
+\onslide<4->{\draw[M4,thin] (0,0.5)--(2,2);
+\draw[M4,thin,xshift=1.16cm,yshift=1.015 cm](-0.5,-0.375)--(0.5,0.375);}
+\end{tikzpicture}
+\end{center}
+}
+\StatusBar{1}{4}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+ \begin{frame}[t]{Error in a Single Slice}
+\begin{block}{Mean Value Theorem}
+Let $a$ and $b$ be real numbers with $a<b$. Let $f$ be a function such that
+\begin{itemize}
+\item $f(x)$ is continuous on the closed interval $a \le x \le b$, and
+\item $f(x)$ is differentiable on the open interval $a<x<b$.
+\end{itemize}
+Then there is a $c$ in $(a,b)$ such that
+\[ f(b)-f(a) = f'(c)(b-a)\]
+\end{block}
+There exists some $c$ in $(x_0,x_1)$ such that
+\[f(\overline x ) - f(\underline x) = f'(c)\cdot (\overline x-\underline x) \]\pause
+Since $|f'(x)|$ is never larger than the positive constant $F$ in $(a,b)$,
+\[|f(\overline x ) - f(\underline x) |\leq F\cdot |\overline x-\underline x| \le F \cdot |x_1-x_0| \]
+
+\unote{CLP1 Theorem~\eref{text1}{thm:DIFFmvt}, the mean value theorem\only<2->{, and Proposition 1}}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+ \begin{frame}[t]{Error in a Single Slice}
+\AnswerYes<1>
+\AnswerSpace
+All together,
+\color{spoilercolor}
+\begin{align*}
+\color{black}\underbrace{\left|A - f(x^*)\cdot (x_1-x_0)\right|}_{\text{error in slice}}&\leq\nsonslide<1>{\hspace{5cm}}\sonslide<2->{\alert{\left[f(\overline x)-f(\underline x)\right]}\cdot(x_1-x_0)\\
+& \leq \alert{ F\cdot |\overline x-\underline x| }\cdot(x_1-x_0)\\[1em]
+& \leq \alert{ F\cdot ( x_1-x_0) }\cdot(x_1-x_0)\\[2em]
+\intertext{So,}\underbrace{\left|A - f(x^*)\cdot (x_1-x_0)\right|}_{\text{error in slice}}&\leq F \cdot (x_1-x_0)^2}
+\end{align*}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\section{Overall Error}
+ \begin{frame}
+ We have shown that the error on a \alert{single} slice can't be worse than some amount. 
+ \vfill
+ Now let's consider adding up slices.
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\StatusBar{1}{4}
+What we did for a single slice, we now do for all slices.\\ Updated notation for slice $j$:
+\vfill
+\begin{center}
+%f(x)=-0.5x^2+1.5x+2
+\begin{tikzpicture}
+\draw[help lines,->] (-0.5,0)--(2.5,0)node[right]{$x$};
+\draw[thick,C1] (0,0)--plot[domain=0:2,smooth](\x,{-\x*\x/2+1.5*\x+2})--(2,0);
+\xcoord{0}{x_{j-1}} \xcoord{2}{x_j} 
+
+\onslide<2>{\fill[W1, opacity=0.3] (0,0)--plot[domain=0:2,smooth](\x,{-\x*\x/2+1.5*\x+2})--(2,0)--cycle;
+\draw[W1] (1,1)node{$A_j$};}
+
+\onslide<3->{\draw[fill=M5, fill opacity=0.5] (0,0) rectangle (2,2.84);
+\xcoord[W2]{0.75}{x_j^*}
+\draw(.75,2.84)node[vertex,label=above:{$f( x_j^*)$}]{}; }
+
+%\onslide<4>{\draw(0,2)node[vertex,label=left:{$f(\underline x_j)$}]{}; \draw(1.5,3.125)node[vertex,label=above:{$f(\overline x_j)$}]{};}
+ \end{tikzpicture}
+\end{center}
+\vfill
+\onslide<4->{Slice error bound:
+\[\left|A_j - f(x_j^*)\cdot(x_j-x_{j-1})\right| \leq F\cdot(x_j-x_{j-1})^2\]}
+\end{frame}
+%----------------------------------------------------------------------------------------%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+ \begin{frame}[t]{(Possibly Irregular) Partitions}
+ Consider partitioning the interval $[a,b]$ into $n$ subintervals, not necessarily the same size. Let the points at the edges of the slices be $a=x_0,x_1, x_2, \cdots,x_{n-1},x_n=b$.
+ \vfill
+ \onslide<2->{In each part, choose a vertex $x_i^*$ to sample the height of the function.}
+\vfill
+ \begin{center}
+ \begin{tikzpicture}
+ \draw[<->,  help lines] (-1,0)--(9,0)node[right]{$x$};
+\draw (0,1)--(0,-0.2)node[below]{$a=x_0$};
+\draw (8.5,1)--(8.5,-0.2)node[below]{$x_n=b$};
+  \foreach \i in {1,...,5}{
+  	\SIN{\i}{\e}%to make the partition irregular, add a multiple of sine
+	\DIVIDE{\e}{2}{\f}
+	\ADD{\i}{\f}{\x}
+	\draw(\x,1)--(\x,-0.2)node[below]{$x_\i$};
+	\onslide<2->{
+		\SUBTRACT{\x}{.25}{\xstar}
+		\nxcoord[W2]{\xstar}{\small x_\i^*}
+		}
+	}
+\draw (6.5,-.25)node{$\cdots$};
+ \end{tikzpicture}
+\end{center}\vfill
+
+\onslide<3->{  The approximation of $\int_a^b f(x)~\dee x$ depends on how you choose your subintervals, and where you choose your sample points. Let
+  \[\mathbb P = (n,x_1,x_2,\cdots,x_{n-1},x_1^*,x_2^*,\cdots,x_n^*)\]
+  denote these choices.
+  }
+\end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\StatusBar{1}{3}
+Let $\mathcal I(\mathbb P)$ be the approximation that arises from $\mathbb P$:
+\[\mathcal I(\mathbb P)=\sum_{i=1}^n f(x_i^*)(x_i-x_{i-1}) \]
+\begin{center}
+%f(x)=sin x + x/2, [0,5]
+\begin{tikzpicture}
+\draw[<->,help lines] (-0.5,0)--(5.5,0)node[right]{$x$};
+\draw[C1,thick] plot[domain=0:5,smooth](\x,{sin(\x r)+\x/2});
+\xcoord{0}{x_0}
+\draw (0,0) coordinate (x0);
+
+\foreach \s/\N in {1/4,2/5,3/5}{
+	\ifnum \s = 1
+		\newcommand{\slideinstructions}{1}
+	\else
+		\newcommand{\slideinstructions}{\s|handout:0}
+	\fi %%only show slide 1 on handout
+	\onslide<\slideinstructions>{\xcoord{5}{x_{\N}} \draw (5,0) coordinate (x\N);}
+\foreach \i in {1,...,\N}{
+	\ifnum \s=2 
+		\SIN{\i}{\e}
+	\else
+		\COS{\i}{\e}
+	\fi
+	\DIVIDE{\e}{2}{\f}
+	\ADD{\i}{\f}{\x}
+	\ifnum \i=\N \COPY{5}{\x} \fi %x_N doesn't change
+	\ifnum \i<\N
+		\onslide<\slideinstructions>{\xcoord{\x}{x_\i}}
+		\onslide<\slideinstructions>{\draw (\x,0) coordinate(x\i);}
+	\fi
+	\ifnum \i>0
+		\SUBTRACT{\x}{.3}{\xstar}
+		\onslide<\slideinstructions>{\nxcoord[M4]{\xstar}{x_\i^*}}
+		\SIN{\xstar}{\h}
+		\DIVIDE{\xstar}{2}{\j}
+		\ADD{\h}{\j}{\ystar}
+		\onslide<\slideinstructions>{\draw (\xstar,\ystar)node[M4,vertex]{};}%y samples
+		\SUBTRACT{\i}{1}{\ii}
+		\onslide<\slideinstructions>{\draw[M\i,fill=M\i, fill opacity=0.2] (x\ii) rectangle (\x,\ystar);}
+	\fi
+	}
+	
+}
+%M(P) by hand
+\onslide<1>{\draw[decorate,decoration={brace, amplitude=10pt,mirror}] (2.5,-.6)--(5,-.6)node[midway,below,yshift=-3mm]{$M(\mathbb P)$};}
+\onslide<2|handout:0>{\draw[decorate,decoration={brace, amplitude=10pt,mirror}] (0,-.6)--(1.42,-.6)node[midway,below,yshift=-3mm]{$M(\mathbb P)$};}
+\onslide<3|handout:0>{\draw[decorate,decoration={brace, amplitude=10pt,mirror}] (0,-.6)--(1.3,-.6)node[midway,below,yshift=-3mm]{$M(\mathbb P)$};}
+\end{tikzpicture}
+\end{center}
+
+Let $M(\mathbb P)$ be the maximum width of any subinterval.
+
+\onslide<3->{ If  $M(\mathbb P)$ is small, then \textit{every} subinterval is small (narrow).}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+ \begin{frame}[t]
+ Define the integral as the limit
+ \[\int_a^b f(x)~\dee x = \lim_{M(\mathbb P)\to 0}\mathcal I(\mathbb P)\]
+ (Compare to our previous Riemann sum definition.)
+ \vfill
+ 
+ We will show that the limit exists and is equal to the signed area under the curve.
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\begin{center}
+%f(x)=sin x + x/2+1/2e^(-x), [0,5]
+\begin{tikzpicture}[xscale=2,yscale=0.9]
+\draw[<->,help lines] (-0.1,0)--(5.1,0)node[right]{$x$};
+\draw[C1,thick] plot[domain=0:5,smooth](\x,{sin(\x r)+\x/2+exp(-\x)/2});
+
+\xcoord{0}{x_0}
+\foreach \i in {1,...,5}{
+	\xcoord{\i}{x_\i}
+	\draw[M\i,fill=M\i, fill opacity=0.2] (\i-1,0)--plot[domain=\i-1:\i,smooth](\x,{sin(\x r)+\x/2+exp(-\x)/2})|-cycle;
+	\draw(\i-.5,.5)node[M\i]{$A_\i$};	
+	}
+\end{tikzpicture}
+\end{center}
+Actual area: $\displaystyle\int_a^b f(x)~\dee x = \sum_{i=1}^n A_i$
+
+\vfill
+\begin{center}
+%f(x)=sin x + x/2+1/2e^(-x, [0,5]
+\begin{tikzpicture}[xscale=2,yscale=0.9]
+\draw[<->,help lines] (-0.1,0)--(5.1,0)node[right]{$x$};
+\draw[C1,thick] plot[domain=0:5,smooth](\x,{sin(\x r)+\x/2+exp(-\x)/2});
+
+\xcoord{0}{x_0}
+\foreach \i in {1,...,5}{
+	\xcoord{\i}{x_\i}
+	\SUBTRACT{\i}{.5}{\xstar}
+	\draw[W2] (\xstar,0)--(\xstar,-.1)node[below]{$x_\i^*$};
+	\SIN{\xstar}{\a} %a=sin x
+	\DIVIDE{\xstar}{2}{\b}%b=x/2
+	\ADD{\a}{\b}{\c}%c=sinx + x/2
+	\MULTIPLY{\xstar}{-1}{\nx}
+	\EXP{\nx}{\d}%d=e^(-x)
+	\DIVIDE{\d}{2}{\e}
+	\ADD{\c}{\e}{\ystar}
+	\draw[M\i,fill=M\i, fill opacity=0.2] (\i-1,0) rectangle (\i,\ystar);
+	\SUBTRACT{\i}{1}{\j}
+	\draw(\i-.5,.25)node[M\i]{\tiny $f(x_\i^*)\cdot(x_\i-x_\j)$};	
+	}
+\end{tikzpicture}
+\end{center}
+Approximation: $\displaystyle\mathcal I(\mathbb P)=\sum_{i=1}^n\ f(x_i^*)\cdot (x_i-x_{i-1})$
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\begin{frame}[t]
+\sStatusBar{1}{7}
+\footnotesize
+\begin{align*}
+\underbrace{\left|\int_a^b f(x)~\dee x - \mathcal I(\mathbb P)\right|}_{\text{overall error}}&=
+\onslide<+->{\left|\sum_{i=1}^n A_i ~-~\sum_{i=1}^nf(x_i^*)\cdot(x_i-x_{i-1})
+\right|\\
+&= \left| \sum_{i=1}^n\left[A_i-f(x_i^*)\cdot(x_i-x_{i-1})\right]\right|\\}
+\sonslide<+->{\text{\footnotesize(triangle inequality)}\quad&\leq \sum_{i=1}^n\left|A_i-f(x_i^*)\cdot(x_i-x_{i-1})\right|\\}
+\sonslide<+->{
+	\text{\footnotesize(slice error bound)}\quad & \le  \sum_{i=1}^nF\cdot(x_i-x_{i-1})^2\\}
+\sonslide<+->{&= \sum_{i=1}^n F\cdot (x_i-x_{i-1})\cdot(x_i-x_{i-1})\\}
+\sonslide<+->{&\leq \sum_{i=1}^n F\cdot M(\mathbb P)\cdot(x_i-x_{i-1})\\}
+\sonslide<+->{&=F\cdot M(\mathbb P)\cdot \sum_{i=1}^n (x_i-x_{i-1}) \\}
+\sonslide<+->{&= F\cdot M(\mathbb P) \cdot (b-a)}
+\end{align*}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\StatusBar{1}{3}
+\begin{align*}
+0 && \leq && \underbrace{\left|\int_a^b f(x)~\dee x - \mathcal I(\mathbb P)\right|}_{\text{overall error}}
+&& \leq &&  F\cdot M(\mathbb P) \cdot (b-a)\\
+\onslide<2->{
+\lim_{M(\mathbb P) \to 0}0 &&=0&& &&\lim_{M(\mathbb P) \to 0}  &&\left[F\cdot M(\mathbb P) \cdot (b-a)\right] = 0
+	}
+\end{align*}
+\onslide<3->{So, by the squeeze theorem,
+\[\lim_{M(\mathbb P)\to 0 }  \underbrace{\left|\int_a^b f(x)~\dee x - \mathcal I(\mathbb P)\right|}_{\text{overall error}} =0\]
+That is,
+\[\lim_{M(\mathbb P)\to 0}\mathcal I(\mathbb P) = \int_a^b f(x)~\dee x\]
+}
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+ \begin{frame}{Comparing Definitions}
+Here, we defined
+  \[\int_a^b f(x)~\dee x = \lim_{M(\mathbb P)\to 0}\mathcal I(\mathbb P)\]
+  for ``nice" functions $f(x)$. 
+  
+Originally, we used a slightly different definition:
+\begin{block}{Definition \eref{text}{def:INTintegral} (abridged)}
+For ``nice" functions $f(x)$:
+  \[\int_a^b f(x)~\dee x = \lim_{n \to \infty}\sum_{i=1}^n f(x_{i,n}^*)\cdot\frac{b-a}{n}\]
+  when the limit exists and takes the same value for all choices of the $x_{i,n}^*$'s.
+  \end{block}
+ \end{frame}
+%----------------------------------------------------------------------------------------
+\begin{frame}{Comparing Definitions}
+We showed that \alert{all} families of partitions ``work," as long as their largest subintervals shrink to length 0.
+\vfill
+
+If all families of partitions ``work," then we might as well choose a simple one. The (arguably) simplest choices are regular partitions, cutting the interval $[a,b]$ into $n$ subintervals of length $\frac{b-a}{n}$.
+\end{frame}
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
