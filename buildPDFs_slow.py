@@ -33,7 +33,7 @@ print_handout=True
 print_full=True
 
 
-## There are also miscellaneous files: StudentWorkbook, NotesOnly, and ReadMe
+## There are also miscellaneous files: CLP2StudentWorkbook, NotesOnly, and ReadMe
 ## To choose which to print, set the following to True or False:
 
 print_sections=True
@@ -179,7 +179,7 @@ if print_sections:
 # Make PDFs for miscellaneous files
 #################################################################
 if print_studentworkbook:
-	build_pdf('StudentWorkbook')
+	build_pdf('CLP2StudentWorkbook')
 
 if print_notesonly:
 	#check whether aux files exist; if not, make them

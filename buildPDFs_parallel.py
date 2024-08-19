@@ -28,7 +28,7 @@ print_lecture = True
 print_handout = True
 print_full = True
 
-## There are also miscellaneous files: StudentWorkbook, NotesOnly, and ReadMe
+## There are also miscellaneous files: CLP2StudentWorkbook, NotesOnly, and ReadMe
 ## To choose which to print, set the following to True or False:
 
 print_sections = True
@@ -242,7 +242,7 @@ if __name__ == "__main__":
     
     # Make PDFs for miscellaneous files
     if print_studentworkbook:
-        tasks.append(("StudentWorkbook", False)) #never delete the .tex file
+        tasks.append(("CLP2StudentWorkbook", False)) #never delete the .tex file
     
     # Now that we have the jobs, actually do them
     # thanks to https://stackoverflow.com/questions/41920124/multiprocessing-use-tqdm-to-display-a-progress-bar
@@ -268,7 +268,7 @@ if __name__ == "__main__":
 
     
     # Clean up aux files
-    all_base_filenames=['StudentWorkbook','NotesOnly','ReadMe']
+    all_base_filenames=['CLP2StudentWorkbook','NotesOnly','ReadMe']
     os.chdir(SOURCE_DIR)
     if delete_aux:
         for section in section_names_list:
