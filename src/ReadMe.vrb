@@ -1,0 +1,6 @@
+\frametitle{Hippo Stacks}
+\scriptsize
+ \verb|\begin{tikzpicture}\HippoStack{3,2,1}{label 1,label 2}\end{tikzpicture}|
+ \normalsize
+\vfill
+\begin{tikzpicture}\HippoStack{3,2,1}{label 1,label 2}\end{tikzpicture}
